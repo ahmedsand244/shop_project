@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | NEXUS STORE Operations{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div id="site-name" style="display: flex; align-items: center; gap: 20px;">
+  <a href="{% url 'admin:index' %}" style="display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; letter-spacing: 0.5px; text-decoration: none; color: #0F172A;">
+    <span style="display: inline-flex; width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, #2563EB, #1D4ED8); color: #fff; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 900; box-shadow: 0 2px 8px rgba(37,99,235,0.3);">N</span>
+    <span>NEXUS <span style="color: #2563EB;">OPERATIONS</span></span>
+  </a>
+
+  <div style="display: flex; gap: 8px; margin-left: 20px;">
+    <a href="{% url 'admin_inquiries_dashboard' %}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 700; color: #2563EB; background: rgba(37,99,235,0.08); padding: 5px 12px; border-radius: 6px; text-decoration: none;">
+      Live Chat Inquiries
+    </a>
+    <a href="{% url 'store_admin_dashboard' %}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; color: #475569; background: #F1F5F9; padding: 5px 12px; border-radius: 6px; text-decoration: none;">
+      Store Operations
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+

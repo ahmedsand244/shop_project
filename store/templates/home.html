@@ -1,0 +1,513 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}NEXUS STORE | Premier Luxury Electronics & Essentials{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero-section">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span class="hero-tag-pulse"></span>
+          <span>{{ hero_banner.tag|default:"FLAGSHIP COLLECTION 2026" }}</span>
+        </div>
+
+        <h1 class="hero-title">
+          {% if hero_banner and hero_banner.title %}
+            {{ hero_banner.title|safe }}
+          {% else %}
+            Unrivaled Precision. <br><span class="logo-text-gradient">Pure Innovation.</span>
+          {% endif %}
+        </h1>
+
+        <p class="hero-desc">
+          {{ hero_banner.description|default:"Engineered for excellence. Explore our hand-curated catalog of advanced hardware, high-fidelity audio, and luxury lifestyle pieces." }}
+        </p>
+
+        <div class="hero-actions">
+          <a href="#products-section" class="btn-primary">
+            <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span>Explore All Goods</span>
+          </a>
+          <a href="?badge=sale#products-section" class="btn-secondary">
+            <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>View Flash Deals</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Visual Showcase - Auto-Rotating Carousel -->
+      <div class="hero-visual">
+        <div class="hero-card-featured" id="hero-carousel-wrap" style="position: relative; overflow: visible; background: none; box-shadow: none; padding: 0;">
+
+          <!-- Image area -->
+          <div style="position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 1 / 1.05; background: var(--bg-card, #f1f5f9);">
+
+            <!-- Slides -->
+            {% for product in hero_products %}
+              <div class="hero-slide" data-slide="{{ forloop.counter0 }}" data-product-id="{{ product.id }}" data-product-name="{{ product.name }}" data-product-price="${{ product.price }}"
+                style="position: absolute; inset: 0;
+                       opacity: {% if forloop.first %}1{% else %}0{% endif %};
+                       transform: {% if forloop.first %}scale(1){% else %}scale(1.04){% endif %};
+                       transition: opacity 0.65s ease, transform 0.65s ease;
+                       pointer-events: {% if forloop.first %}auto{% else %}none{% endif %};">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                       style="width:100%; height:100%; object-fit:cover; display:block;">
+                {% else %}
+                  <img src="{% static 'images/placeholder.svg' %}" alt="{{ product.name }}"
+                       style="width:100%; height:100%; object-fit:cover; display:block;">
+                {% endif %}
+              </div>
+            {% empty %}
+              <img src="{% static 'images/placeholder.svg' %}" alt="Featured Product"
+                   style="width:100%; height:100%; object-fit:cover; display:block;">
+            {% endfor %}
+
+            <!-- Gradient overlay for arrows -->
+            <div style="position:absolute; inset:0; background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.18) 100%); pointer-events:none;"></div>
+
+            <!-- Prev / Next Arrows (on image) -->
+            {% if hero_products|length > 1 %}
+            <button type="button" id="hero-prev" aria-label="Previous"
+              style="position:absolute; left:12px; top:50%; transform:translateY(-50%); z-index:20;
+                     width:36px; height:36px; border-radius:50%; border:none; cursor:pointer;
+                     background:rgba(255,255,255,0.18); backdrop-filter:blur(10px);
+                     display:flex; align-items:center; justify-content:center; color:#fff;
+                     transition:background 0.2s; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button type="button" id="hero-next" aria-label="Next"
+              style="position:absolute; right:12px; top:50%; transform:translateY(-50%); z-index:20;
+                     width:36px; height:36px; border-radius:50%; border:none; cursor:pointer;
+                     background:rgba(255,255,255,0.18); backdrop-filter:blur(10px);
+                     display:flex; align-items:center; justify-content:center; color:#fff;
+                     transition:background 0.2s; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            {% endif %}
+
+            <!-- Dot indicators (bottom of image) -->
+            {% if hero_products|length > 1 %}
+            <div id="hero-dots" style="position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:5px; align-items:center; z-index:15;">
+              {% for product in hero_products %}
+                <button type="button" class="hero-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}"
+                  style="width:{% if forloop.first %}20px{% else %}6px{% endif %}; height:6px; border-radius:3px; border:none; padding:0;
+                         background:{% if forloop.first %}#fff{% else %}rgba(255,255,255,0.4){% endif %};
+                         cursor:pointer; transition:all 0.3s ease; flex-shrink:0;"></button>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- Product Info Badge (BELOW image, separate card) -->
+          <div style="margin-top:12px; background:var(--bg-surface, #fff); border-radius:16px; padding:14px 16px;
+                      box-shadow:0 4px 20px rgba(0,0,0,0.08); display:flex; align-items:center; gap:12px;">
+            <!-- Icon -->
+            <div style="width:40px; height:40px; border-radius:10px; flex-shrink:0;
+                        background:rgba(99,102,241,0.1); color:var(--accent-primary,#6366f1);
+                        display:flex; align-items:center; justify-content:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <!-- Name & sub -->
+            <div style="flex:1; min-width:0;">
+              <div id="hero-badge-name" style="font-size:0.9rem; font-weight:700; color:var(--text-primary,#111); line-height:1.3;
+                                               overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;">
+                {% if hero_products %}{{ hero_products.0.name }}{% else %}Flagship Edition{% endif %}
+              </div>
+              <div id="hero-badge-sub" style="font-size:0.75rem; color:var(--text-muted,#888); margin-top:2px;">
+                {{ hero_banner.product_badge_text|default:"⭐ 4.9 Rating • In Stock" }}
+              </div>
+            </div>
+            <!-- Add to Bag -->
+            <button type="button" id="hero-add-btn" class="btn-primary"
+              style="padding:9px 16px; font-size:0.82rem; white-space:nowrap; flex-shrink:0; border-radius:10px;"
+              onclick="addToCart({% if hero_products %}{{ hero_products.0.id }}{% else %}0{% endif %})">
+              Add to Bag
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TRUST BADGES STRIP ==================== -->
+  <section class="trust-strip">
+    <div class="trust-grid">
+      {% for badge in trust_badges %}
+        <div class="trust-card">
+          <div class="trust-icon">
+            {% if badge.icon == 'truck' %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            {% elif badge.icon == 'shield' %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            {% elif badge.icon == 'lock' %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            {% elif badge.icon == 'support' %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            {% elif badge.icon == 'award' %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            {% elif badge.icon == 'refresh' %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            {% elif badge.icon == 'star' %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            {% elif badge.icon == 'credit-card' %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            {% else %}
+              <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+            {% endif %}
+          </div>
+          <div class="trust-info">
+            <h4>{{ badge.title }}</h4>
+            <p>{{ badge.subtitle }}</p>
+          </div>
+        </div>
+      {% empty %}
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div class="trust-info">
+            <h4>Express Courier Delivery</h4>
+            <p>Complimentary on orders exceeding $100</p>
+          </div>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="trust-info">
+            <h4>2-Year Official Warranty</h4>
+            <p>Comprehensive manufacturer guarantee</p>
+          </div>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="trust-info">
+            <h4>Encrypted Checkout</h4>
+            <p>Bank-grade SSL encryption for all payments</p>
+          </div>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="trust-info">
+            <h4>Concierge Support</h4>
+            <p>Dedicated customer service 24 hours a day</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ==================== CATEGORIES FILTER STRIP ==================== -->
+  <section class="category-strip">
+    <div class="category-pills">
+      <a href="{% url 'home' %}#products-section" class="category-pill {% if not active_category and not request.GET.badge %}active{% endif %}">
+        <span>All Items</span>
+      </a>
+      {% for cat in categories %}
+        <a href="?category={{ cat.slug }}#products-section" class="category-pill {% if active_category == cat.slug or active_category == cat.id|stringformat:'s' %}active{% endif %}">
+          <span>{{ cat.name }}</span>
+        </a>
+      {% endfor %}
+      <a href="?badge=sale#products-section" class="category-pill {% if request.GET.badge == 'sale' %}active{% endif %}" style="color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.3);">
+        <span>Flash Sale</span>
+      </a>
+      <a href="?badge=new#products-section" class="category-pill {% if request.GET.badge == 'new' %}active{% endif %}" style="color: var(--accent-emerald); border-color: rgba(16, 185, 129, 0.3);">
+        <span>New Arrivals</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== FLASH DEALS PROMOTIONAL SECTION ==================== -->
+  <section class="flash-sale-box">
+    <div class="flash-sale-left">
+      <div class="flash-sale-icon-wrap">
+        <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="flash-sale-title">
+        <h3>Time-Limited Flash Deals</h3>
+        <p>Save up to 45% on select flagship hardware. Discounts refresh upon timer expiry.</p>
+      </div>
+    </div>
+
+    <div class="countdown-timer" id="flash-sale-timer">
+      <div class="timer-unit">
+        <span class="timer-number" id="timer-hours">11</span>
+        <span class="timer-label">Hours</span>
+      </div>
+      <span style="font-size: 1.2rem; font-weight: 800; color: var(--accent-gold);">:</span>
+      <div class="timer-unit">
+        <span class="timer-number" id="timer-minutes">44</span>
+        <span class="timer-label">Mins</span>
+      </div>
+      <span style="font-size: 1.2rem; font-weight: 800; color: var(--accent-gold);">:</span>
+      <div class="timer-unit">
+        <span class="timer-number" id="timer-seconds">19</span>
+        <span class="timer-label">Secs</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRODUCTS CATALOG ==================== -->
+  <section id="products-section">
+    <!-- Header with Sort Selector -->
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <h2>
+          <span>Curated Catalog</span>
+          <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted);">({{ page_obj.paginator.count }} products)</span>
+        </h2>
+        {% if search_query %}
+          <p>Search results for: "<strong>{{ search_query }}</strong>"</p>
+        {% else %}
+          <p>Engineered to the highest industry benchmarks.</p>
+        {% endif %}
+      </div>
+
+      <form method="get" action="." style="display: flex; align-items: center; gap: 10px;">
+        {% if active_category %}
+          <input type="hidden" name="category" value="{{ active_category }}">
+        {% endif %}
+        {% if search_query %}
+          <input type="hidden" name="q" value="{{ search_query }}">
+        {% endif %}
+        {% if request.GET.badge %}
+          <input type="hidden" name="badge" value="{{ request.GET.badge }}">
+        {% endif %}
+
+        <select name="sort" class="filter-select" onchange="this.form.submit()">
+          <option value="featured" {% if active_sort == 'featured' %}selected{% endif %}>Sort: Featured</option>
+          <option value="low" {% if active_sort == 'low' %}selected{% endif %}>Price: Low to High</option>
+          <option value="high" {% if active_sort == 'high' %}selected{% endif %}>Price: High to Low</option>
+          <option value="newest" {% if active_sort == 'newest' %}selected{% endif %}>Newest</option>
+          <option value="popular" {% if active_sort == 'popular' %}selected{% endif %}>Most Popular</option>
+        </select>
+
+        {% if active_category or search_query or active_sort != 'featured' or request.GET.badge %}
+          <a href="{% url 'home' %}#products-section" class="btn-secondary" style="padding: 7px 12px; font-size: 0.82rem;">
+            Reset
+          </a>
+        {% endif %}
+      </form>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="product-grid">
+      {% if products %}
+        {% for product in products %}
+          <div class="product-card">
+            <!-- Badges -->
+            <div class="product-card-badges">
+              {% if product.has_discount %}
+                <span class="badge-tag badge-sale">-{{ product.discount_percentage }}%</span>
+              {% endif %}
+              {% if product.badge == 'hot' %}
+                <span class="badge-tag badge-hot">HOT</span>
+              {% elif product.badge == 'new' %}
+                <span class="badge-tag badge-new">NEW</span>
+              {% elif product.badge == 'trending' %}
+                <span class="badge-tag badge-trending">TRENDING</span>
+              {% elif product.badge == 'limited' %}
+                <span class="badge-tag badge-sale">LIMITED</span>
+              {% endif %}
+            </div>
+
+            <!-- Wishlist Heart Toggle (SVG) -->
+            <button type="button" class="btn-wishlist-toggle {% if product.id in wishlist_product_ids %}active{% endif %}" onclick="toggleWishlist({{ product.id }}, this)" title="Add to Wishlist">
+              <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+
+            <!-- Product Thumbnail -->
+            <div class="product-card-thumb">
+              <a href="{% url 'product_detail' product.id %}" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+                {% else %}
+                  <img src="{% static 'images/placeholder.svg' %}" alt="{{ product.name }}" loading="lazy">
+                {% endif %}
+              </a>
+
+              <!-- Quick View Overlay -->
+              <div class="product-hover-actions">
+                <button type="button" class="btn-quick-view" onclick="openQuickView({{ product.id }})">
+                  <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <span>Quick View</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="product-card-body">
+              <div class="product-card-category">
+                {{ product.category.name|default:"Hardware" }}
+              </div>
+
+              <h3 class="product-card-title">
+                <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+              </h3>
+
+              <!-- Clean Rating Badge -->
+              <div class="product-card-rating">
+                <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" style="color: var(--accent-gold); fill: var(--accent-gold); width: 13px; height: 13px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style="font-weight: 700;">{{ product.average_rating }}</span>
+                <span style="color: var(--text-muted); font-size: 0.75rem;">({{ product.reviews_count }})</span>
+              </div>
+
+              <!-- Price Row -->
+              <div class="product-card-price-row">
+                <span class="current-price">${{ product.price }}</span>
+                {% if product.old_price %}
+                  <span class="old-price">${{ product.old_price }}</span>
+                {% endif %}
+                {% if product.has_discount %}
+                  <span class="discount-saving-tag">Save {{ product.discount_percentage }}%</span>
+                {% endif %}
+              </div>
+
+              <!-- Add To Bag Button -->
+              <button type="button" class="btn-card-add-cart" onclick="addToCart({{ product.id }})">
+                <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span>Add to Bag</span>
+              </button>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div style="grid-column: 1 / -1; padding: 60px 20px; text-align: center; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-glass);">
+          <h3 style="font-size: 1.25rem; margin-bottom: 8px;">No products match your selection</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 20px;">Try searching for a different keyword or resetting your filters.</p>
+          <a href="{% url 'home' %}" class="btn-primary">View All Collections</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+      <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin: 40px 0;">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if active_category %}&category={{ active_category }}{% endif %}{% if active_sort %}&sort={{ active_sort }}{% endif %}#products-section" class="btn-secondary" style="padding: 8px 16px; font-size: 0.88rem;">
+            Previous
+          </a>
+        {% endif %}
+
+        <span style="font-size: 0.88rem; font-weight: 600; color: var(--text-secondary); padding: 0 10px;">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if active_category %}&category={{ active_category }}{% endif %}{% if active_sort %}&sort={{ active_sort }}{% endif %}#products-section" class="btn-secondary" style="padding: 8px 16px; font-size: 0.88rem;">
+            Next
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+  'use strict';
+
+  var slides = Array.from(document.querySelectorAll('.hero-slide'));
+  var dots   = Array.from(document.querySelectorAll('.hero-dot'));
+  var nameEl = document.getElementById('hero-badge-name');
+  var addBtn = document.getElementById('hero-add-btn');
+  var prevBtn = document.getElementById('hero-prev');
+  var nextBtn = document.getElementById('hero-next');
+
+  if (slides.length < 2) return;   // no need for carousel if 1 or 0 products
+
+  var current = 0;
+  var total   = slides.length;
+  var timer   = null;
+  var INTERVAL = 4000;   // ms between auto-slides
+
+  function goTo(index, direction) {
+    var prev = current;
+    current = (index + total) % total;
+
+    // animate out
+    slides[prev].style.opacity  = '0';
+    slides[prev].style.transform = direction === 'next' ? 'translateX(-40px)' : 'translateX(40px)';
+    slides[prev].style.pointerEvents = 'none';
+
+    // animate in
+    slides[current].style.transform = direction === 'next' ? 'translateX(40px)' : 'translateX(-40px)';
+    slides[current].style.opacity   = '0';
+    slides[current].style.pointerEvents = 'auto';
+
+    // force reflow then apply final state
+    void slides[current].offsetWidth;
+    slides[current].style.opacity   = '1';
+    slides[current].style.transform = 'translateX(0)';
+
+    // update badge
+    var slide = slides[current];
+    if (nameEl) nameEl.textContent = slide.dataset.productName || '';
+    if (addBtn && slide.dataset.productId) {
+      addBtn.onclick = function () { addToCart(parseInt(slide.dataset.productId, 10)); };
+    }
+
+    // update dots
+    dots.forEach(function (dot, i) {
+      var isActive = (i === current);
+      dot.style.width      = isActive ? '22px' : '7px';
+      dot.style.background = isActive ? 'var(--accent-primary)' : 'rgba(255,255,255,0.3)';
+    });
+  }
+
+  function next() { goTo(current + 1, 'next'); }
+  function prev() { goTo(current - 1, 'prev'); }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, INTERVAL);
+  }
+
+  // Bind controls
+  if (nextBtn) nextBtn.addEventListener('click', function () { next(); startTimer(); });
+  if (prevBtn) prevBtn.addEventListener('click', function () { prev(); startTimer(); });
+
+  dots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      var idx = parseInt(this.dataset.index, 10);
+      goTo(idx, idx > current ? 'next' : 'prev');
+      startTimer();
+    });
+  });
+
+  // Pause on hover
+  var wrap = document.getElementById('hero-carousel-wrap');
+  if (wrap) {
+    wrap.addEventListener('mouseenter', function () { clearInterval(timer); });
+    wrap.addEventListener('mouseleave', startTimer);
+    // Touch swipe support
+    var touchStartX = 0;
+    wrap.addEventListener('touchstart', function (e) { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend', function (e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) { next(); } else { prev(); }
+        startTimer();
+      }
+    }, { passive: true });
+  }
+
+  startTimer();
+})();
+</script>
+{% endblock %}

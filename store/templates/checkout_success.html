@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Confirmed #{{ order.id }} | NEXUS STORE{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 820px; padding: 50px 20px 80px;">
+
+  <div style="background: var(--bg-card); backdrop-filter: var(--blur-base); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 40px; text-align: center; box-shadow: var(--shadow-lg);">
+
+    <!-- Glowing Checkmark -->
+    <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.12); border: 2px solid var(--accent-emerald); color: var(--accent-emerald); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);">
+      <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+
+    <span class="badge-tag badge-new" style="margin-bottom: 10px; display: inline-block;">ORDER CONFIRMED</span>
+    <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 8px;">Thank You For Your Order</h1>
+    <p style="color: var(--text-secondary); font-size: 1rem; max-width: 480px; margin: 0 auto 24px; line-height: 1.6;">
+      Your purchase order has been logged. Our dispatch center is preparing your shipment.
+    </p>
+
+    <!-- Tracking Number -->
+    <div style="background: var(--bg-surface-elevated); border: 1px dashed var(--border-glass); border-radius: var(--radius-md); padding: 14px 22px; display: inline-flex; align-items: center; gap: 14px; margin-bottom: 30px;">
+      <div style="text-align: left;">
+        <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; display: block;">Tracking Reference</span>
+        <strong style="font-size: 1.2rem; color: var(--accent-primary); letter-spacing: 1px;">{{ order.tracking_number }}</strong>
+      </div>
+      <button type="button" class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="navigator.clipboard.writeText('{{ order.tracking_number }}'); showToast('Copied', 'Tracking reference copied to clipboard.', 'info')">
+        <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>Copy</span>
+      </button>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-track">
+      <div class="timeline-step completed">
+        <div class="timeline-bubble">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <span class="timeline-label">Placed</span>
+      </div>
+      <div class="timeline-step active">
+        <div class="timeline-bubble">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <span class="timeline-label">Processing</span>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-bubble">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <span class="timeline-label">Dispatched</span>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-bubble">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <span class="timeline-label">Delivered</span>
+      </div>
+    </div>
+
+    <!-- Items Summary -->
+    <div style="text-align: left; background: var(--bg-surface-elevated); border-radius: var(--radius-md); padding: 22px; margin-top: 26px; border: 1px solid var(--border-glass);">
+      <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">
+        Invoice Details
+      </h3>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
+        {% for item in order.items.all %}
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem;">
+            <span>{{ item.quantity }} × <strong>{{ item.display_name }}</strong></span>
+            <strong>${{ item.subtotal }}</strong>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; display: flex; flex-direction: column; gap: 6px; font-size: 0.88rem; color: var(--text-secondary);">
+        {% if order.discount_amount > 0 %}
+          <div style="display: flex; justify-content: space-between; color: var(--accent-emerald);">
+            <span>Coupon Discount</span>
+            <strong>-${{ order.discount_amount }}</strong>
+          </div>
+        {% endif %}
+        <div style="display: flex; justify-content: space-between;">
+          <span>Delivery</span>
+          <span>{% if order.shipping_fee == 0 %}FREE{% else %}${{ order.shipping_fee }}{% endif %}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 800; color: var(--text-primary); margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--border-subtle);">
+          <span>Total Paid</span>
+          <span style="color: var(--accent-primary);">${{ order.total_price }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; justify-content: center; gap: 14px; margin-top: 30px; flex-wrap: wrap;">
+      <a href="{% url 'home' %}" class="btn-primary">
+        Continue Shopping
+      </a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'my_orders' %}" class="btn-secondary">
+          View in My Orders
+        </a>
+      {% endif %}
+      <button type="button" class="btn-secondary" onclick="window.print()">
+        <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <span>Print Invoice</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

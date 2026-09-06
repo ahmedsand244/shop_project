@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shopping Bag | NEXUS Luxury Commerce{% endblock %}
+
+{% block content %}
+<div class="container cart-page-section">
+  <!-- Top Header Row -->
+  <div class="cart-header-row">
+    <div class="cart-title-wrap">
+      <h1 class="cart-page-title">
+        <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span>Your Shopping Bag</span>
+      </h1>
+      <span class="cart-items-count-badge">
+        {{ cart_items|length }} {% if cart_items|length == 1 %}item{% else %}items{% endif %}
+      </span>
+    </div>
+
+    {% if cart_items %}
+      <a href="{% url 'home' %}" class="cart-continue-link">
+        <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <span>Continue Shopping</span>
+      </a>
+    {% endif %}
+  </div>
+
+  {% if cart_items %}
+    <div class="cart-layout-grid">
+      <!-- Left: Cart Items List Card -->
+      <div class="cart-items-column">
+        <div class="cart-items-card">
+          <!-- Desktop Table Header -->
+          <div class="cart-items-table-header">
+            <span>Product</span>
+            <span>Quantity</span>
+            <span>Total</span>
+            <span></span>
+          </div>
+
+          <!-- Items Stream -->
+          <div class="cart-items-stream">
+            {% for item in cart_items %}
+              <div class="cart-item-row" id="cart-row-{{ item.product.id }}">
+                <!-- Product Thumbnail -->
+                <div class="cart-item-img-box">
+                  <a href="{% url 'product_detail' item.product.id %}">
+                    <img src="{% if item.product.image %}{{ item.product.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" alt="{{ item.product.name }}">
+                  </a>
+                </div>
+
+                <!-- Product Details -->
+                <div class="cart-item-details">
+                  <span class="cart-item-category">
+                    {{ item.product.category.name|default:"Flagship Hardware" }}
+                  </span>
+                  <a href="{% url 'product_detail' item.product.id %}" class="cart-item-name">
+                    {{ item.product.name }}
+                  </a>
+                  <div class="cart-item-unit-price">
+                    Unit Price: <strong>${{ item.product.price }}</strong>
+                  </div>
+                </div>
+
+                <!-- Quantity Stepper -->
+                <div class="cart-item-quantity">
+                  <div class="cart-stepper">
+                    <button type="button" class="cart-stepper-btn" onclick="updateCartQty({{ item.product.id }}, -1)" title="Decrease Quantity">
+                      −
+                    </button>
+                    <span class="cart-stepper-val">{{ item.quantity }}</span>
+                    <button type="button" class="cart-stepper-btn" onclick="updateCartQty({{ item.product.id }}, 1)" title="Increase Quantity">
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Item Subtotal -->
+                <div class="cart-item-subtotal">
+                  ${{ item.subtotal }}
+                </div>
+
+                <!-- Remove Action -->
+                <div class="cart-item-action">
+                  <button type="button" class="cart-item-remove-btn" onclick="removeCartItem({{ item.product.id }})" title="Remove {{ item.product.name }}">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                  </button>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Bottom Actions in Card -->
+          <div class="cart-items-card-footer">
+            <a href="{% url 'home' %}" class="btn-secondary">
+              <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              <span>Explore More Items</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Order Summary Sticky Card -->
+      <div class="cart-summary-column">
+        <div class="cart-summary-card">
+          <h3 class="cart-summary-title">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Order Summary</span>
+          </h3>
+
+          <!-- Express Delivery Progress Bar -->
+          <div class="shipping-progress-widget">
+            <div class="shipping-progress-status">
+              {% if subtotal >= 100 %}
+                <span class="shipping-unlocked">
+                  <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Unlocked: Complimentary Express Shipping</span>
+                </span>
+              {% else %}
+                <span class="shipping-locked">
+                  Add <strong>${{ 100|floatformat:2 }}</strong> more for Free Delivery
+                </span>
+              {% endif %}
+            </div>
+            <div class="shipping-progress-track">
+              <div class="shipping-progress-bar" style="width: {% if subtotal >= 100 %}100%{% else %}45%{% endif %};"></div>
+            </div>
+          </div>
+
+          <!-- Coupon Code Input Box -->
+          <div class="cart-coupon-box">
+            <input type="text" id="cart-coupon-input" class="cart-coupon-input" placeholder="Promo code (SAVE10)" value="{{ coupon.code|default:'' }}" autocomplete="off">
+            <button type="button" class="btn-secondary cart-coupon-btn" onclick="applyCouponCode(document.getElementById('cart-coupon-input').value, () => window.location.reload())">
+              Apply
+            </button>
+          </div>
+
+          <!-- Pricing Lines -->
+          <div class="cart-breakdown">
+            <div class="cart-breakdown-line">
+              <span class="breakdown-label">Bag Subtotal</span>
+              <span class="breakdown-value">${{ subtotal }}</span>
+            </div>
+
+            {% if discount > 0 %}
+              <div class="cart-breakdown-line discount-line">
+                <span class="breakdown-label">
+                  Coupon Discount ({{ coupon.code }})
+                </span>
+                <span class="breakdown-value">-${{ discount }}</span>
+              </div>
+            {% endif %}
+
+            <div class="cart-breakdown-line">
+              <span class="breakdown-label">Delivery Fee</span>
+              <span class="breakdown-value">
+                {% if shipping_fee == 0 %}
+                  <span class="badge-free-delivery">FREE</span>
+                {% else %}
+                  ${{ shipping_fee }}
+                {% endif %}
+              </span>
+            </div>
+
+            <div class="cart-breakdown-divider"></div>
+
+            <div class="cart-breakdown-total">
+              <span>Grand Total</span>
+              <span class="cart-total-price">${{ grand_total }}</span>
+            </div>
+          </div>
+
+          <!-- Checkout CTA -->
+          <a href="{% url 'checkout' %}" class="btn-primary cart-checkout-btn">
+            <span>Proceed to Express Checkout</span>
+            <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+
+          <!-- Trust Badges -->
+          <div class="cart-trust-badges">
+            <div class="cart-trust-badge">
+              <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>Encrypted</span>
+            </div>
+            <div class="cart-trust-badge">
+              <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>14-Day Returns</span>
+            </div>
+            <div class="cart-trust-badge">
+              <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Official Warranty</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% else %}
+    <!-- Empty Cart Luxury State -->
+    <div class="empty-cart-card">
+      <div class="empty-cart-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+      <h2 class="empty-cart-title">Your Shopping Bag is Empty</h2>
+      <p class="empty-cart-subtitle">
+        Your bag has no items currently reserved. Explore our curated catalog of flagship electronics and luxury essentials.
+      </p>
+      <div class="empty-cart-actions">
+        <a href="{% url 'home' %}" class="btn-primary" style="padding: 13px 32px; font-size: 0.95rem;">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Explore Flagships</span>
+        </a>
+        <a href="{% url 'wishlist' %}" class="btn-secondary" style="padding: 13px 24px; font-size: 0.95rem;">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span>View Saved Favorites</span>
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

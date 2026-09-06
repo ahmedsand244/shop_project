@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Orders | NEXUS STORE{% endblock %}
+
+{% block content %}
+<div class="container orders-container">
+  <div class="section-header orders-section-header">
+    <div class="section-title-wrap">
+      <h2>
+        <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <span>My Orders & Shipments</span>
+      </h2>
+      <p>Real-time delivery progress and past purchasing archive.</p>
+    </div>
+    <a href="{% url 'my_account' %}" class="btn-secondary orders-back-btn">
+      ← Dashboard
+    </a>
+  </div>
+
+  {% if orders %}
+    <div class="orders-list">
+      {% for order in orders %}
+        <div class="order-card">
+
+          <!-- Order Header -->
+          <div class="order-card-header">
+            <div class="order-meta-info">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap;">
+                <h3>Order #{{ order.id }}</h3>
+                <span class="badge-tag {% if order.status == 'delivered' %}badge-new{% elif order.status == 'cancelled' %}badge-sale{% else %}badge-trending{% endif %}">
+                  {{ order.get_status_display }}
+                </span>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted);">
+                Placed {{ order.created_at|date:"M d, Y • H:i" }} | Ref: <span style="color: var(--accent-primary); font-family: monospace;">{{ order.tracking_number }}</span>
+              </div>
+            </div>
+
+            <div class="order-price-info">
+              <div class="order-price-val">${{ order.total_price }}</div>
+              <div style="font-size: 0.78rem; color: var(--text-secondary);">Method: {{ order.get_payment_method_display }}</div>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          {% if order.status != 'cancelled' %}
+            <div class="timeline-track">
+              <div class="timeline-step {% if order.status in 'placed,processing,shipped,delivered' %}completed{% endif %}">
+                <div class="timeline-bubble">
+                  <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="timeline-label">Placed</span>
+              </div>
+              <div class="timeline-step {% if order.status in 'processing,shipped,delivered' %}completed{% elif order.status == 'placed' %}active{% endif %}">
+                <div class="timeline-bubble">
+                  <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </div>
+                <span class="timeline-label">Processing</span>
+              </div>
+              <div class="timeline-step {% if order.status in 'shipped,delivered' %}completed{% elif order.status == 'processing' %}active{% endif %}">
+                <div class="timeline-bubble">
+                  <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <span class="timeline-label">Shipped</span>
+              </div>
+              <div class="timeline-step {% if order.status == 'delivered' %}completed{% elif order.status == 'shipped' %}active{% endif %}">
+                <div class="timeline-bubble">
+                  <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="timeline-label">Delivered</span>
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Order Items -->
+          <div class="order-items-box">
+            {% for item in order.items.all %}
+              <div class="order-item-row">
+                <span>
+                  {{ item.quantity }} × <strong>{{ item.display_name }}</strong>
+                </span>
+                <strong style="color: var(--text-primary);">${{ item.subtotal }}</strong>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Actions -->
+          <div class="order-card-footer">
+            <div class="order-destination-info">
+              Destination: {{ order.city }} - {{ order.address|truncatewords:6 }}
+            </div>
+
+            <div class="order-action-btns">
+              {% if order.status == 'placed' or order.status == 'processing' %}
+                <form action="{% url 'cancel_order' order.id %}" method="post" onsubmit="return confirm('Confirm cancellation of order #{{ order.id }}?')" style="margin: 0;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-secondary" style="border-color: rgba(244, 63, 94, 0.4); color: var(--accent-rose); padding: 7px 14px; font-size: 0.82rem;">
+                    Cancel Order
+                  </button>
+                </form>
+              {% endif %}
+
+              <a href="{% url 'checkout_success' order.id %}" class="btn-secondary" style="padding: 7px 14px; font-size: 0.82rem;">
+                Invoice
+              </a>
+            </div>
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div style="text-align: center; padding: 70px 20px; background: var(--bg-card); border-radius: var(--radius-xl); border: 1px solid var(--border-glass);">
+      <div style="margin-bottom: 14px; opacity: 0.4;">
+        <svg class="svg-icon" viewBox="0 0 24 24" style="width: 48px; height: 48px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 6px;">No Orders Recorded</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 20px;">You have not placed any orders yet.</p>
+      <a href="{% url 'home' %}" class="btn-primary">Browse Catalog</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

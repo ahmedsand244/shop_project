@@ -1,0 +1,537 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | NEXUS STORE{% endblock %}
+
+{% block content %}
+<div class="container product-detail-section">
+
+  <!-- Breadcrumbs -->
+  <nav style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--text-muted); margin-bottom: 28px;">
+    <a href="{% url 'home' %}" style="color: var(--text-secondary);">Home</a>
+    <span>/</span>
+    {% if product.category %}
+      <a href="{% url 'home' %}?category={{ product.category.slug }}" style="color: var(--text-secondary);">{{ product.category.name }}</a>
+      <span>/</span>
+    {% endif %}
+    <span style="color: var(--accent-primary); font-weight: 700;">{{ product.name }}</span>
+  </nav>
+
+  <!-- Product Detail Grid -->
+  <div class="product-detail-grid">
+
+    <!-- Gallery Column -->
+    <div class="product-gallery">
+      <div class="main-image-display" id="zoom-image-container" onmousemove="zoomImage(event)" onmouseleave="resetZoom()">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" id="main-product-img">
+        {% else %}
+          <img src="{% static 'images/placeholder.svg' %}" alt="{{ product.name }}" id="main-product-img">
+        {% endif %}
+      </div>
+
+      <!-- Thumbs -->
+      <div class="gallery-thumbs">
+        {% if product.image %}
+          <button type="button" class="thumb-btn active" onclick="switchMainImage('{{ product.image.url }}', this)">
+            <img src="{{ product.image.url }}" alt="Primary">
+          </button>
+        {% endif %}
+        {% for img in product.gallery_images.all %}
+          <button type="button" class="thumb-btn" onclick="switchMainImage('{{ img.image.url }}', this)">
+            <img src="{{ img.image.url }}" alt="{{ img.alt_text }}">
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Summary Column -->
+    <div class="product-summary">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span class="product-meta-pill">
+          {{ product.category.name|default:"Hardware" }}
+        </span>
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace;">
+          SKU: {{ product.sku }}
+        </span>
+      </div>
+
+      <h1 class="product-title-large">{{ product.name }}</h1>
+
+      <!-- Rating Row -->
+      <div class="product-rating-row">
+        <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" style="color: var(--accent-gold); fill: var(--accent-gold); width: 14px; height: 14px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <strong style="font-size: 0.95rem; color: var(--text-primary);">{{ product.average_rating }} / 5.0</strong>
+        <span style="color: var(--text-muted);">•</span>
+        <a href="#tab-reviews" onclick="activateTab('reviews')" style="color: var(--accent-primary); font-weight: 600; font-size: 0.88rem;">
+          {{ product.reviews_count }} verified reviews
+        </a>
+      </div>
+
+      <!-- Price Box -->
+      <div class="price-box-large">
+        <span class="price-main">${{ product.price }}</span>
+        {% if product.old_price %}
+          <span class="price-old">${{ product.old_price }}</span>
+        {% endif %}
+        {% if product.has_discount %}
+          <span class="badge-discount-save">Save {{ product.discount_percentage }}%</span>
+        {% endif %}
+      </div>
+
+      <!-- Stock Meter -->
+      <div class="stock-meter-card">
+        <div class="stock-meter-header">
+          <span>Inventory Status: <strong>{{ product.stock }} units remaining</strong></span>
+          <span>Order soon</span>
+        </div>
+        <div class="stock-bar-track">
+          <div class="stock-bar-fill" style="width: {% if product.stock < 10 %}30%{% else %}75%{% endif %};"></div>
+        </div>
+      </div>
+
+      <!-- Short Description -->
+      <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">
+        {{ product.short_description|default:product.description|truncatewords:45 }}
+      </p>
+
+      <!-- Color Swatches -->
+      <div class="swatches-block">
+        <span class="swatches-label">Color Finish:</span>
+        <div class="swatches-list">
+          <button type="button" class="color-swatch-btn active" style="background-color: #0b0f19;" title="Obsidian Black" onclick="selectSwatch(this)"></button>
+          <button type="button" class="color-swatch-btn" style="background-color: #4f46e5;" title="Indigo Core" onclick="selectSwatch(this)"></button>
+          <button type="button" class="color-swatch-btn" style="background-color: #94a3b8;" title="Titanium" onclick="selectSwatch(this)"></button>
+          <button type="button" class="color-swatch-btn" style="background-color: #d97706;" title="Champagne Gold" onclick="selectSwatch(this)"></button>
+        </div>
+      </div>
+
+      <!-- Quantity & Actions -->
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+        <div class="purchase-row">
+          <div class="quantity-stepper" style="height: 46px;">
+            <button type="button" class="qty-btn" style="width: 36px;" onclick="alterQty(-1)">−</button>
+            <input type="text" id="product-qty-input" value="1" readonly style="width: 40px; text-align: center; background: none; border: none; font-size: 1rem; font-weight: 700; color: var(--text-primary);">
+            <button type="button" class="qty-btn" style="width: 36px;" onclick="alterQty(1)">+</button>
+          </div>
+
+          <button type="button" class="btn-primary" style="flex: 1; height: 46px;" onclick="triggerAddCurrentToCart()">
+            <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span>Add to Bag</span>
+          </button>
+
+          <button type="button" class="action-btn {% if product.id in wishlist_product_ids %}active{% endif %}" style="height: 46px; width: 46px;" onclick="toggleWishlist({{ product.id }}, this)" title="Add to Wishlist">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+
+        <button type="button" class="btn-buy-now" onclick="buyNowInstant({{ product.id }})">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Instant Checkout (1-Click)</span>
+        </button>
+      </div>
+
+      <!-- Guarantee Specs -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border-glass);">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--text-secondary);">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" style="color: var(--accent-emerald);"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Express Courier Dispatch</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--text-secondary);">
+          <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" style="color: var(--accent-emerald);"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Official 2-Year Warranty</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="product-tabs-wrapper">
+    <div class="tabs-nav">
+      <button type="button" class="tab-btn active" onclick="switchTab('tab-desc', this)">
+        Overview & Specifications
+      </button>
+      <button type="button" class="tab-btn" onclick="switchTab('tab-shipping', this)">
+        Delivery & Warranty
+      </button>
+      <button type="button" class="tab-btn" id="tab-btn-reviews" onclick="switchTab('tab-reviews', this)">
+        Client Reviews ({{ product.reviews_count }})
+      </button>
+      <button type="button" class="tab-btn" id="tab-btn-qa" onclick="switchTab('tab-qa', this)">
+        Customer Q&amp;A ({{ questions|length }})
+      </button>
+    </div>
+
+    <!-- Description Pane -->
+    <div class="tab-content-pane active" id="tab-desc">
+      <h3 style="margin-bottom: 14px; font-size: 1.25rem; font-weight: 800;">Technical Specifications</h3>
+      <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.8; white-space: pre-line;">
+        {{ product.description }}
+      </p>
+    </div>
+
+    <!-- Shipping Pane -->
+    <div class="tab-content-pane" id="tab-shipping">
+      <h3 style="margin-bottom: 14px; font-size: 1.25rem; font-weight: 800;">Shipping Policy & Returns</h3>
+      <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;">
+        All orders over $100 receive complimentary express courier shipping with live SMS tracking updates.<br><br>
+        <strong>14-Day Return Guarantee:</strong> Effortless returns within 14 calendar days of receipt in original packaging.
+      </p>
+    </div>
+
+    <!-- Reviews Pane -->
+    <div class="tab-content-pane" id="tab-reviews">
+      <div class="product-reviews-grid">
+
+        <div>
+          <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 18px;">Customer Reviews</h3>
+          {% if reviews %}
+            {% for review in reviews %}
+              <div class="review-item-card">
+                <div class="review-header">
+                  <div>
+                    <strong style="font-size: 0.92rem; color: var(--text-primary);">{{ review.user.first_name|default:review.user.username }}</strong>
+                    <span style="font-size: 0.76rem; color: var(--accent-emerald); margin-left: 8px;">Verified Buyer</span>
+                  </div>
+                  <span style="color: var(--accent-gold); font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px; font-weight: 700;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    <span>{{ review.rating }}.0</span>
+                  </span>
+                </div>
+                {% if review.title %}
+                  <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">{{ review.title }}</h4>
+                {% endif %}
+                <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">{{ review.comment }}</p>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">
+                  {{ review.created_at|date:"F d, Y" }}
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div style="text-align: center; padding: 35px; color: var(--text-muted);">
+              <p>No reviews yet. Be the first to share your experience.</p>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Write Review -->
+        <div style="background: var(--bg-surface-elevated); padding: 22px; border-radius: var(--radius-md); border: 1px solid var(--border-glass);">
+          <h4 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 14px;">Leave a Verified Review</h4>
+          {% if user.is_authenticated %}
+            {% if review_exists %}
+              <p style="color: var(--accent-gold); font-size: 0.9rem;">
+                You have already submitted a review for this item.
+              </p>
+            {% else %}
+              <form method="post">
+                {% csrf_token %}
+                <div class="form-field">
+                  <label>Rating</label>
+                  {{ form.rating }}
+                </div>
+                <div class="form-field">
+                  <label>Headline</label>
+                  {{ form.title }}
+                </div>
+                <div class="form-field">
+                  <label>Comments</label>
+                  {{ form.comment }}
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">
+                  Submit Review
+                </button>
+              </form>
+            {% endif %}
+          {% else %}
+            <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 14px;">
+              Please sign in to your client account to submit a review.
+            </p>
+            <a href="{% url 'login' %}?next={{ request.path }}" class="btn-secondary" style="width: 100%; text-align: center;">
+              Sign In
+            </a>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Q&A Pane -->
+    <div class="tab-content-pane" id="tab-qa">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px;">Questions &amp; Answers</h3>
+          <p style="font-size: 0.88rem; color: var(--text-secondary);">Got a question about this product? Ask our team or the community.</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px; align-items: start;">
+        <!-- Questions List -->
+        <div>
+          {% if questions %}
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              {% for q in questions %}
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 18px; box-shadow: var(--shadow-sm);">
+                  <div style="display: flex; gap: 12px; align-items: flex-start;">
+                    <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(99, 102, 241, 0.15); color: var(--accent-primary); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">Q</div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 700; color: var(--text-primary); font-size: 0.98rem; line-height: 1.5;">{{ q.question }}</div>
+                      <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Asked by {{ q.asker_name }} • {{ q.created_at|date:"M d, Y" }}</div>
+                    </div>
+                  </div>
+
+                  {% if q.answer %}
+                    <div style="display: flex; gap: 12px; align-items: flex-start; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 14px; margin-top: 14px;">
+                      <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(16, 185, 129, 0.2); color: #10b981; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">A</div>
+                      <div style="flex: 1;">
+                        <div style="font-size: 0.92rem; color: var(--text-primary); line-height: 1.6;">{{ q.answer }}</div>
+                        <div style="font-size: 0.75rem; color: #10b981; font-weight: 700; margin-top: 6px;">NEXUS Verified Support • {{ q.answered_at|date:"M d, Y" }}</div>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div style="font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-top: 10px; padding-left: 44px;">
+                      Awaiting response from our specialists...
+                    </div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div style="text-align: center; padding: 40px 20px; background: var(--bg-surface); border: 1px dashed var(--border-glass); border-radius: var(--radius-md);">
+              <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 8px;">No questions asked yet.</p>
+              <p style="color: var(--text-muted); font-size: 0.82rem;">Have a doubt about compatibility, specs, or delivery? Ask below!</p>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Ask Question Form -->
+        <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 22px; position: sticky; top: 90px;">
+          <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 6px;">Ask a Question</h4>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 16px;">We typically reply within 24 business hours.</p>
+
+          <div id="qa-success-alert" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; padding: 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 14px;">
+            ✓ Your question has been submitted! Our team will review and answer it shortly.
+          </div>
+
+          <form id="qa-form" onsubmit="submitQuestion(event)">
+            {% csrf_token %}
+            {% if not user.is_authenticated %}
+              <div style="margin-bottom: 12px;">
+                <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; color: var(--text-secondary);">Your Name</label>
+                <input type="text" name="guest_name" placeholder="e.g. Alex" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-glass); background: var(--bg-card); color: var(--text-primary); font-size: 0.88rem;">
+              </div>
+            {% endif %}
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; color: var(--text-secondary);">Your Question</label>
+              <textarea name="question" rows="4" required placeholder="What would you like to know about this product?" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-glass); background: var(--bg-card); color: var(--text-primary); font-size: 0.88rem; resize: vertical;"></textarea>
+            </div>
+            <button type="submit" id="qa-submit-btn" class="btn-primary" style="width: 100%; padding: 12px; font-weight: 700; font-size: 0.9rem;">
+              Post Question
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products Carousel -->
+  {% if related_products %}
+    <div style="margin-top: 70px;">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><span>Related Hardware & Essentials</span></h2>
+        </div>
+      </div>
+      <div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
+        {% for rel in related_products %}
+          <div class="product-card">
+            <div class="product-card-thumb">
+              <a href="{% url 'product_detail' rel.id %}">
+                <img src="{{ rel.image.url }}" alt="{{ rel.name }}">
+              </a>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-title">
+                <a href="{% url 'product_detail' rel.id %}">{{ rel.name }}</a>
+              </h3>
+              <div class="product-card-price-row">
+                <span class="current-price">${{ rel.price }}</span>
+              </div>
+              <button type="button" class="btn-card-add-cart" onclick="addToCart({{ rel.id }})">
+                Add to Bag
+              </button>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Recently Viewed Products -->
+  <div id="recently-viewed-section" style="margin-top: 70px; display: none;">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <h2><span>Recently Viewed</span></h2>
+      </div>
+    </div>
+    <div id="recently-viewed-grid" class="product-grid" style="grid-template-columns: repeat(4, 1fr);"></div>
+  </div>
+
+</div>
+
+<!-- Mobile Sticky Bottom Action Bar -->
+<div class="sticky-mobile-buy-bar">
+  <div>
+    <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">${{ product.price }}</div>
+    <div style="font-size: 0.72rem; color: var(--accent-emerald);">In Stock • Fast Delivery</div>
+  </div>
+  <button type="button" class="btn-primary" style="padding: 9px 18px; font-size: 0.88rem;" onclick="triggerAddCurrentToCart()">
+    Add to Bag
+  </button>
+</div>
+
+<script>
+  function switchMainImage(url, btn) {
+    document.getElementById('main-product-img').src = url;
+    document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+
+  function zoomImage(e) {
+    const container = document.getElementById('zoom-image-container');
+    const img = document.getElementById('main-product-img');
+    const rect = container.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    img.style.transformOrigin = `${x}% ${y}%`;
+    img.style.transform = 'scale(1.4)';
+  }
+
+  function resetZoom() {
+    document.getElementById('main-product-img').style.transform = 'scale(1)';
+  }
+
+  function alterQty(delta) {
+    const input = document.getElementById('product-qty-input');
+    let val = parseInt(input.value) || 1;
+    val = Math.max(1, val + delta);
+    input.value = val;
+  }
+
+  function triggerAddCurrentToCart() {
+    const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
+    addToCart({{ product.id }}, qty);
+  }
+
+  async function buyNowInstant(productId) {
+    const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
+    await addToCart(productId, qty);
+    window.location.href = "{% url 'checkout' %}";
+  }
+
+  function selectSwatch(btn) {
+    document.querySelectorAll('.color-swatch-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function switchTab(paneId, btn) {
+    document.querySelectorAll('.tab-content-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(paneId).classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  function activateTab(tabName) {
+    if (tabName === 'reviews') {
+      const btn = document.getElementById('tab-btn-reviews');
+      switchTab('tab-reviews', btn);
+    } else if (tabName === 'qa') {
+      const btn = document.getElementById('tab-btn-qa');
+      switchTab('tab-qa', btn);
+    }
+  }
+
+  function submitQuestion(e) {
+    e.preventDefault();
+    const form = document.getElementById('qa-form');
+    const submitBtn = document.getElementById('qa-submit-btn');
+    const alertBox = document.getElementById('qa-success-alert');
+    const fd = new FormData(form);
+    
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Submitting...';
+    }
+
+    fetch('/api/product/{{ product.id }}/question/', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': fd.get('csrfmiddlewaretoken')
+      },
+      body: fd
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        if (alertBox) alertBox.style.display = 'block';
+        form.reset();
+        if (typeof showToast === 'function') {
+          showToast('Question submitted successfully!');
+        }
+      } else {
+        alert(data.error || 'Failed to submit question.');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('An error occurred. Please try again.');
+    })
+    .finally(() => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Post Question';
+      }
+    });
+  }
+
+  // Load Recently Viewed Products
+  (function loadRecentlyViewed() {
+    fetch('/api/recently-viewed/')
+      .then(r => r.json())
+      .then(data => {
+        if (!data || !data.products || !data.products.length) return;
+        const currentId = {{ product.id }};
+        const items = data.products.filter(p => p.id !== currentId).slice(0, 4);
+        if (!items.length) return;
+
+        const section = document.getElementById('recently-viewed-section');
+        const grid = document.getElementById('recently-viewed-grid');
+        if (!section || !grid) return;
+
+        grid.innerHTML = items.map(p => `
+          <div class="product-card">
+            <div class="product-card-thumb">
+              <a href="${p.url}">
+                <img src="${p.image}" alt="${p.name}">
+              </a>
+            </div>
+            <div class="product-card-body">
+              <h3 class="product-card-title">
+                <a href="${p.url}">${p.name}</a>
+              </h3>
+              <div class="product-card-price-row">
+                <span class="current-price">$${p.price}</span>
+              </div>
+              <button type="button" class="btn-card-add-cart" onclick="addToCart(${p.id})">
+                Add to Bag
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        section.style.display = 'block';
+      })
+      .catch(err => console.debug('Recently viewed fetch error:', err));
+  })();
+</script>
+{% endblock %}

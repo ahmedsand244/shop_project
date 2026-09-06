@@ -1,0 +1,370 @@
+/* ==========================================================================
+   NEXUS STORE — Executive Light Mode Django Administration Theme
+   Colors: White (#FFFFFF), Slate Canvas (#F8FAFC), Navy/Slate (#0F172A), Royal Blue (#2563EB / #1D4ED8)
+   ========================================================================== */
+
+:root {
+  --admin-bg-base: #F8FAFC;
+  --admin-bg-surface: #FFFFFF;
+  --admin-bg-elevated: #F1F5F9;
+  --admin-border: #E2E8F0;
+  --admin-border-focus: #2563EB;
+  --admin-text-primary: #0F172A;
+  --admin-text-secondary: #475569;
+  --admin-text-muted: #64748B;
+  --admin-primary: #2563EB;
+  --admin-primary-hover: #1D4ED8;
+  --admin-emerald: #10B981;
+  --admin-rose: #EF4444;
+  --admin-amber: #F59E0B;
+  --admin-radius: 10px;
+  --admin-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --admin-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Base Body */
+body, html {
+  background: var(--admin-bg-base) !important;
+  color: var(--admin-text-primary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+#header {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+  color: var(--admin-text-primary) !important;
+  padding: 16px 28px !important;
+  box-shadow: var(--admin-shadow-sm) !important;
+}
+
+#header a:link, #header a:visited {
+  color: var(--admin-text-primary) !important;
+}
+
+#branding h1, #branding h1 a {
+  color: var(--admin-text-primary) !important;
+  font-weight: 800 !important;
+}
+
+#user-tools {
+  font-size: 0.85rem !important;
+  color: var(--admin-text-secondary) !important;
+  font-weight: 500 !important;
+}
+
+#user-tools a {
+  color: var(--admin-primary) !important;
+  font-weight: 700 !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+#user-tools a:hover {
+  background: rgba(37, 99, 235, 0.08) !important;
+  color: var(--admin-primary-hover) !important;
+  text-decoration: none !important;
+}
+
+/* Breadcrumbs */
+div.breadcrumbs {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+  color: var(--admin-text-muted) !important;
+  padding: 12px 28px !important;
+  font-size: 0.84rem !important;
+  font-weight: 500 !important;
+}
+
+div.breadcrumbs a {
+  color: var(--admin-primary) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+div.breadcrumbs a:hover {
+  text-decoration: underline !important;
+}
+
+/* Main Container */
+#content {
+  padding: 28px 32px !important;
+  background: var(--admin-bg-base) !important;
+}
+
+#content h1 {
+  color: var(--admin-text-primary) !important;
+  font-size: 1.6rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 20px !important;
+}
+
+/* Cards & App Modules */
+.module {
+  background: var(--admin-bg-surface) !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: var(--admin-radius) !important;
+  margin-bottom: 24px !important;
+  overflow: hidden !important;
+  box-shadow: var(--admin-shadow-sm) !important;
+}
+
+.module caption, .module h2 {
+  background: var(--admin-bg-elevated) !important;
+  color: var(--admin-text-primary) !important;
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  padding: 13px 20px !important;
+  letter-spacing: 0.02em !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+}
+
+.module table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+.module table th, .module table td {
+  padding: 13px 18px !important;
+  border-top: 1px solid var(--admin-border) !important;
+  color: var(--admin-text-primary) !important;
+  font-size: 0.88rem !important;
+}
+
+.module table tr:hover {
+  background: #F8FAFC !important;
+}
+
+.module table a {
+  color: var(--admin-primary) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.module table a:hover {
+  text-decoration: underline !important;
+}
+
+/* Changelist & Data Tables */
+#changelist {
+  background: transparent !important;
+}
+
+#changelist table {
+  background: #FFFFFF !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: var(--admin-radius) !important;
+  overflow: hidden !important;
+  box-shadow: var(--admin-shadow-sm) !important;
+}
+
+#changelist table thead th {
+  background: var(--admin-bg-elevated) !important;
+  color: var(--admin-text-primary) !important;
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 13px 16px !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+}
+
+#changelist table tbody tr {
+  border-bottom: 1px solid var(--admin-border) !important;
+  transition: background 0.15s ease !important;
+}
+
+#changelist table tbody tr:hover {
+  background: #F1F5F9 !important;
+}
+
+#changelist table tbody td {
+  padding: 13px 16px !important;
+  color: var(--admin-text-primary) !important;
+  font-size: 0.88rem !important;
+  vertical-align: middle !important;
+}
+
+/* Changelist Filter Sidebar */
+#changelist-filter {
+  background: #FFFFFF !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: var(--admin-radius) !important;
+  box-shadow: var(--admin-shadow-sm) !important;
+  padding: 18px !important;
+  margin-left: 20px !important;
+}
+
+#changelist-filter h2 {
+  background: transparent !important;
+  color: var(--admin-text-primary) !important;
+  font-size: 0.9rem !important;
+  font-weight: 800 !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 14px !important;
+}
+
+#changelist-filter h3 {
+  color: var(--admin-text-secondary) !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  margin-top: 14px !important;
+}
+
+#changelist-filter li.selected a {
+  color: var(--admin-primary) !important;
+  font-weight: 700 !important;
+}
+
+#changelist-filter a {
+  color: var(--admin-text-secondary) !important;
+  font-size: 0.82rem !important;
+}
+
+#changelist-filter a:hover {
+  color: var(--admin-primary) !important;
+}
+
+/* Form Inputs & Controls */
+input[type="text"], input[type="password"], input[type="email"], input[type="url"],
+input[type="number"], select, textarea {
+  background: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 8px !important;
+  color: var(--admin-text-primary) !important;
+  padding: 9px 13px !important;
+  font-size: 0.88rem !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.2s ease !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--admin-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}
+
+/* Action Buttons */
+.button, input[type="submit"], input[type="button"], .submit-row input, a.button {
+  background: var(--admin-primary) !important;
+  color: #FFFFFF !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 9px 18px !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.02em !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  box-shadow: var(--admin-shadow-sm) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+}
+
+.button:hover, input[type="submit"]:hover, input[type="button"]:hover, .submit-row input:hover {
+  background: var(--admin-primary-hover) !important;
+  box-shadow: var(--admin-shadow-md) !important;
+}
+
+.button.default, input[type="submit"].default {
+  background: var(--admin-primary) !important;
+}
+
+/* Danger / Delete button */
+.button.deletelink, a.deletelink {
+  background: #FEE2E2 !important;
+  color: var(--admin-rose) !important;
+  border: 1px solid #FECACA !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-weight: 700 !important;
+}
+
+.button.deletelink:hover, a.deletelink:hover {
+  background: #FCA5A5 !important;
+  color: #7F1D1D !important;
+}
+
+/* Search bar on Changelist */
+#toolbar {
+  background: #FFFFFF !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: var(--admin-radius) !important;
+  padding: 12px 18px !important;
+  margin-bottom: 18px !important;
+  box-shadow: var(--admin-shadow-sm) !important;
+}
+
+#toolbar form input[type="text"] {
+  min-width: 260px !important;
+  margin-right: 8px !important;
+}
+
+/* Pagination */
+.paginator {
+  background: #FFFFFF !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 8px !important;
+  color: var(--admin-text-secondary) !important;
+  padding: 12px 18px !important;
+  margin-top: 18px !important;
+  font-size: 0.85rem !important;
+}
+
+.paginator a {
+  color: var(--admin-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* Status & Tag Badges */
+.admin-badge-paid, .badge-paid {
+  background: #DCFCE7 !important;
+  color: #15803D !important;
+  font-weight: 800 !important;
+  padding: 4px 10px !important;
+  border-radius: 9999px !important;
+  font-size: 0.74rem !important;
+  display: inline-block !important;
+}
+
+.admin-badge-pending, .badge-pending {
+  background: #FEF3C7 !important;
+  color: #B45309 !important;
+  font-weight: 800 !important;
+  padding: 4px 10px !important;
+  border-radius: 9999px !important;
+  font-size: 0.74rem !important;
+  display: inline-block !important;
+}
+
+.admin-badge-danger, .badge-danger {
+  background: #FEE2E2 !important;
+  color: #B91C1C !important;
+  font-weight: 800 !important;
+  padding: 4px 10px !important;
+  border-radius: 9999px !important;
+  font-size: 0.74rem !important;
+  display: inline-block !important;
+}
+
+/* Recent Actions Sidebar */
+#content-related {
+  margin-right: -300px !important;
+  width: 280px !important;
+}
+
+.module ul.actionlist {
+  padding: 8px 16px !important;
+}
+
+.module ul.actionlist li {
+  padding: 8px 0 !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+  font-size: 0.82rem !important;
+  color: var(--admin-text-secondary) !important;
+}

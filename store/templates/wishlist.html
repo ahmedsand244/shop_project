@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Saved Wishlist | NEXUS STORE{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 40px 20px 80px;">
+  <div class="section-header">
+    <div class="section-title-wrap">
+      <h2>
+        <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>Saved Favorites</span>
+      </h2>
+      <p>Luxury pieces you have reserved for future acquisition.</p>
+    </div>
+    <a href="{% url 'home' %}" class="btn-secondary" style="font-size: 0.86rem; padding: 8px 16px;">
+      Explore Catalog →
+    </a>
+  </div>
+
+  {% if wishlist_items %}
+    <div class="product-grid" style="margin-top: 20px;">
+      {% for item in wishlist_items %}
+        <div class="product-card" id="wishlist-card-{{ item.product.id }}">
+          <div class="product-card-thumb">
+            <a href="{% url 'product_detail' item.product.id %}" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+              {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+              {% else %}
+                <img src="{% static 'images/placeholder.svg' %}" alt="{{ item.product.name }}">
+              {% endif %}
+            </a>
+          </div>
+
+          <div class="product-card-body">
+            <div class="product-card-category">{{ item.product.category.name|default:"Hardware" }}</div>
+            <h3 class="product-card-title">
+              <a href="{% url 'product_detail' item.product.id %}">{{ item.product.name }}</a>
+            </h3>
+
+            <div class="product-card-price-row">
+              <span class="current-price">${{ item.product.price }}</span>
+              {% if item.product.old_price %}
+                <span class="old-price">${{ item.product.old_price }}</span>
+              {% endif %}
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: auto;">
+              <button type="button" class="btn-primary" style="flex: 1; padding: 9px; font-size: 0.85rem;" onclick="addToCart({{ item.product.id }}); removeWishlistDom({{ item.product.id }});">
+                Move to Bag
+              </button>
+              <button type="button" class="action-btn" onclick="toggleWishlist({{ item.product.id }}, null); removeWishlistDom({{ item.product.id }});" title="Remove" style="color: var(--text-muted);">
+                <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div style="text-align: center; padding: 80px 20px; background: var(--bg-card); border-radius: var(--radius-xl); border: 1px solid var(--border-glass); max-width: 560px; margin: 0 auto;">
+      <div style="margin-bottom: 16px; opacity: 0.4;">
+        <svg class="svg-icon" viewBox="0 0 24 24" style="width: 50px; height: 50px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 8px;">Your Wishlist is Empty</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 22px;">Select the heart icon on any product to save it to your personal collection.</p>
+      <a href="{% url 'home' %}" class="btn-primary">Browse Catalog</a>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function removeWishlistDom(productId) {
+    const card = document.getElementById(`wishlist-card-${productId}`);
+    if (card) {
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.92)';
+      setTimeout(() => {
+        card.remove();
+        if (document.querySelectorAll('.product-card').length === 0) {
+          window.location.reload();
+        }
+      }, 250);
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="nexusGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="50%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="nexusGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+  <rect width="64" height="64" rx="14" fill="none" stroke="url(#nexusGrad1)" stroke-width="2" stroke-opacity="0.5"/>
+
+  <!-- Glowing Geometric Nexus Monogram -->
+  <g transform="translate(10, 10)" filter="url(#glow)">
+    <!-- Top Layer / Prism -->
+    <polygon points="22,3 41,13 22,23 3,13" fill="url(#nexusGrad1)"/>
+    <!-- Middle Plate -->
+    <polyline points="3,21 22,31 41,21" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Bottom Plate -->
+    <polyline points="3,29 22,39 41,29" fill="none" stroke="url(#nexusGrad2)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Center Core Point -->
+    <circle cx="22" cy="13" r="2.5" fill="#FFFFFF"/>
+  </g>
+</svg>

@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Customer Inquiries & Live Chat | NEXUS Executive Console{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 35px 20px 80px; max-width: 1300px;">
+
+  <!-- Header & Navigation -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 25px;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+        <span class="badge-tag badge-trending">SUPERVISOR CONSOLE</span>
+        {% if unread_total > 0 %}
+          <span class="badge-tag badge-sale" id="inquiry-unread-pill" style="animation: pulse-glow 2s infinite;">
+            {{ unread_total }} Unread Inquir{{ unread_total|pluralize:"y,ies" }}
+          </span>
+        {% endif %}
+      </div>
+      <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary); margin: 0;">
+        Customer Inquiries & Live Concierge Chat
+      </h1>
+      <p style="color: var(--text-secondary); font-size: 0.88rem; margin: 4px 0 0;">
+        Real-time communication hub between customers, supervisors, and executive support.
+      </p>
+    </div>
+
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <a href="{% url 'store_admin_dashboard' %}" class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">
+        ← Back to Store Admin
+      </a>
+      <a href="{% url 'admin:index' %}" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">
+        Django Database Admin →
+      </a>
+    </div>
+  </div>
+
+  <!-- Live Chat Operations Hub -->
+  <div class="inquiries-chat-layout {% if active_thread %}has-active-thread{% endif %}">
+
+    <!-- Left Column: Threads Sidebar -->
+    <div class="inquiries-threads-sidebar">
+      
+      <!-- Threads Filter Bar -->
+      <div style="padding: 16px; border-bottom: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">
+          Active Conversations ({{ threads|length }})
+        </span>
+        <button type="button" class="btn-secondary" style="padding: 4px 10px; font-size: 0.74rem;" onclick="window.location.reload();">
+          Refresh
+        </button>
+      </div>
+
+      <!-- Threads List Scrollable -->
+      <div style="flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px;" id="threads-list">
+        {% if threads %}
+          {% for t in threads %}
+            <a href="?thread={{ t.id }}" class="thread-item {% if active_thread and active_thread.id == t.id %}active{% endif %}" 
+               style="display: block; padding: 12px 14px; border-radius: var(--radius-sm); text-decoration: none; border: 1px solid {% if active_thread and active_thread.id == t.id %}var(--accent-primary){% else %}var(--border-subtle){% endif %}; background: {% if active_thread and active_thread.id == t.id %}rgba(99, 102, 241, 0.12){% else %}var(--bg-surface-elevated){% endif %}; transition: all 0.2s ease;">
+              
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size: 0.88rem; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: {% if t.unread_count > 0 %}var(--accent-rose){% else %}var(--accent-emerald){% endif %}; display: inline-block;"></span>
+                  {{ t.name|truncatechars:20 }}
+                </strong>
+                <span style="font-size: 0.72rem; color: var(--text-muted);">{{ t.last_time|date:"H:i" }}</span>
+              </div>
+
+              <div style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 4px;">{{ t.email|default:"Visitor" }}</div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 230px;">
+                  {{ t.last_message }}
+                </p>
+                {% if t.unread_count > 0 %}
+                  <span style="background: var(--accent-rose); color: #ffffff; font-size: 0.7rem; font-weight: 800; padding: 2px 7px; border-radius: var(--radius-full);">
+                    {{ t.unread_count }}
+                  </span>
+                {% endif %}
+              </div>
+            </a>
+          {% endfor %}
+        {% else %}
+          <div style="text-align: center; padding: 40px 16px; color: var(--text-muted); font-size: 0.85rem;">
+            No conversation threads yet.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Right Column: Active Conversation Workspace -->
+    <div class="inquiries-workspace">
+      {% if active_thread %}
+        <!-- Active Thread Header -->
+        <div style="padding: 16px 20px; border-bottom: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface-elevated); flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <a href="{% url 'admin_inquiries_dashboard' %}" class="inquiries-mobile-back-btn" title="Back to Threads List">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <span>Threads</span>
+            </a>
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin: 0;">
+                  {{ active_thread.name }}
+                </h3>
+                <span class="badge-tag badge-trending" style="font-size: 0.7rem;">Live Session</span>
+              </div>
+              <span style="font-size: 0.78rem; color: var(--text-muted);">
+                Email: {{ active_thread.email }} {% if active_thread.session_key %}| Session: {{ active_thread.session_key|slice:":8" }}...{% endif %}
+              </span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <a href="https://wa.me/201011079572" target="_blank" class="btn-secondary" style="padding: 6px 12px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 6px; border-color: rgba(37, 211, 102, 0.4); color: #25D366;">
+              WhatsApp Dispatch
+            </a>
+          </div>
+        </div>
+
+        <!-- Chat History Stream -->
+        <div id="admin-chat-stream" style="flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 14px; max-height: 480px; background: var(--chat-stream-bg); transition: background var(--transition-normal);">
+          {% for m in active_thread.messages %}
+            <div style="display: flex; flex-direction: column; align-items: {% if m.sender == 'agent' %}flex-end{% else %}flex-start{% endif %};">
+              <span style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 3px; padding: 0 4px;">
+                {% if m.sender == 'agent' %}Supervisor / Concierge{% else %}{{ active_thread.name }}{% endif %} • {{ m.created_at|date:"H:i" }}
+              </span>
+              <div style="max-width: 72%; padding: 12px 16px; border-radius: {% if m.sender == 'agent' %}14px 14px 2px 14px{% else %}14px 14px 14px 2px{% endif %}; background: {% if m.sender == 'agent' %}linear-gradient(135deg, var(--accent-primary), var(--accent-primary-hover)){% else %}var(--chat-bubble-agent){% endif %}; color: {% if m.sender == 'agent' %}#ffffff{% else %}var(--chat-bubble-agent-text){% endif %}; border: 1px solid {% if m.sender == 'agent' %}transparent{% else %}var(--chat-bubble-agent-border){% endif %}; box-shadow: var(--shadow-sm); font-size: 0.9rem; line-height: 1.5; word-break: break-word;">
+                {{ m.message }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Supervisor Reply Input -->
+        <div style="padding: 16px 20px; border-top: 1px solid var(--border-glass); background: var(--bg-surface-elevated);">
+          <form id="admin-reply-form" style="display: flex; gap: 10px; align-items: center;">
+            {% csrf_token %}
+            <input type="hidden" id="admin-thread-id" value="{{ active_thread.id }}">
+            <input type="text" id="admin-reply-input" class="form-input" placeholder="Type a supervisor response to {{ active_thread.name }}... (Press Enter to send)" autocomplete="off" style="flex: 1; padding: 12px 16px; font-size: 0.9rem;" required>
+            <button type="submit" id="admin-reply-btn" class="btn-primary" style="padding: 12px 22px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
+              <span>Send</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </form>
+        </div>
+
+      {% else %}
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); padding: 40px; text-align: center;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 16px; opacity: 0.6;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <h3 style="color: var(--text-primary); margin-bottom: 6px;">Select a Conversation</h3>
+          <p style="font-size: 0.88rem; max-width: 320px;">Choose a customer thread from the left sidebar to inspect history and reply in real time.</p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('admin-reply-form');
+  const input = document.getElementById('admin-reply-input');
+  const stream = document.getElementById('admin-chat-stream');
+  const threadId = document.getElementById('admin-thread-id')?.value;
+
+  if (stream) {
+    stream.scrollTop = stream.scrollHeight;
+  }
+
+  if (form && input && threadId) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      input.disabled = true;
+
+      // Optimistically append message
+      const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      const tempBubble = document.createElement('div');
+      tempBubble.style = "display: flex; flex-direction: column; align-items: flex-end;";
+      tempBubble.innerHTML = `
+        <span style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 3px; padding: 0 4px;">Supervisor • ${timeStr}</span>
+        <div style="max-width: 72%; padding: 12px 16px; border-radius: 14px 14px 2px 14px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-hover)); color: #ffffff; font-size: 0.9rem; line-height: 1.5; word-break: break-word;">${escapeHtml(text)}</div>
+      `;
+      stream.appendChild(tempBubble);
+      stream.scrollTop = stream.scrollHeight;
+
+      try {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const res = await fetch('/api/admin/chat/reply/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken
+          },
+          body: new URLSearchParams({
+            thread_id: threadId,
+            message: text
+          })
+        });
+        const data = await res.json();
+        if (data.status !== 'success') {
+          alert(data.message || 'Failed to dispatch reply.');
+        }
+      } catch (err) {
+        console.error('Reply dispatch error:', err);
+      } finally {
+        input.disabled = false;
+        input.focus();
+      }
+    });
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>'"]/g, tag => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    }[tag] || tag));
+  }
+});
+</script>
+{% endblock %}

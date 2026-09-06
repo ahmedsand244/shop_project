@@ -39,7 +39,7 @@
 
 ### 1. استنساخ المشروع وتثبيت البيئة:
 ```bash
-git clone https://github.com/<YOUR_USERNAME>/shop_project.git
+git clone https://github.com/ahmedsand244/shop_project.git
 cd shop_project
 
 # إنشاء وتفعيل البيئة الافتراضية
@@ -91,7 +91,7 @@ python manage.py runserver
 في نافذة الـ Bash، قم بتنفيذ الأوامر التالية:
 ```bash
 # استنساخ المستودع
-git clone https://github.com/<YOUR_USERNAME>/shop_project.git
+git clone https://github.com/ahmedsand244/shop_project.git
 
 # الدخول للمشروع
 cd shop_project

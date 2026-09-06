@@ -1,5 +1,5 @@
 from django.core.cache import cache
-from .models import Category, WishlistItem, UserProfile, SiteAnnouncement
+from .models import Category, WishlistItem, UserProfile, SiteAnnouncement, Order
 
 
 def store_context(request):
@@ -8,6 +8,11 @@ def store_context(request):
     categories, user profile status, and support links to all templates.
     Optimized for high-speed caching and minimal database hits.
     """
+    try:
+        Order.current_base_url = request.build_absolute_uri('/')[:-1]
+    except Exception:
+        pass
+
     cart = request.session.get('cart', {})
     cart_total_items = 0
     if isinstance(cart, dict):

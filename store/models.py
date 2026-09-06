@@ -224,19 +224,39 @@ class Order(models.Model):
             self.tracking_number = f"TRK-{uuid.uuid4().hex[:10].upper()}"
         super().save(*args, **kwargs)
 
-    def whatsapp_tracking_url(self):
-        """Generates direct WhatsApp tracking notification link."""
+    current_base_url = None
+
+    def get_base_url(self):
+        import os
+        from django.conf import settings
+        if hasattr(self, '_base_url') and self._base_url:
+            return self._base_url
+        if Order.current_base_url:
+            return Order.current_base_url
+        env_domain = os.getenv('SITE_DOMAIN', '')
+        if env_domain:
+            return env_domain.rstrip('/') if env_domain.startswith('http') else f"https://{env_domain}"
+        if not settings.DEBUG:
+            return "https://shopproject.pythonanywhere.com"
+        return "http://127.0.0.1:8000"
+
+    def whatsapp_tracking_url(self, base_url=None):
+        """Generates direct WhatsApp tracking notification link with dynamic domain."""
         import urllib.parse
         clean_phone = ''.join(c for c in self.phone if c.isdigit())
         if clean_phone.startswith('01'):
             clean_phone = '2' + clean_phone
         elif clean_phone.startswith('1') and len(clean_phone) == 10:
             clean_phone = '20' + clean_phone
+
+        base = base_url or self.get_base_url()
+        tracking_link = f"{base}/my-orders/"
+
         msg = (
             f"Dear {self.name}, your NEXUS STORE order #{self.id} status is: {self.get_status_display()}.\n"
             f"Tracking Number: {self.tracking_number}\n"
             f"Total: ${self.total_price}\n"
-            f"View order updates: http://127.0.0.1:8000/my-orders/"
+            f"View order updates: {tracking_link}"
         )
         return f"https://wa.me/{clean_phone}?text={urllib.parse.quote(msg)}"
 

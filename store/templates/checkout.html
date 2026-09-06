@@ -296,13 +296,49 @@
     });
 
     window.detectUserLocation = function() {
+      const btn = document.getElementById('btn-detect-gps');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>Detecting Location...</span>';
+      }
+
+      function fallbackNetworkLocation() {
+        if (btn) btn.innerHTML = '<span>Detecting via Network...</span>';
+        fetch('https://ipapi.co/json/')
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.latitude && data.longitude) {
+              const lat = parseFloat(data.latitude);
+              const lng = parseFloat(data.longitude);
+              map.setView([lat, lng], 13);
+              marker.setLatLng([lat, lng]);
+              setCoordinates(lat, lng, true);
+              if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Location Detected ✓</span>';
+              }
+              if (typeof showToast === 'function') {
+                showToast('Location Detected', `Detected ${data.city || data.country_name} via Network.`, 'success');
+              }
+            } else {
+              throw new Error('No IP coords');
+            }
+          })
+          .catch(() => {
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = '<span>Auto-Detect Location</span>';
+            }
+            if (typeof showToast === 'function') {
+              showToast('Location Tip', 'Please tap on the map to pin your exact delivery address.', 'info');
+            }
+          });
+      }
+
       if (!navigator.geolocation) {
-        showToast('GPS Error', 'Geolocation is not supported by your browser.', 'warning');
+        fallbackNetworkLocation();
         return;
       }
-      const btn = document.getElementById('btn-detect-gps');
-      btn.disabled = true;
-      btn.innerHTML = '<span>Detecting Location...</span>';
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -311,16 +347,19 @@
           map.setView([lat, lng], 15);
           marker.setLatLng([lat, lng]);
           setCoordinates(lat, lng, true);
-          btn.disabled = false;
-          btn.innerHTML = '<span>GPS Detected ✓</span>';
-          showToast('Location Detected', 'Your delivery address was auto-detected via GPS.', 'success');
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<span>GPS Detected ✓</span>';
+          }
+          if (typeof showToast === 'function') {
+            showToast('Location Detected', 'Your delivery address was auto-detected via GPS.', 'success');
+          }
         },
         (err) => {
-          btn.disabled = false;
-          btn.innerHTML = '<span>Auto-Detect GPS Location</span>';
-          showToast('GPS Access', 'Please allow location access in your browser or click on the map.', 'info');
+          console.debug('Browser GPS notice:', err);
+          fallbackNetworkLocation();
         },
-        { enableHighAccuracy: true, timeout: 8000 }
+        { enableHighAccuracy: false, timeout: 6000, maximumAge: 300000 }
       );
     };
   });

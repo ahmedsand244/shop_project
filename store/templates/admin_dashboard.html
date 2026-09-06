@@ -88,13 +88,37 @@
 
   <!-- Live Order Lifecycle Manager -->
   <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 26px; margin-bottom: 35px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h3 style="font-size: 1.25rem; font-weight: 800;">Recent Orders & Status Controller</h3>
-      <span style="font-size: 0.82rem; color: var(--text-muted);">Change status in 1-click; customer receives instant notification</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; margin: 0 0 4px;">Recent Orders & Status Controller</h3>
+        <span style="font-size: 0.82rem; color: var(--text-muted);">Change status in 1-click; customer receives instant notification</span>
+      </div>
+
+      <!-- Quick Order Search Filter -->
+      <form method="get" action="{% url 'store_admin_dashboard' %}" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <div style="position: relative; display: inline-flex; align-items: center;">
+          <input 
+            type="text" 
+            name="q_order" 
+            id="order-search-input" 
+            value="{{ q_order }}" 
+            placeholder="Search TRK-..., Customer, Phone, #ID..." 
+            class="filter-select"
+            style="padding: 8px 36px 8px 14px; font-size: 0.84rem; min-width: 280px; border-radius: var(--radius-full); background: var(--bg-surface); border: 1px solid var(--border-glass);"
+            autocomplete="off"
+          >
+          <button type="submit" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; padding: 0;" title="Search Orders">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+        </div>
+        {% if q_order %}
+          <a href="{% url 'store_admin_dashboard' %}" class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; border-radius: var(--radius-full); text-decoration: none;">Clear</a>
+        {% endif %}
+      </form>
     </div>
 
     <div style="overflow-x: auto;">
-      <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+      <table id="admin-orders-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
         <thead>
           <tr style="border-bottom: 1px solid var(--border-glass); color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase;">
             <th style="padding: 10px 14px;">Order</th>
@@ -430,6 +454,23 @@
   // Poll every 30s
   fetchNotifs();
   setInterval(fetchNotifs, 30000);
+})();
+
+// Instant client-side search for admin orders
+(function() {
+  var input = document.getElementById('order-search-input');
+  var table = document.getElementById('admin-orders-table');
+  if (!input || !table) return;
+
+  input.addEventListener('keyup', function() {
+    var val = input.value.toLowerCase().trim();
+    var rows = table.querySelectorAll('tbody tr');
+    rows.forEach(function(row) {
+      if (row.cells.length < 5) return;
+      var text = row.textContent.toLowerCase();
+      row.style.display = (text.indexOf(val) !== -1) ? '' : 'none';
+    });
+  });
 })();
 </script>
 {% endblock %}

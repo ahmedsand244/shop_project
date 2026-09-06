@@ -906,10 +906,23 @@ def store_admin_dashboard(request):
     orders = Order.objects.all().prefetch_related('items').order_by('-created_at')
     products = Product.objects.all().order_by('stock')
 
+    # Order search filter by tracking number, customer name, phone, email, or #ID
+    q_order = request.GET.get('q_order', '').strip()
+    if q_order:
+        clean_id = q_order.replace('#', '').strip()
+        id_q = Q(id__iexact=clean_id) if clean_id.isdigit() else Q()
+        orders = orders.filter(
+            Q(tracking_number__icontains=q_order) |
+            Q(name__icontains=q_order) |
+            Q(phone__icontains=q_order) |
+            Q(email__icontains=q_order) |
+            id_q
+        )
+
     # Metrics
-    total_revenue = orders.filter(payment_status='paid').aggregate(Sum('total_price'))['total_price__sum'] or Decimal('0.00')
-    orders_count = orders.count()
-    pending_orders_count = orders.filter(status__in=['placed', 'processing']).count()
+    total_revenue = Order.objects.filter(payment_status='paid').aggregate(Sum('total_price'))['total_price__sum'] or Decimal('0.00')
+    orders_count = Order.objects.count()
+    pending_orders_count = Order.objects.filter(status__in=['placed', 'processing']).count()
 
     # Inventory Dependent Alerts
     low_stock_products = products.filter(stock__gt=0, stock__lte=F('low_stock_threshold'))
@@ -937,7 +950,8 @@ def store_admin_dashboard(request):
     hero_banner = HeroBanner.objects.first()
 
     return render(request, 'admin_dashboard.html', {
-        'orders': orders[:20],
+        'orders': orders[:50] if q_order else orders[:20],
+        'q_order': q_order,
         'total_revenue': total_revenue,
         'orders_count': orders_count,
         'pending_orders_count': pending_orders_count,
@@ -1090,22 +1104,60 @@ def admin_update_order_status(request, order_id):
         order.is_paid = (new_payment == 'paid')
 
     order.save()
-    messages.success(request, f"Order #{order.id} updated to {order.get_status_display()} ({order.get_payment_status_display()}).")
+
+    # Dynamic base domain and live tracking link
+    base_url = request.build_absolute_uri('/')[:-1]
+    Order.current_base_url = base_url
+    tracking_url = f"{base_url}/my-orders/"
+
+    # Explanations for each status
+    status_descriptions = {
+        'placed': {
+            'en': 'Your order has been received and confirmed by our system.',
+            'ar': 'تم استلام طلبك وتأكيده بنجاح وجارٍ مراجعته.'
+        },
+        'processing': {
+            'en': 'Your order is currently being prepared and packaged at our warehouse.',
+            'ar': 'طلبك قيد التجهيز والتعبئة الآن في المستودع تمهيداً للشحن.'
+        },
+        'shipped': {
+            'en': 'Your order has been shipped and is now on the road to your delivery address!',
+            'ar': 'طلبك في الطريق إليك! تم تسليم الشحنة لمندوب التوصيل وهي في طريقها لعنوانك.'
+        },
+        'delivered': {
+            'en': 'Your order has been successfully delivered. We hope you enjoy your purchase!',
+            'ar': 'تم تسليم طلبك بنجاح! نتمنى أن تنال المنتجات إعجابك ويسعدنا دائماً خدمتك.'
+        },
+        'cancelled': {
+            'en': 'Your order has been cancelled. Please contact concierge support if you need assistance.',
+            'ar': 'تم إلغاء هذا الطلب. إذا كان لديك أي استفسار يرجى التواصل مع فريق الدعم.'
+        }
+    }
+    status_desc = status_descriptions.get(order.status, {'en': order.get_status_display(), 'ar': ''})
 
     # Send status update email to customer
     try:
         if order.email and settings.EMAIL_HOST_USER:
-            subject = f"Order #{order.id} Status Update - NEXUS STORE"
+            subject = f"تحديث حالة طلبك #{order.id} ({order.get_status_display()}) - NEXUS STORE"
             body = (
-                f"Dear {order.name},\n\n"
-                f"Your order #{order.id} has been updated to: {order.get_status_display()}.\n"
-                f"Tracking Number: {order.tracking_number}\n\n"
+                f"مرحباً {order.name},\n\n"
+                f"تم تحديث حالة طلبك رقم #{order.id} إلى: {order.get_status_display()}\n"
+                f"{status_desc['ar']}\n\n"
+                f"رقم التتبع: {order.tracking_number}\n"
+                f"الإجمالي: ${order.total_price}\n\n"
+                f"لمتابعة تفاصيل ومسار الشحنة مباشرة:\n{tracking_url}\n\n"
+                f"----------------------------------------\n"
+                f"Dear {order.name},\n"
+                f"Your order #{order.id} status is now: {order.get_status_display()}.\n"
+                f"{status_desc['en']}\n\n"
+                f"Track live updates: {tracking_url}\n\n"
                 f"Thank you for choosing NEXUS STORE."
             )
             send_mail(subject, body, settings.EMAIL_HOST_USER, [order.email], fail_silently=True)
     except Exception as e:
         print("Status update email notice:", e)
 
+    messages.success(request, f"Order #{order.id} updated to {order.get_status_display()} ({order.get_payment_status_display()}). Customer notification dispatched.")
     return redirect('store_admin_dashboard')
 
 

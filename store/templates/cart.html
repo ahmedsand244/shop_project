@@ -45,7 +45,7 @@
                 <!-- Product Thumbnail -->
                 <div class="cart-item-img-box">
                   <a href="{% url 'product_detail' item.product.id %}">
-                    <img src="{% if item.product.image %}{{ item.product.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" alt="{{ item.product.name }}">
+                    <img src="{% if item.product.image %}{{ item.product.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" alt="{{ item.product.name }}" loading="lazy" decoding="async">
                   </a>
                 </div>
 

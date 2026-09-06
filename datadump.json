@@ -1,0 +1,3235 @@
+[
+{
+  "model": "store.category",
+  "pk": 5,
+  "fields": {
+    "name": "Smartphones & Flagships",
+    "slug": "smartphones-flagships",
+    "icon": "smartphone",
+    "image": "",
+    "is_featured": true,
+    "order": 1
+  }
+},
+{
+  "model": "store.category",
+  "pk": 6,
+  "fields": {
+    "name": "Laptops & Workstations",
+    "slug": "laptops-workstations",
+    "icon": "laptop",
+    "image": "",
+    "is_featured": true,
+    "order": 2
+  }
+},
+{
+  "model": "store.category",
+  "pk": 7,
+  "fields": {
+    "name": "High-Fidelity Audio",
+    "slug": "high-fidelity-audio",
+    "icon": "headphones",
+    "image": "",
+    "is_featured": true,
+    "order": 3
+  }
+},
+{
+  "model": "store.category",
+  "pk": 8,
+  "fields": {
+    "name": "Timepieces & Smartwatches",
+    "slug": "timepieces-smartwatches",
+    "icon": "watch",
+    "image": "",
+    "is_featured": true,
+    "order": 4
+  }
+},
+{
+  "model": "store.category",
+  "pk": 9,
+  "fields": {
+    "name": "Smart Living & Workspace",
+    "slug": "smart-living-workspace",
+    "icon": "home",
+    "image": "",
+    "is_featured": true,
+    "order": 5
+  }
+},
+{
+  "model": "store.category",
+  "pk": 10,
+  "fields": {
+    "name": "Pro Photography & Optics",
+    "slug": "pro-photography-optics",
+    "icon": "camera",
+    "image": "",
+    "is_featured": true,
+    "order": 6
+  }
+},
+{
+  "model": "store.category",
+  "pk": 11,
+  "fields": {
+    "name": "Apparel & Luxury Fashion",
+    "slug": "apparel-luxury-fashion",
+    "icon": "👔",
+    "image": "",
+    "is_featured": true,
+    "order": 5
+  }
+},
+{
+  "model": "store.product",
+  "pk": 23,
+  "fields": {
+    "name": "Apple iPhone 16 Pro Max - 256GB Natural Titanium",
+    "slug": "iphone-16-pro-max-titanium",
+    "category": 5,
+    "description": "iPhone 16 Pro Max. Crafted with Grade 5 titanium, featuring a new refined micro-blasted finish. Ceramic Shield front is 2x tougher than any smartphone glass. Super Retina XDR display with ProMotion up to 120Hz. A18 Pro chip powers unprecedented graphic performance and battery life for ultimate luxury power users.",
+    "short_description": "Featuring aerospace-grade titanium design, Camera Control, 4K 120 fps Dolby Vision, and the revolutionary A18 Pro chip.",
+    "price": "1299.00",
+    "old_price": "1499.00",
+    "stock": 28,
+    "low_stock_threshold": 5,
+    "badge": "hot",
+    "is_featured": true,
+    "image": "products/iphone_16_pro_max.jpg",
+    "sku": "IPH-16PM-NT256",
+    "views_count": 11,
+    "created_at": "2026-09-05T15:19:42.190Z",
+    "updated_at": "2026-09-06T18:53:58.596Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 24,
+  "fields": {
+    "name": "Samsung Galaxy S25 Ultra 5G - Titanium Obsidian",
+    "slug": "galaxy-s25-ultra-obsidian",
+    "category": 5,
+    "description": "Meet Galaxy S25 Ultra, the pinnacle of Samsung engineering. Designed with titanium framing and flattened display edges for an immersive viewing experience. Real-time Galaxy AI brings multi-lingual live translations, advanced photo editing, and Circle to Search.",
+    "short_description": "200MP Quad Telephoto Camera, integrated S-Pen, Snapdragon 8 Elite Mobile Platform, and anti-reflective Corning Gorilla Armor glass.",
+    "price": "1199.00",
+    "old_price": "1350.00",
+    "stock": 35,
+    "low_stock_threshold": 5,
+    "badge": "new",
+    "is_featured": true,
+    "image": "products/galaxy_s25_ultra.jpg",
+    "sku": "SM-S25U-OBS512",
+    "views_count": 2,
+    "created_at": "2026-09-05T15:19:42.407Z",
+    "updated_at": "2026-09-05T15:19:42.407Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 25,
+  "fields": {
+    "name": "Google Pixel 9 Pro XL - Porcelain 256GB",
+    "slug": "pixel-9-pro-xl-porcelain",
+    "category": 5,
+    "description": "The all-new Google Pixel 9 Pro XL features a silky matte glass back and polished metal frame with dual-finish camera bar. Includes 7 years of Pixel Feature Drops and OS updates. Unbeatable computational photography with 30x Super Res Zoom.",
+    "short_description": "Tensor G4 processor with 16GB RAM, Super Actua display, and Gemini Nano AI deeply integrated across camera and voice.",
+    "price": "1099.00",
+    "old_price": "1199.00",
+    "stock": 18,
+    "low_stock_threshold": 5,
+    "badge": "trending",
+    "is_featured": false,
+    "image": "products/pixel_9_pro.jpg",
+    "sku": "GOOG-P9PXL-POR",
+    "views_count": 0,
+    "created_at": "2026-09-05T15:19:42.792Z",
+    "updated_at": "2026-09-05T15:19:42.792Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 26,
+  "fields": {
+    "name": "Apple MacBook Pro 16-inch M4 Max - Space Black",
+    "slug": "macbook-pro-16-m4-max",
+    "category": 6,
+    "description": "Built for extreme workflows, 3D rendering, machine learning models, and 8K ProRes video grading. The M4 Max chip features hardware-accelerated ray tracing and breakthrough unified memory architecture. Space Black anodization dramatically reduces fingerprints.",
+    "short_description": "16-core CPU, 40-core GPU, 36GB Unified Memory, Liquid Retina XDR with Nano-Texture glass, up to 24 hours battery life.",
+    "price": "3499.00",
+    "old_price": "3899.00",
+    "stock": 12,
+    "low_stock_threshold": 5,
+    "badge": "limited",
+    "is_featured": true,
+    "image": "products/macbook_pro_16.jpg",
+    "sku": "MBP-16-M4M-36GB",
+    "views_count": 2,
+    "created_at": "2026-09-05T15:19:43.128Z",
+    "updated_at": "2026-09-05T15:19:43.128Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 27,
+  "fields": {
+    "name": "Dell XPS 16 OLED InfinityEdge Workstation - Platinum",
+    "slug": "dell-xps-16-oled-platinum",
+    "category": 6,
+    "description": "Crafted with CNC-machined aluminum and Gorilla Glass 3. The tone-on-tone minimalist interior features a capacitive touch function row and zero-lattice keyboard for a truly futuristic typing and creator experience.",
+    "short_description": "Intel Core Ultra 9, NVIDIA GeForce RTX 4070, 4K+ OLED Touchscreen, seamless glass haptic touchpad.",
+    "price": "2599.00",
+    "old_price": "2899.00",
+    "stock": 15,
+    "low_stock_threshold": 5,
+    "badge": "hot",
+    "is_featured": true,
+    "image": "products/dell_xps_16.jpg",
+    "sku": "DELL-XPS16-4K",
+    "views_count": 2,
+    "created_at": "2026-09-05T15:19:43.518Z",
+    "updated_at": "2026-09-05T15:19:43.518Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 28,
+  "fields": {
+    "name": "ASUS ROG Zephyrus G16 OLED Gaming Laptop",
+    "slug": "asus-rog-zephyrus-g16",
+    "category": 6,
+    "description": "Impossibly thin yet uncompromisingly powerful. Features NVIDIA Ada Lovelace graphics with DLSS 3.5, liquid metal thermal cooling, and dual vapor chamber for whisper-quiet high frame-rate productivity and gaming.",
+    "short_description": "Ultra-thin CNC aluminum chassis, 2.5K 240Hz OLED ROG Nebula display, Slash Lighting programmable lid.",
+    "price": "2299.00",
+    "old_price": "2599.00",
+    "stock": 20,
+    "low_stock_threshold": 5,
+    "badge": "sale",
+    "is_featured": false,
+    "image": "products/asus_rog_g16.jpg",
+    "sku": "ROG-Z16-RTX4080",
+    "views_count": 0,
+    "created_at": "2026-09-05T15:19:43.751Z",
+    "updated_at": "2026-09-05T15:19:43.751Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 29,
+  "fields": {
+    "name": "Sony WH-1000XM5 Wireless Noise-Canceling Headphones",
+    "slug": "sony-wh-1000xm5-silver",
+    "category": 7,
+    "description": "Magnificent sound engineered to perfection. Specially developed 30mm carbon fiber composite driver unit enhances high-frequency sensitivity for natural sound quality. Soft-fit leather ensures cloud-like all-day listening comfort.",
+    "short_description": "Industry-leading noise cancelation with two processors and 8 microphones. Hi-Res Audio Wireless and 30-hour battery life.",
+    "price": "399.00",
+    "old_price": "449.00",
+    "stock": 45,
+    "low_stock_threshold": 5,
+    "badge": "hot",
+    "is_featured": true,
+    "image": "products/sony_wh1000xm5.jpg",
+    "sku": "SNY-WH1000XM5-SLV",
+    "views_count": 0,
+    "created_at": "2026-09-05T15:19:44.087Z",
+    "updated_at": "2026-09-05T15:19:44.087Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 30,
+  "fields": {
+    "name": "Bang & Olufsen Beoplay H95 Studio Edition",
+    "slug": "bang-olufsen-beoplay-h95",
+    "category": 7,
+    "description": "Designed for 95 years of acoustic heritage. Masterfully tuned by B&O acoustic engineers to deliver sound that moves you. Foldable design with an aluminum carrying case lined with matching woven fabric.",
+    "short_description": "Custom titanium drivers, lambskin ear cushions, tactile aluminum dials, and adaptive active noise cancellation.",
+    "price": "899.00",
+    "old_price": "999.00",
+    "stock": 10,
+    "low_stock_threshold": 5,
+    "badge": "limited",
+    "is_featured": true,
+    "image": "products/beoplay_h95.jpg",
+    "sku": "BNO-H95-CHESTNUT",
+    "views_count": 0,
+    "created_at": "2026-09-05T15:19:44.265Z",
+    "updated_at": "2026-09-05T15:19:44.265Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 31,
+  "fields": {
+    "name": "Bose QuietComfort Ultra Earbuds - White Smoke",
+    "slug": "bose-quietcomfort-ultra-earbuds",
+    "category": 7,
+    "description": "Spatial audio brings what you hear right in front of you. CustomTune technology automatically adapts the noise cancellation and sound performance to your specific ears for personalized perfection.",
+    "short_description": "Breakthrough Bose Immersive Audio spatial sound, CustomTune sound personalization, and world-class quiet.",
+    "price": "299.00",
+    "old_price": "349.00",
+    "stock": 32,
+    "low_stock_threshold": 5,
+    "badge": "new",
+    "is_featured": false,
+    "image": "products/bose_qc_ultra.jpg",
+    "sku": "BOSE-QCU-EAR",
+    "views_count": 1,
+    "created_at": "2026-09-05T15:19:44.583Z",
+    "updated_at": "2026-09-05T15:19:44.583Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 32,
+  "fields": {
+    "name": "Apple Watch Ultra 2 - 49mm Titanium Ocean Band",
+    "slug": "apple-watch-ultra-2-titanium",
+    "category": 8,
+    "description": "The most capable and rugged Apple Watch ever. Features the breakthrough S9 SiP with Double Tap gesture control, on-device Siri, and precision modular watch faces built for endurance and adventure.",
+    "short_description": "Rugged aerospace titanium case, 3000-nit display, dual-frequency GPS, 36-hour battery, water-resistant 100m.",
+    "price": "799.00",
+    "old_price": "899.00",
+    "stock": 24,
+    "low_stock_threshold": 5,
+    "badge": "hot",
+    "is_featured": true,
+    "image": "products/apple_watch_ultra.jpg",
+    "sku": "AW-U2-49TI",
+    "views_count": 0,
+    "created_at": "2026-09-05T15:19:44.770Z",
+    "updated_at": "2026-09-05T15:19:44.770Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 33,
+  "fields": {
+    "name": "Garmin Fenix 7X Pro Sapphire Solar Edition",
+    "slug": "garmin-fenix-7x-pro-solar",
+    "category": 8,
+    "description": "Conquer every hour with advanced training metrics, 24/7 health and wellness monitoring, TopoActive multi-continent maps, and titanium bezel tested to U.S. military standards for thermal and shock resistance.",
+    "short_description": "Solar charging power glass lens, built-in LED flashlight, multi-band GNSS satIQ, up to 37 days in smartwatch mode.",
+    "price": "899.00",
+    "old_price": "999.00",
+    "stock": 16,
+    "low_stock_threshold": 5,
+    "badge": "trending",
+    "is_featured": true,
+    "image": "products/garmin_fenix_7x.jpg",
+    "sku": "GRMN-FNX7X-SLR",
+    "views_count": 4,
+    "created_at": "2026-09-05T15:19:45.195Z",
+    "updated_at": "2026-09-05T15:19:45.195Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 34,
+  "fields": {
+    "name": "TAG Heuer Connected Calibre E4 - 45mm Black Titanium",
+    "slug": "tag-heuer-connected-calibre-e4",
+    "category": 8,
+    "description": "The ultimate expression of luxury and digital performance. Features high-definition OLED display, golf edition GPS tracking, and heritage mechanical watch face complications inspired by legendary Carrera chronographs.",
+    "short_description": "Swiss luxury smartwatch craftsmanship with sapphire crystal, DLC titanium grade 2, and exclusive sports app.",
+    "price": "1950.00",
+    "old_price": "2250.00",
+    "stock": 8,
+    "low_stock_threshold": 5,
+    "badge": "limited",
+    "is_featured": false,
+    "image": "products/tag_heuer_e4.jpg",
+    "sku": "TAG-CAL-E4-TI",
+    "views_count": 0,
+    "created_at": "2026-09-05T15:19:45.428Z",
+    "updated_at": "2026-09-05T15:19:45.428Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 35,
+  "fields": {
+    "name": "Dyson Solarcycle Morph Desk Light - Matte Black",
+    "slug": "dyson-solarcycle-morph-light",
+    "category": 9,
+    "description": "Engineered to reduce eyestrain and transform your workspace. 3-Point Revolute motion allows 360-degree positioning. Light quality lasts 60 years thanks to pioneering heat pipe cooling technology.",
+    "short_description": "Intelligently tracks local daylight. 4 lights in 1: Task, Indirect, Feature, and Ambient lamp with Heat Pipe cooling.",
+    "price": "649.00",
+    "old_price": "749.00",
+    "stock": 19,
+    "low_stock_threshold": 5,
+    "badge": "new",
+    "is_featured": true,
+    "image": "products/dyson_desk_light.jpg",
+    "sku": "DYS-SC-MORPH-BLK",
+    "views_count": 3,
+    "created_at": "2026-09-05T15:19:45.625Z",
+    "updated_at": "2026-09-05T15:19:45.625Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 36,
+  "fields": {
+    "name": "Keychron Q1 Pro Wireless Custom Mechanical Keyboard",
+    "slug": "keychron-q1-pro-wireless",
+    "category": 9,
+    "description": "A masterclass in tactile luxury. Connects with up to 3 devices wirelessly via Bluetooth 5.1. Features sound-absorbing foams, KSA double-shot PBT keycaps, and south-facing RGB lighting for unmatched typing satisfaction.",
+    "short_description": "Full CNC machined aluminum body, double-gasket acoustic dampening, hot-swappable switches, QMK/VIA programmable.",
+    "price": "219.00",
+    "old_price": "259.00",
+    "stock": 40,
+    "low_stock_threshold": 5,
+    "badge": "hot",
+    "is_featured": false,
+    "image": "products/keychron_q1_pro.jpg",
+    "sku": "KYC-Q1P-RGB-RED",
+    "views_count": 1,
+    "created_at": "2026-09-05T15:19:45.947Z",
+    "updated_at": "2026-09-05T15:19:45.947Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 37,
+  "fields": {
+    "name": "Sony Alpha A7R V Mirrorless Camera Body",
+    "slug": "sony-alpha-a7r-v-body",
+    "category": 10,
+    "description": "Revolutionary AI autofocus identifies humans, animals, insects, cars, and airplanes. 8K 24p and 4K 60p video recording with 15+ stops of dynamic range. Dual CFexpress Type A / SD UHS-II card slots in magnesium-alloy weather-sealed body.",
+    "short_description": "61.0MP Full-Frame Exmor R sensor, Dedicated AI processing unit for autofocus tracking, 8-stop image stabilization.",
+    "price": "3899.00",
+    "old_price": "4299.00",
+    "stock": 7,
+    "low_stock_threshold": 5,
+    "badge": "limited",
+    "is_featured": true,
+    "image": "products/sony_a7r_v.jpg",
+    "sku": "SNY-ILCE-7RM5",
+    "views_count": 7,
+    "created_at": "2026-09-05T15:19:46.185Z",
+    "updated_at": "2026-09-05T15:19:46.185Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 38,
+  "fields": {
+    "name": "Canon RF 50mm f/1.2L USM Prime Lens",
+    "slug": "canon-rf-50mm-f12-l-usm",
+    "category": 10,
+    "description": "Setting new benchmarks in optical clarity, sharpness, and creamy background bokeh. Designed with dust and weather-resistant seals for uncompromising professional commercial and portrait production.",
+    "short_description": "Legendary L-series optics with ultra-fast f/1.2 aperture, Air Sphere Coating, and ring-type ultrasonic motor.",
+    "price": "2299.00",
+    "old_price": "2499.00",
+    "stock": 23,
+    "low_stock_threshold": 5,
+    "badge": "trending",
+    "is_featured": false,
+    "image": "products/canon_rf50.jpg",
+    "sku": "CAN-RF50-F12L",
+    "views_count": 7,
+    "created_at": "2026-09-05T15:19:46.480Z",
+    "updated_at": "2026-09-06T11:58:34.580Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 39,
+  "fields": {
+    "name": "NEXUS Cyberpunk Oversized Heavyweight Hoodie",
+    "slug": "nexus-cyberpunk-oversized-heavyweight-hoodie",
+    "category": 11,
+    "description": "Designed for uncompromising comfort and contemporary street luxury. Crafted from certified 480 GSM organic French Terry cotton with brushed fleece interior. Features dropped shoulders, concealed side-seam pockets, ribbed cuffs and hem, and clean tonal silicone branding.",
+    "short_description": "Ultra-heavyweight 480 GSM French Terry cotton hoodie with custom tailored oversized silhouette and double-layered thermal hood.",
+    "price": "129.00",
+    "old_price": "169.00",
+    "stock": 45,
+    "low_stock_threshold": 5,
+    "badge": "NEW",
+    "is_featured": true,
+    "image": "products/hoodie_oversized.jpg",
+    "sku": "NX-APP-HD01",
+    "views_count": 0,
+    "created_at": "2026-09-06T19:05:00.480Z",
+    "updated_at": "2026-09-06T19:05:00.480Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 40,
+  "fields": {
+    "name": "Executive Italian Wool Minimalist Trench Coat",
+    "slug": "executive-italian-wool-minimalist-trench-coat",
+    "category": 11,
+    "description": "An enduring masterpiece of outerwear luxury. Constructed from premium Italian virgin wool providing exceptional warmth and natural weather resilience. Features a belted waist with leather buckle, storm flap, tailored notch lapel, and interior passport security pockets.",
+    "short_description": "Masterfully crafted from 100% fine Italian virgin wool with satin cupro lining and horn button fastenings.",
+    "price": "389.00",
+    "old_price": "499.00",
+    "stock": 28,
+    "low_stock_threshold": 5,
+    "badge": "VIP",
+    "is_featured": true,
+    "image": "products/trench_coat.jpg",
+    "sku": "NX-APP-TC02",
+    "views_count": 0,
+    "created_at": "2026-09-06T19:05:00.485Z",
+    "updated_at": "2026-09-06T19:05:00.485Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 41,
+  "fields": {
+    "name": "Techwear Waterproof Modular Windbreaker Jacket",
+    "slug": "techwear-waterproof-modular-windbreaker-jacket",
+    "category": 11,
+    "description": "Engineered for extreme urban and outdoor elements. Made with high-tensile ripstop nylon membrane offering 20,000mm waterproofing and breathable vapor release. Includes concealed storm hood, waterproof YKK Aquaguard zips, and ergonomic thumbhole storm cuffs.",
+    "short_description": "Three-layer GORE-TEX inspired waterproof shell with taped seams, articulated sleeves, and Fidlock magnetic utility pockets.",
+    "price": "189.00",
+    "old_price": "239.00",
+    "stock": 35,
+    "low_stock_threshold": 5,
+    "badge": "HOT",
+    "is_featured": true,
+    "image": "products/techwear_jacket.jpg",
+    "sku": "NX-APP-JK03",
+    "views_count": 1,
+    "created_at": "2026-09-06T19:05:00.489Z",
+    "updated_at": "2026-09-06T19:05:00.489Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 42,
+  "fields": {
+    "name": "Luxury Pima Cotton Minimalist Crewneck T-Shirt",
+    "slug": "luxury-pima-cotton-minimalist-crewneck-t-shirt",
+    "category": 11,
+    "description": "The quintessential foundation of luxury everyday style. Spun from 100% extra-long staple Peruvian Pima cotton, renowned for superior softness, high durability, and pill-resistant smooth drape. Pre-shrunk and enzyme washed for an exquisite second-skin feel.",
+    "short_description": "Supremely soft 240 GSM Peruvian long-staple Pima cotton crewneck with silk-touch wash finish.",
+    "price": "69.00",
+    "old_price": "89.00",
+    "stock": 60,
+    "low_stock_threshold": 5,
+    "badge": "SALE",
+    "is_featured": true,
+    "image": "products/pima_tshirt.jpg",
+    "sku": "NX-APP-TS04",
+    "views_count": 0,
+    "created_at": "2026-09-06T19:05:00.496Z",
+    "updated_at": "2026-09-06T19:05:00.496Z"
+  }
+},
+{
+  "model": "store.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 38,
+    "image": "products/gallery/Screenshot_2026-09-04_000605.png",
+    "alt_text": "احمد عبد السند",
+    "order": 1
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 1,
+  "fields": {
+    "product": 38,
+    "name": "Color",
+    "value": "احمد",
+    "color_code": "#2342424234",
+    "price_modifier": "20.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 2,
+  "fields": {
+    "product": 23,
+    "name": "Color",
+    "value": "Natural Titanium",
+    "color_code": "#c5c3bf",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 3,
+  "fields": {
+    "product": 23,
+    "name": "Color",
+    "value": "Desert Titanium",
+    "color_code": "#d8bc9d",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 4,
+  "fields": {
+    "product": 23,
+    "name": "Color",
+    "value": "Black Titanium",
+    "color_code": "#2b2b2b",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 5,
+  "fields": {
+    "product": 23,
+    "name": "Color",
+    "value": "White Titanium",
+    "color_code": "#f0f0f0",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 6,
+  "fields": {
+    "product": 23,
+    "name": "Storage",
+    "value": "256GB",
+    "color_code": "#000000",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 7,
+  "fields": {
+    "product": 23,
+    "name": "Storage",
+    "value": "512GB",
+    "color_code": "#000000",
+    "price_modifier": "200.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 8,
+  "fields": {
+    "product": 23,
+    "name": "Storage",
+    "value": "1TB",
+    "color_code": "#000000",
+    "price_modifier": "400.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 9,
+  "fields": {
+    "product": 24,
+    "name": "Color",
+    "value": "Titanium Obsidian",
+    "color_code": "#1E2024",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 10,
+  "fields": {
+    "product": 24,
+    "name": "Color",
+    "value": "Titanium Gray",
+    "color_code": "#7E8184",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 11,
+  "fields": {
+    "product": 24,
+    "name": "Color",
+    "value": "Titanium Silver",
+    "color_code": "#D7D9DC",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 12,
+  "fields": {
+    "product": 24,
+    "name": "Storage",
+    "value": "256GB",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 13,
+  "fields": {
+    "product": 24,
+    "name": "Storage",
+    "value": "512GB",
+    "color_code": "",
+    "price_modifier": "180.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 14,
+  "fields": {
+    "product": 24,
+    "name": "RAM",
+    "value": "12GB RAM",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 15,
+  "fields": {
+    "product": 24,
+    "name": "RAM",
+    "value": "16GB RAM",
+    "color_code": "",
+    "price_modifier": "120.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 16,
+  "fields": {
+    "product": 32,
+    "name": "Color",
+    "value": "Natural Titanium",
+    "color_code": "#C5C3BF",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 17,
+  "fields": {
+    "product": 32,
+    "name": "Color",
+    "value": "Black Titanium",
+    "color_code": "#26282B",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 18,
+  "fields": {
+    "product": 32,
+    "name": "Size",
+    "value": "49mm Ocean Band",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 19,
+  "fields": {
+    "product": 32,
+    "name": "Size",
+    "value": "49mm Alpine Loop",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 20,
+  "fields": {
+    "product": 32,
+    "name": "Size",
+    "value": "49mm Trail Loop",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 21,
+  "fields": {
+    "product": 23,
+    "name": "RAM",
+    "value": "5GB",
+    "color_code": "#883f3f",
+    "price_modifier": "100.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 22,
+  "fields": {
+    "product": 23,
+    "name": "RAM",
+    "value": "16GB",
+    "color_code": "#000000",
+    "price_modifier": "400.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 23,
+  "fields": {
+    "product": 23,
+    "name": "Color",
+    "value": "New Color",
+    "color_code": "#fd8b8b",
+    "price_modifier": "20.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 24,
+  "fields": {
+    "product": 39,
+    "name": "Size",
+    "value": "S",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 25,
+  "fields": {
+    "product": 39,
+    "name": "Size",
+    "value": "M",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 26,
+  "fields": {
+    "product": 39,
+    "name": "Size",
+    "value": "L",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 27,
+  "fields": {
+    "product": 39,
+    "name": "Size",
+    "value": "XL",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 28,
+  "fields": {
+    "product": 39,
+    "name": "Size",
+    "value": "XXL",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 29,
+  "fields": {
+    "product": 39,
+    "name": "Color",
+    "value": "Midnight Black",
+    "color_code": "#111111",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 30,
+  "fields": {
+    "product": 39,
+    "name": "Color",
+    "value": "Shadow Carbon",
+    "color_code": "#2A2C30",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 31,
+  "fields": {
+    "product": 39,
+    "name": "Color",
+    "value": "Desert Sand",
+    "color_code": "#D2B48C",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 32,
+  "fields": {
+    "product": 40,
+    "name": "Size",
+    "value": "M",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 33,
+  "fields": {
+    "product": 40,
+    "name": "Size",
+    "value": "L",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 34,
+  "fields": {
+    "product": 40,
+    "name": "Size",
+    "value": "XL",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 35,
+  "fields": {
+    "product": 40,
+    "name": "Size",
+    "value": "XXL",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 36,
+  "fields": {
+    "product": 40,
+    "name": "Color",
+    "value": "Camel Tan",
+    "color_code": "#C19A6B",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 37,
+  "fields": {
+    "product": 40,
+    "name": "Color",
+    "value": "Midnight Charcoal",
+    "color_code": "#22252A",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 38,
+  "fields": {
+    "product": 40,
+    "name": "Color",
+    "value": "Deep Navy",
+    "color_code": "#1B263B",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 39,
+  "fields": {
+    "product": 41,
+    "name": "Size",
+    "value": "S",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 40,
+  "fields": {
+    "product": 41,
+    "name": "Size",
+    "value": "M",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 41,
+  "fields": {
+    "product": 41,
+    "name": "Size",
+    "value": "L",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 42,
+  "fields": {
+    "product": 41,
+    "name": "Size",
+    "value": "XL",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 43,
+  "fields": {
+    "product": 41,
+    "name": "Color",
+    "value": "Obsidian Black",
+    "color_code": "#121212",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 44,
+  "fields": {
+    "product": 41,
+    "name": "Color",
+    "value": "Stealth Olive",
+    "color_code": "#4B5320",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 45,
+  "fields": {
+    "product": 41,
+    "name": "Color",
+    "value": "Arctic Ice",
+    "color_code": "#E2E8F0",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 46,
+  "fields": {
+    "product": 42,
+    "name": "Size",
+    "value": "S",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 47,
+  "fields": {
+    "product": 42,
+    "name": "Size",
+    "value": "M",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 48,
+  "fields": {
+    "product": 42,
+    "name": "Size",
+    "value": "L",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 49,
+  "fields": {
+    "product": 42,
+    "name": "Size",
+    "value": "XL",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 50,
+  "fields": {
+    "product": 42,
+    "name": "Size",
+    "value": "XXL",
+    "color_code": "",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 51,
+  "fields": {
+    "product": 42,
+    "name": "Color",
+    "value": "Optical White",
+    "color_code": "#FFFFFF",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 52,
+  "fields": {
+    "product": 42,
+    "name": "Color",
+    "value": "Washed Onyx",
+    "color_code": "#262626",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 53,
+  "fields": {
+    "product": 42,
+    "name": "Color",
+    "value": "Olive Sage",
+    "color_code": "#6B7A6A",
+    "price_modifier": "0.00"
+  }
+},
+{
+  "model": "store.coupon",
+  "pk": 5,
+  "fields": {
+    "code": "SAVE10",
+    "discount_percent": 10,
+    "active": true,
+    "min_purchase": "50.00",
+    "created_at": "2026-09-05T15:19:46.500Z"
+  }
+},
+{
+  "model": "store.coupon",
+  "pk": 6,
+  "fields": {
+    "code": "VIP20",
+    "discount_percent": 20,
+    "active": true,
+    "min_purchase": "200.00",
+    "created_at": "2026-09-05T15:19:46.500Z"
+  }
+},
+{
+  "model": "store.coupon",
+  "pk": 7,
+  "fields": {
+    "code": "NEXUS50",
+    "discount_percent": 50,
+    "active": true,
+    "min_purchase": "500.00",
+    "created_at": "2026-09-05T15:19:46.500Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 142,
+  "fields": {
+    "user": 12,
+    "name": "Ahmed Adel marzouk",
+    "email": "",
+    "phone": "01011079572",
+    "address": "marzouk",
+    "city": "",
+    "notes": "",
+    "total_price": "299750.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "visa",
+    "payment_status": "pending",
+    "is_paid": false,
+    "tracking_number": "TRK-1E90660AD7",
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2025-05-16T12:05:10.254Z",
+    "updated_at": "2026-09-05T13:49:14.616Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 143,
+  "fields": {
+    "user": 12,
+    "name": "Ahmed marzouk",
+    "email": "",
+    "phone": "01011079572",
+    "address": "marzouk",
+    "city": "",
+    "notes": "",
+    "total_price": "119900.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "pending",
+    "is_paid": false,
+    "tracking_number": "TRK-9DB38F6E7D",
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2025-05-16T12:07:38.619Z",
+    "updated_at": "2026-09-05T13:49:14.612Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 144,
+  "fields": {
+    "user": 14,
+    "name": "Ahmed",
+    "email": "",
+    "phone": "01011079572",
+    "address": "adcfapdnfsdpjf",
+    "city": "",
+    "notes": "",
+    "total_price": "345500.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "cancelled",
+    "payment_method": "visa",
+    "payment_status": "pending",
+    "is_paid": false,
+    "tracking_number": null,
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2025-05-16T12:22:06.034Z",
+    "updated_at": "2026-09-05T13:33:06.214Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 145,
+  "fields": {
+    "user": 14,
+    "name": "sdcfscssd",
+    "email": "",
+    "phone": "01011079572",
+    "address": "if9wsdbfsdf",
+    "city": "",
+    "notes": "",
+    "total_price": "59950.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "delivered",
+    "payment_method": "cod",
+    "payment_status": "pending",
+    "is_paid": false,
+    "tracking_number": null,
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2025-05-16T12:26:36.882Z",
+    "updated_at": "2026-09-05T13:33:06.214Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 146,
+  "fields": {
+    "user": 14,
+    "name": "Ahmed",
+    "email": "",
+    "phone": "01011079572",
+    "address": "Baltime",
+    "city": "",
+    "notes": "",
+    "total_price": "1.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "visa",
+    "payment_status": "pending",
+    "is_paid": false,
+    "tracking_number": "TRK-E43C0E6D24",
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2025-05-16T12:37:21.387Z",
+    "updated_at": "2026-09-05T13:49:14.608Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 147,
+  "fields": {
+    "user": 3,
+    "name": "Ahmed",
+    "email": "",
+    "phone": "01011079572",
+    "address": "arthmd0z@gmail.com",
+    "city": "",
+    "notes": "",
+    "total_price": "179999.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "cancelled",
+    "payment_method": "cod",
+    "payment_status": "pending",
+    "is_paid": false,
+    "tracking_number": null,
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2026-09-05T13:10:53.282Z",
+    "updated_at": "2026-09-05T13:33:06.214Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 148,
+  "fields": {
+    "user": null,
+    "name": "Luxury VIP Tester",
+    "email": "vip@example.com",
+    "phone": "+201012345678",
+    "address": "Villa 14, Fifth Settlement",
+    "city": "New Cairo",
+    "notes": "Please call on arrival",
+    "total_price": "179999.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": false,
+    "tracking_number": "TRK-113B02F1BB",
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2026-09-05T13:38:51.124Z",
+    "updated_at": "2026-09-05T13:38:51.124Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 149,
+  "fields": {
+    "user": null,
+    "name": "Ahmed",
+    "email": "arthmd0z@gmail.com",
+    "phone": "01011079572",
+    "address": "sdcsd",
+    "city": "baltime",
+    "notes": "dcscs",
+    "total_price": "79999.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": false,
+    "tracking_number": "TRK-2C30114297",
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2026-09-05T13:45:09.504Z",
+    "updated_at": "2026-09-05T13:45:09.504Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 150,
+  "fields": {
+    "user": null,
+    "name": "sadasd",
+    "email": "",
+    "phone": "01011079572",
+    "address": "323423423erfsmdfml",
+    "city": "ewrwerwerw",
+    "notes": "",
+    "total_price": "59950.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "shipped",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": false,
+    "tracking_number": "TRK-137E393BA3",
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2026-09-05T13:48:11.573Z",
+    "updated_at": "2026-09-05T13:49:14.595Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 151,
+  "fields": {
+    "user": 15,
+    "name": "Alex Vance",
+    "email": "alex.vance@example.com",
+    "phone": "+201099998888",
+    "address": "Beverly Hills Compound, Zayed",
+    "city": "Sheikh Zayed",
+    "notes": "Please call before arrival",
+    "total_price": "323998.20",
+    "discount_amount": "35999.80",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "processing",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-AB34A8D947",
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2026-09-05T14:13:27.089Z",
+    "updated_at": "2026-09-05T14:13:29.469Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 152,
+  "fields": {
+    "user": 16,
+    "name": "Ahmed",
+    "email": "oneg3728@gmail.com",
+    "phone": "01011079572",
+    "address": "1st",
+    "city": "Cairo",
+    "notes": "",
+    "total_price": "294548.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "delivered",
+    "payment_method": "card",
+    "payment_status": "pending",
+    "is_paid": false,
+    "tracking_number": "TRK-B3EFB15123",
+    "latitude": null,
+    "longitude": null,
+    "created_at": "2026-09-05T14:56:19.084Z",
+    "updated_at": "2026-09-05T14:58:46.003Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 153,
+  "fields": {
+    "user": 17,
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "address": "5th Settlement, Street 90, Villa 15",
+    "city": "New Cairo",
+    "notes": "Ring the bell on arrival",
+    "total_price": "2299.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "cancelled",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-DCD61E7300",
+    "latitude": 30.0123,
+    "longitude": 31.4567,
+    "created_at": "2026-09-05T15:38:55.648Z",
+    "updated_at": "2026-09-05T19:00:35.661Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 154,
+  "fields": {
+    "user": 16,
+    "name": "Ahmed",
+    "email": "oneg3728@gmail.com",
+    "phone": "01011079572",
+    "address": "أولاد سلامة, كفر الشيخ, 35731, مصر",
+    "city": "كفر الشيخ",
+    "notes": "",
+    "total_price": "2299.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-E5DDE45E83",
+    "latitude": 31.577701,
+    "longitude": 31.050171,
+    "created_at": "2026-09-05T17:53:32.686Z",
+    "updated_at": "2026-09-05T17:53:32.686Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 155,
+  "fields": {
+    "user": 17,
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "address": "5th Settlement, Street 90, Villa 15",
+    "city": "New Cairo",
+    "notes": "",
+    "total_price": "3899.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-A0088E3784",
+    "latitude": 30.0123,
+    "longitude": 31.4567,
+    "created_at": "2026-09-06T10:54:09.947Z",
+    "updated_at": "2026-09-06T10:54:09.947Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 156,
+  "fields": {
+    "user": 1,
+    "name": "Ahmed Torky",
+    "email": "mohamedyapan81@gmail.com",
+    "phone": "01011079572",
+    "address": "streee",
+    "city": "cairo",
+    "notes": "",
+    "total_price": "1298.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-1876A05C79",
+    "latitude": 30.0444,
+    "longitude": 31.2357,
+    "created_at": "2026-09-06T11:11:45.534Z",
+    "updated_at": "2026-09-06T11:11:45.534Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 157,
+  "fields": {
+    "user": 17,
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "address": "5th Settlement, Street 90, Villa 15",
+    "city": "New Cairo",
+    "notes": "Ring the bell on arrival",
+    "total_price": "2299.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-DB9F606DA0",
+    "latitude": 30.0123,
+    "longitude": 31.4567,
+    "created_at": "2026-09-06T14:41:22.122Z",
+    "updated_at": "2026-09-06T14:41:22.122Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 158,
+  "fields": {
+    "user": 1,
+    "name": "Ahmed Torky",
+    "email": "mohamedyapan81@gmail.com",
+    "phone": "01011079572",
+    "address": "streee",
+    "city": "cairo",
+    "notes": "",
+    "total_price": "3899.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-73A4C36183",
+    "latitude": 30.0444,
+    "longitude": 31.2357,
+    "created_at": "2026-09-06T18:34:37.889Z",
+    "updated_at": "2026-09-06T18:34:37.889Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 159,
+  "fields": {
+    "user": 1,
+    "name": "Ahmed Torky",
+    "email": "mohamedyapan81@gmail.com",
+    "phone": "01011079572",
+    "address": "streee",
+    "city": "cairo",
+    "notes": "",
+    "total_price": "3216.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "placed",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-B5154CB51E",
+    "latitude": 30.0444,
+    "longitude": 31.2357,
+    "created_at": "2026-09-06T18:46:54.579Z",
+    "updated_at": "2026-09-06T19:15:29.794Z"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 160,
+  "fields": {
+    "user": 1,
+    "name": "Ahmed Torky",
+    "email": "mohamedyapan81@gmail.com",
+    "phone": "01011079572",
+    "address": "streee",
+    "city": "cairo",
+    "notes": "",
+    "total_price": "1488.00",
+    "discount_amount": "0.00",
+    "shipping_fee": "0.00",
+    "coupon": null,
+    "status": "delivered",
+    "payment_method": "cod",
+    "payment_status": "paid",
+    "is_paid": true,
+    "tracking_number": "TRK-039A0A8FAD",
+    "latitude": 30.0444,
+    "longitude": 31.2357,
+    "created_at": "2026-09-06T19:27:19.641Z",
+    "updated_at": "2026-09-06T19:46:11.025Z"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 117,
+  "fields": {
+    "order": 142,
+    "product": null,
+    "product_name": "Nexus Tech Item",
+    "variant_details": "",
+    "quantity": 5,
+    "price": "59950.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 118,
+  "fields": {
+    "order": 143,
+    "product": null,
+    "product_name": "Nexus Tech Item",
+    "variant_details": "",
+    "quantity": 2,
+    "price": "59950.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 119,
+  "fields": {
+    "order": 144,
+    "product": null,
+    "product_name": "Nexus Tech Item",
+    "variant_details": "",
+    "quantity": 10,
+    "price": "34550.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 120,
+  "fields": {
+    "order": 145,
+    "product": null,
+    "product_name": "Nexus Tech Item",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "59950.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 121,
+  "fields": {
+    "order": 146,
+    "product": null,
+    "product_name": "Nexus Tech Item",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "1.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 122,
+  "fields": {
+    "order": 147,
+    "product": null,
+    "product_name": "Nexus Tech Item",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "179999.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 123,
+  "fields": {
+    "order": 148,
+    "product": null,
+    "product_name": "Samsung Galaxy M55 5G",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "179999.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 124,
+  "fields": {
+    "order": 149,
+    "product": null,
+    "product_name": "Xiaomi Redmi Note 14",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "79999.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 125,
+  "fields": {
+    "order": 150,
+    "product": null,
+    "product_name": "Google Pixel 9 Pro",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "59950.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 126,
+  "fields": {
+    "order": 151,
+    "product": null,
+    "product_name": "Samsung Galaxy M55 5G",
+    "variant_details": "",
+    "quantity": 2,
+    "price": "179999.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 127,
+  "fields": {
+    "order": 152,
+    "product": null,
+    "product_name": "Samsung Galaxy M55 5G",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "179999.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 128,
+  "fields": {
+    "order": 152,
+    "product": null,
+    "product_name": "Xiaomi Redmi Note 14",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "79999.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 129,
+  "fields": {
+    "order": 152,
+    "product": null,
+    "product_name": "Apple iPhone 13 (128 GB)",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "34550.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 130,
+  "fields": {
+    "order": 153,
+    "product": 38,
+    "product_name": "Canon RF 50mm f/1.2L USM Prime Lens",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "2299.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 131,
+  "fields": {
+    "order": 154,
+    "product": 38,
+    "product_name": "Canon RF 50mm f/1.2L USM Prime Lens",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "2299.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 132,
+  "fields": {
+    "order": 155,
+    "product": 37,
+    "product_name": "Sony Alpha A7R V Mirrorless Camera Body",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "3899.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 133,
+  "fields": {
+    "order": 156,
+    "product": 35,
+    "product_name": "Dyson Solarcycle Morph Desk Light - Matte Black",
+    "variant_details": "",
+    "quantity": 2,
+    "price": "649.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 134,
+  "fields": {
+    "order": 157,
+    "product": 38,
+    "product_name": "Canon RF 50mm f/1.2L USM Prime Lens",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "2299.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 135,
+  "fields": {
+    "order": 158,
+    "product": 37,
+    "product_name": "Sony Alpha A7R V Mirrorless Camera Body",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "3899.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 136,
+  "fields": {
+    "order": 159,
+    "product": 35,
+    "product_name": "Dyson Solarcycle Morph Desk Light - Matte Black",
+    "variant_details": "Color: Matte Black",
+    "quantity": 1,
+    "price": "649.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 137,
+  "fields": {
+    "order": 159,
+    "product": 24,
+    "product_name": "Samsung Galaxy S25 Ultra 5G - Titanium Obsidian",
+    "variant_details": "Storage: 512GB | Color: Titanium Obsidian",
+    "quantity": 1,
+    "price": "1199.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 138,
+  "fields": {
+    "order": 159,
+    "product": 23,
+    "product_name": "Apple iPhone 16 Pro Max - 256GB Natural Titanium",
+    "variant_details": "Storage: 256GB | Color: Natural Titanium",
+    "quantity": 1,
+    "price": "1299.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 139,
+  "fields": {
+    "order": 159,
+    "product": 42,
+    "product_name": "Luxury Pima Cotton Minimalist Crewneck T-Shirt",
+    "variant_details": "Size: XL | Color: Midnight Black",
+    "quantity": 1,
+    "price": "69.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 140,
+  "fields": {
+    "order": 160,
+    "product": 41,
+    "product_name": "Techwear Waterproof Modular Windbreaker Jacket",
+    "variant_details": "Size: L | Color: Stealth Olive",
+    "quantity": 1,
+    "price": "189.00"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 141,
+  "fields": {
+    "order": 160,
+    "product": 23,
+    "product_name": "Apple iPhone 16 Pro Max - 256GB Natural Titanium",
+    "variant_details": "",
+    "quantity": 1,
+    "price": "1299.00"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 16,
+  "fields": {
+    "product": 38,
+    "user": 16,
+    "title": "rating",
+    "rating": 5,
+    "comment": "Goood",
+    "created_at": "2026-09-06T12:00:56.112Z"
+  }
+},
+{
+  "model": "store.wishlistitem",
+  "pk": 16,
+  "fields": {
+    "user": 16,
+    "product": 38,
+    "created_at": "2026-09-05T17:50:48.616Z"
+  }
+},
+{
+  "model": "store.wishlistitem",
+  "pk": 17,
+  "fields": {
+    "user": 16,
+    "product": 23,
+    "created_at": "2026-09-05T17:50:49.672Z"
+  }
+},
+{
+  "model": "store.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": 15,
+    "phone": "+201099998888",
+    "city": "Sheikh Zayed",
+    "address": "Beverly Hills Compound, Zayed",
+    "latitude": null,
+    "longitude": null,
+    "avatar": ""
+  }
+},
+{
+  "model": "store.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "phone": "01034966831",
+    "city": "cairo",
+    "address": "torky street",
+    "latitude": null,
+    "longitude": null,
+    "avatar": ""
+  }
+},
+{
+  "model": "store.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": 16,
+    "phone": "01011079572",
+    "city": "Cairo",
+    "address": "1st",
+    "latitude": 31.577701,
+    "longitude": 31.050171,
+    "avatar": ""
+  }
+},
+{
+  "model": "store.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": 17,
+    "phone": "+201011223344",
+    "city": "New Cairo",
+    "address": "5th Settlement, Street 90, Villa 15",
+    "latitude": 30.0123,
+    "longitude": 31.4567,
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&q=80"
+  }
+},
+{
+  "model": "store.userprofile",
+  "pk": 5,
+  "fields": {
+    "user": 1,
+    "phone": "01011079572",
+    "city": "cairo",
+    "address": "streee",
+    "latitude": 30.0444,
+    "longitude": 31.2357,
+    "avatar": ""
+  }
+},
+{
+  "model": "store.userprofile",
+  "pk": 6,
+  "fields": {
+    "user": 14,
+    "phone": "",
+    "city": "",
+    "address": "",
+    "latitude": null,
+    "longitude": null,
+    "avatar": ""
+  }
+},
+{
+  "model": "store.userprofile",
+  "pk": 7,
+  "fields": {
+    "user": 12,
+    "phone": "",
+    "city": "",
+    "address": "",
+    "latitude": null,
+    "longitude": null,
+    "avatar": ""
+  }
+},
+{
+  "model": "store.userprofile",
+  "pk": 8,
+  "fields": {
+    "user": 18,
+    "phone": "",
+    "city": "",
+    "address": "",
+    "latitude": null,
+    "longitude": null,
+    "avatar": ""
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 1,
+  "fields": {
+    "name": "Sophia Loren",
+    "email": "sophia@example.com",
+    "phone": "+201011223344",
+    "subject": "Bespoke Order Request",
+    "message": "Inquiring regarding custom watch engraving and expedited courier delivery.",
+    "is_read": false,
+    "created_at": "2026-09-05T14:13:30.518Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 2,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "Hello, can you help me track my order?",
+    "is_read": false,
+    "created_at": "2026-09-05T15:38:57.961Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 3,
+  "fields": {
+    "name": "Live Chat Visitor",
+    "email": "chat@nexus.store",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "What is your warranty and return policy?",
+    "is_read": false,
+    "created_at": "2026-09-05T15:41:12.309Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 4,
+  "fields": {
+    "name": "Ahmed",
+    "email": "oneg3728@gmail.com",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "I want to speak with a concierge specialist on WhatsApp",
+    "is_read": false,
+    "created_at": "2026-09-05T17:51:31.618Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 5,
+  "fields": {
+    "name": "ahmed",
+    "email": "ahmedsand244@gmail.com",
+    "phone": "01034966831",
+    "subject": "Live Chat Inquiry",
+    "message": "hi",
+    "is_read": false,
+    "created_at": "2026-09-05T18:52:11.172Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 6,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "hello",
+    "is_read": false,
+    "created_at": "2026-09-05T18:53:22.979Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 7,
+  "fields": {
+    "name": "Live Chat Visitor",
+    "email": "chat@nexus.store",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "Hello, I have an inquiry regarding product warranty.",
+    "is_read": false,
+    "created_at": "2026-09-05T19:31:41.948Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 8,
+  "fields": {
+    "name": "Live Chat Visitor",
+    "email": "chat@nexus.store",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "Hello, I have an inquiry regarding product warranty.",
+    "is_read": false,
+    "created_at": "2026-09-05T19:32:44.764Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 9,
+  "fields": {
+    "name": "Ahmed",
+    "email": "oneg3728@gmail.com",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "hi",
+    "is_read": false,
+    "created_at": "2026-09-05T19:58:00.887Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 10,
+  "fields": {
+    "name": "Ahmed",
+    "email": "oneg3728@gmail.com",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "ahmed",
+    "is_read": false,
+    "created_at": "2026-09-05T19:58:29.508Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 11,
+  "fields": {
+    "name": "Ahmed",
+    "email": "oneg3728@gmail.com",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "fvdvdf",
+    "is_read": false,
+    "created_at": "2026-09-05T20:00:37.801Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 12,
+  "fields": {
+    "name": "ahmed",
+    "email": "ahmedsand244@gmail.com",
+    "phone": "01034966831",
+    "subject": "Live Chat Inquiry",
+    "message": "What is your warranty and return policy?",
+    "is_read": false,
+    "created_at": "2026-09-05T20:25:52.911Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 13,
+  "fields": {
+    "name": "Live Chat Visitor",
+    "email": "chat@nexus.store",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "اه",
+    "is_read": false,
+    "created_at": "2026-09-05T20:26:16.006Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 14,
+  "fields": {
+    "name": "Live Chat Visitor",
+    "email": "chat@nexus.store",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "ان",
+    "is_read": false,
+    "created_at": "2026-09-05T20:26:19.389Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 15,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "What is your warranty and return policy?",
+    "is_read": false,
+    "created_at": "2026-09-06T08:46:25.672Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 16,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "can",
+    "is_read": false,
+    "created_at": "2026-09-06T08:46:35.009Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 17,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "csdc",
+    "is_read": false,
+    "created_at": "2026-09-06T08:46:38.287Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 18,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "cds",
+    "is_read": false,
+    "created_at": "2026-09-06T08:46:39.279Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 19,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "ds",
+    "is_read": false,
+    "created_at": "2026-09-06T08:46:39.895Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 20,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "n",
+    "is_read": false,
+    "created_at": "2026-09-06T08:48:02.146Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 21,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "bn]",
+    "is_read": false,
+    "created_at": "2026-09-06T08:48:04.589Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 22,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "m",
+    "is_read": false,
+    "created_at": "2026-09-06T08:48:05.377Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 23,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": ",",
+    "is_read": false,
+    "created_at": "2026-09-06T08:48:05.995Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 24,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "test message",
+    "is_read": false,
+    "created_at": "2026-09-06T09:21:37.983Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 25,
+  "fields": {
+    "name": "ahmed",
+    "email": "ahmedsand244@gmail.com",
+    "phone": "01034966831",
+    "subject": "Live Chat Inquiry",
+    "message": "g",
+    "is_read": false,
+    "created_at": "2026-09-06T09:29:26.533Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 26,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "Can you check order #1234?",
+    "is_read": false,
+    "created_at": "2026-09-06T09:43:49.509Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 27,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "ت",
+    "is_read": false,
+    "created_at": "2026-09-06T09:49:58.234Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 28,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "ن",
+    "is_read": false,
+    "created_at": "2026-09-06T09:49:59.230Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 29,
+  "fields": {
+    "name": "Live Chat Visitor",
+    "email": "chat@nexus.store",
+    "phone": "01011079572",
+    "subject": "Live Chat Inquiry",
+    "message": "Hello, I have an inquiry regarding product warranty.",
+    "is_read": false,
+    "created_at": "2026-09-06T14:41:08.736Z"
+  }
+},
+{
+  "model": "store.contactmessage",
+  "pk": 30,
+  "fields": {
+    "name": "Arthur Vance",
+    "email": "arthur.nexus@gmail.com",
+    "phone": "+201011223344",
+    "subject": "Live Chat Inquiry",
+    "message": "Hello, can you help me track my order?",
+    "is_read": false,
+    "created_at": "2026-09-06T14:41:22.399Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 1,
+  "fields": {
+    "user": 17,
+    "session_key": "6bblihwujqwg202jou75i70i5kq0aj9y",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-05T15:38:57.873Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 2,
+  "fields": {
+    "user": 17,
+    "session_key": "6bblihwujqwg202jou75i70i5kq0aj9y",
+    "sender": "user",
+    "message": "Hello, can you help me track my order?",
+    "is_read": true,
+    "created_at": "2026-09-05T15:38:57.945Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 3,
+  "fields": {
+    "user": 17,
+    "session_key": "6bblihwujqwg202jou75i70i5kq0aj9y",
+    "sender": "agent",
+    "message": "You can track your order in real-time under 'My Orders' with your TRK tracking number. Or reach our WhatsApp team directly at 01011079572 for immediate order coordination.",
+    "is_read": true,
+    "created_at": "2026-09-05T15:38:57.951Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 4,
+  "fields": {
+    "user": null,
+    "session_key": "kalrpr558pwoezd7q8hzmfas0e7tlf2y",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-05T15:40:48.172Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 5,
+  "fields": {
+    "user": null,
+    "session_key": "kalrpr558pwoezd7q8hzmfas0e7tlf2y",
+    "sender": "user",
+    "message": "What is your warranty and return policy?",
+    "is_read": true,
+    "created_at": "2026-09-05T15:41:12.283Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 6,
+  "fields": {
+    "user": null,
+    "session_key": "kalrpr558pwoezd7q8hzmfas0e7tlf2y",
+    "sender": "agent",
+    "message": "All NEXUS STORE products include an official 2-year manufacturer warranty and a 14-day hassle-free return guarantee.",
+    "is_read": true,
+    "created_at": "2026-09-05T15:41:12.298Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 7,
+  "fields": {
+    "user": 16,
+    "session_key": "ns6y24ept64fkg47661xv4oo8g588g91",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-05T17:51:09.444Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 8,
+  "fields": {
+    "user": 16,
+    "session_key": "ns6y24ept64fkg47661xv4oo8g588g91",
+    "sender": "user",
+    "message": "I want to speak with a concierge specialist on WhatsApp",
+    "is_read": true,
+    "created_at": "2026-09-05T17:51:31.583Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 9,
+  "fields": {
+    "user": 16,
+    "session_key": "ns6y24ept64fkg47661xv4oo8g588g91",
+    "sender": "agent",
+    "message": "Our executive concierge is available on WhatsApp directly at +201011079572. Click the WhatsApp button to chat immediately.",
+    "is_read": true,
+    "created_at": "2026-09-05T17:51:31.602Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 10,
+  "fields": {
+    "user": 3,
+    "session_key": "y3653w7p99q6jz2k0aqbdizfta91jogw",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-05T18:02:53.191Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 11,
+  "fields": {
+    "user": 3,
+    "session_key": "y3653w7p99q6jz2k0aqbdizfta91jogw",
+    "sender": "user",
+    "message": "hi",
+    "is_read": true,
+    "created_at": "2026-09-05T18:52:11.147Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 12,
+  "fields": {
+    "user": 3,
+    "session_key": "y3653w7p99q6jz2k0aqbdizfta91jogw",
+    "sender": "agent",
+    "message": "Thank you for reaching out to NEXUS Concierge! Our team has received your message. An executive specialist will assist you promptly, or you may reach us directly on WhatsApp at 01011079572.",
+    "is_read": true,
+    "created_at": "2026-09-05T18:52:11.160Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 13,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "hello",
+    "is_read": true,
+    "created_at": "2026-09-05T18:53:22.947Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 14,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "agent",
+    "message": "Thank you for reaching out to NEXUS Concierge! Our team has received your message. An executive specialist will assist you promptly, or you may reach us directly on WhatsApp at 01011079572.",
+    "is_read": true,
+    "created_at": "2026-09-05T18:53:22.963Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 15,
+  "fields": {
+    "user": null,
+    "session_key": "8z8wb8mvhsjtchbvkpjr4bgep6en8bv4",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-05T19:31:41.846Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 16,
+  "fields": {
+    "user": null,
+    "session_key": "8z8wb8mvhsjtchbvkpjr4bgep6en8bv4",
+    "sender": "user",
+    "message": "Hello, I have an inquiry regarding product warranty.",
+    "is_read": true,
+    "created_at": "2026-09-05T19:31:41.929Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 17,
+  "fields": {
+    "user": null,
+    "session_key": "8z8wb8mvhsjtchbvkpjr4bgep6en8bv4",
+    "sender": "agent",
+    "message": "All NEXUS STORE products include an official 2-year manufacturer warranty and a 14-day hassle-free return guarantee.",
+    "is_read": true,
+    "created_at": "2026-09-05T19:31:41.939Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 18,
+  "fields": {
+    "user": 17,
+    "session_key": "",
+    "sender": "agent",
+    "message": "Hello from Supervisor! How can we assist your order?",
+    "is_read": true,
+    "created_at": "2026-09-05T19:31:43.183Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 19,
+  "fields": {
+    "user": null,
+    "session_key": "andwhne5aftphhywofzuj4c36fhek482",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-05T19:32:44.686Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 20,
+  "fields": {
+    "user": null,
+    "session_key": "andwhne5aftphhywofzuj4c36fhek482",
+    "sender": "user",
+    "message": "Hello, I have an inquiry regarding product warranty.",
+    "is_read": true,
+    "created_at": "2026-09-05T19:32:44.745Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 21,
+  "fields": {
+    "user": null,
+    "session_key": "andwhne5aftphhywofzuj4c36fhek482",
+    "sender": "agent",
+    "message": "All NEXUS STORE products include an official 2-year manufacturer warranty and a 14-day hassle-free return guarantee.",
+    "is_read": true,
+    "created_at": "2026-09-05T19:32:44.754Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 22,
+  "fields": {
+    "user": 17,
+    "session_key": "",
+    "sender": "agent",
+    "message": "Hello from Supervisor! How can we assist your order?",
+    "is_read": true,
+    "created_at": "2026-09-05T19:32:45.779Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 23,
+  "fields": {
+    "user": 17,
+    "session_key": "",
+    "sender": "agent",
+    "message": "hi",
+    "is_read": true,
+    "created_at": "2026-09-05T19:57:46.206Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 24,
+  "fields": {
+    "user": 16,
+    "session_key": "ns6y24ept64fkg47661xv4oo8g588g91",
+    "sender": "user",
+    "message": "hi",
+    "is_read": true,
+    "created_at": "2026-09-05T19:58:00.865Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 25,
+  "fields": {
+    "user": 16,
+    "session_key": "ns6y24ept64fkg47661xv4oo8g588g91",
+    "sender": "agent",
+    "message": "Thank you for reaching out to NEXUS Concierge! Our team has received your message. An executive specialist or supervisor will assist you shortly here, or on WhatsApp at 01011079572.",
+    "is_read": true,
+    "created_at": "2026-09-05T19:58:00.876Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 26,
+  "fields": {
+    "user": 16,
+    "session_key": "ns6y24ept64fkg47661xv4oo8g588g91",
+    "sender": "user",
+    "message": "ahmed",
+    "is_read": true,
+    "created_at": "2026-09-05T19:58:29.483Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 28,
+  "fields": {
+    "user": 16,
+    "session_key": "",
+    "sender": "agent",
+    "message": "hi",
+    "is_read": true,
+    "created_at": "2026-09-05T19:58:46.648Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 29,
+  "fields": {
+    "user": 16,
+    "session_key": "ns6y24ept64fkg47661xv4oo8g588g91",
+    "sender": "user",
+    "message": "fvdvdf",
+    "is_read": true,
+    "created_at": "2026-09-05T20:00:37.779Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 31,
+  "fields": {
+    "user": null,
+    "session_key": "1vf0ogqeeur399mbf2xznerqtdehur9b",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-05T20:12:46.487Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 32,
+  "fields": {
+    "user": 3,
+    "session_key": "y3653w7p99q6jz2k0aqbdizfta91jogw",
+    "sender": "user",
+    "message": "What is your warranty and return policy?",
+    "is_read": true,
+    "created_at": "2026-09-05T20:25:52.851Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 33,
+  "fields": {
+    "user": 3,
+    "session_key": "y3653w7p99q6jz2k0aqbdizfta91jogw",
+    "sender": "agent",
+    "message": "All NEXUS STORE products include an official 2-year manufacturer warranty and a 14-day hassle-free return guarantee.",
+    "is_read": true,
+    "created_at": "2026-09-05T20:25:52.874Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 34,
+  "fields": {
+    "user": null,
+    "session_key": "1vf0ogqeeur399mbf2xznerqtdehur9b",
+    "sender": "user",
+    "message": "اه",
+    "is_read": true,
+    "created_at": "2026-09-05T20:26:15.974Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 35,
+  "fields": {
+    "user": null,
+    "session_key": "1vf0ogqeeur399mbf2xznerqtdehur9b",
+    "sender": "agent",
+    "message": "Thank you for reaching out to NEXUS Concierge! Our team has received your message. An executive specialist or supervisor will assist you shortly here, or on WhatsApp at 01011079572.",
+    "is_read": false,
+    "created_at": "2026-09-05T20:26:15.992Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 36,
+  "fields": {
+    "user": null,
+    "session_key": "1vf0ogqeeur399mbf2xznerqtdehur9b",
+    "sender": "user",
+    "message": "ان",
+    "is_read": true,
+    "created_at": "2026-09-05T20:26:19.357Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 38,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "What is your warranty and return policy?",
+    "is_read": true,
+    "created_at": "2026-09-06T08:46:25.638Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 39,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "agent",
+    "message": "All NEXUS STORE products include an official 2-year manufacturer warranty and a 14-day hassle-free return guarantee.",
+    "is_read": true,
+    "created_at": "2026-09-06T08:46:25.653Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 40,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "can",
+    "is_read": true,
+    "created_at": "2026-09-06T08:46:34.962Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 42,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "csdc",
+    "is_read": true,
+    "created_at": "2026-09-06T08:46:38.241Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 44,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "cds",
+    "is_read": true,
+    "created_at": "2026-09-06T08:46:39.248Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 46,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "ds",
+    "is_read": true,
+    "created_at": "2026-09-06T08:46:39.868Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 48,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "n",
+    "is_read": true,
+    "created_at": "2026-09-06T08:48:02.108Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 50,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "bn]",
+    "is_read": true,
+    "created_at": "2026-09-06T08:48:04.562Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 52,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "m",
+    "is_read": true,
+    "created_at": "2026-09-06T08:48:05.345Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 54,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": ",",
+    "is_read": true,
+    "created_at": "2026-09-06T08:48:05.961Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 56,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "test message",
+    "is_read": true,
+    "created_at": "2026-09-06T09:21:37.955Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 57,
+  "fields": {
+    "user": 3,
+    "session_key": "y3653w7p99q6jz2k0aqbdizfta91jogw",
+    "sender": "user",
+    "message": "g",
+    "is_read": true,
+    "created_at": "2026-09-06T09:29:26.514Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 58,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "Can you check order #1234?",
+    "is_read": true,
+    "created_at": "2026-09-06T09:43:49.438Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 59,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "agent",
+    "message": "You can track your order in real-time under 'My Orders' with your TRK tracking number. Or reach our WhatsApp team directly at 01011079572 for immediate order coordination.",
+    "is_read": true,
+    "created_at": "2026-09-06T09:43:49.479Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 60,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "ت",
+    "is_read": true,
+    "created_at": "2026-09-06T09:49:58.213Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 61,
+  "fields": {
+    "user": 17,
+    "session_key": "f1790027bqf18mtb56yrqq20pya1gj86",
+    "sender": "user",
+    "message": "ن",
+    "is_read": true,
+    "created_at": "2026-09-06T09:49:59.214Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 62,
+  "fields": {
+    "user": 1,
+    "session_key": "hj9vf7a1q52q3q2z3tgwlcaqb3zoyf4v",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-06T11:50:38.000Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 63,
+  "fields": {
+    "user": null,
+    "session_key": "zepr6b66jiisxlfx2z1tetsmvesie6p2",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-06T14:36:26.484Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 64,
+  "fields": {
+    "user": null,
+    "session_key": "4fo19iwx8qb1p4iolg3jjeulzwlygehz",
+    "sender": "agent",
+    "message": "Welcome to NEXUS Concierge Live Support. How may we assist you today? You can ask about product availability, order tracking, or warranty policies.",
+    "is_read": true,
+    "created_at": "2026-09-06T14:41:08.688Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 65,
+  "fields": {
+    "user": null,
+    "session_key": "4fo19iwx8qb1p4iolg3jjeulzwlygehz",
+    "sender": "user",
+    "message": "Hello, I have an inquiry regarding product warranty.",
+    "is_read": true,
+    "created_at": "2026-09-06T14:41:08.733Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 66,
+  "fields": {
+    "user": null,
+    "session_key": "4fo19iwx8qb1p4iolg3jjeulzwlygehz",
+    "sender": "agent",
+    "message": "All NEXUS STORE products include an official 2-year manufacturer warranty and a 14-day hassle-free return guarantee.",
+    "is_read": true,
+    "created_at": "2026-09-06T14:41:08.734Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 67,
+  "fields": {
+    "user": 17,
+    "session_key": "",
+    "sender": "agent",
+    "message": "Hello from Supervisor! How can we assist your order?",
+    "is_read": true,
+    "created_at": "2026-09-06T14:41:09.914Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 68,
+  "fields": {
+    "user": 17,
+    "session_key": "o73r01wm0n8zzrw2aunf5i09rjtni91l",
+    "sender": "user",
+    "message": "Hello, can you help me track my order?",
+    "is_read": true,
+    "created_at": "2026-09-06T14:41:22.394Z"
+  }
+},
+{
+  "model": "store.chatmessage",
+  "pk": 69,
+  "fields": {
+    "user": 17,
+    "session_key": "o73r01wm0n8zzrw2aunf5i09rjtni91l",
+    "sender": "agent",
+    "message": "You can track your order in real-time under 'My Orders' with your TRK tracking number. Or reach our WhatsApp team directly at 01011079572 for immediate order coordination.",
+    "is_read": true,
+    "created_at": "2026-09-06T14:41:22.396Z"
+  }
+},
+{
+  "model": "store.siteannouncement",
+  "pk": 1,
+  "fields": {
+    "badge_text": "LIMITED OFFER",
+    "text": "Use code <strong>SAVE10</strong> for 10% off • Complimentary express shipping on orders over $100 Good Luck",
+    "is_active": true,
+    "background_gradient": "linear-gradient(90deg, #3730a3 0%, #4f46e5 50%, #7c3aed 100%)",
+    "created_at": "2026-09-06T12:24:09.952Z",
+    "updated_at": "2026-09-06T12:42:55.287Z"
+  }
+},
+{
+  "model": "store.trustbadge",
+  "pk": 1,
+  "fields": {
+    "title": "Express Courier Delivery",
+    "subtitle": "Complimentary on orders exceeding $100",
+    "icon": "truck",
+    "order": 1,
+    "is_active": true
+  }
+},
+{
+  "model": "store.trustbadge",
+  "pk": 2,
+  "fields": {
+    "title": "2-Year Official Warranty",
+    "subtitle": "Comprehensive manufacturer guarantee",
+    "icon": "shield",
+    "order": 2,
+    "is_active": true
+  }
+},
+{
+  "model": "store.trustbadge",
+  "pk": 3,
+  "fields": {
+    "title": "Encrypted Checkout",
+    "subtitle": "Bank-grade SSL encryption for all payments",
+    "icon": "lock",
+    "order": 3,
+    "is_active": true
+  }
+},
+{
+  "model": "store.trustbadge",
+  "pk": 4,
+  "fields": {
+    "title": "Concierge Support",
+    "subtitle": "Dedicated customer service 24 hours a day",
+    "icon": "support",
+    "order": 4,
+    "is_active": true
+  }
+},
+{
+  "model": "store.herobanner",
+  "pk": 1,
+  "fields": {
+    "tag": "FLAGSHIP COLLECTION 2026",
+    "title": "Unrivaled Precision. <br><span class=\"logo-text-gradient\">Pure Innovation.</span>",
+    "description": "Engineered for excellence. Explore our hand-curated catalog of advanced hardware, high-fidelity audio, and luxury lifestyle pieces.",
+    "product": null,
+    "product_badge_text": "Verified 4.9 Rating • In Stock",
+    "is_active": true,
+    "updated_at": "2026-09-06T12:24:09.988Z"
+  }
+}
+]

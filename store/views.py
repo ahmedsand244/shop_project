@@ -204,6 +204,15 @@ def product_detail(request, product_id):
         )[:4]
     )
 
+    # Group variants by type for intuitive frontend selection
+    variants = product.variants.all().order_by('id')
+    variants_by_type = {}
+    for v in variants:
+        v_type = v.name.strip()
+        if v_type not in variants_by_type:
+            variants_by_type[v_type] = []
+        variants_by_type[v_type].append(v)
+
     return render(request, 'product_detail.html', {
         'product': product,
         'reviews': reviews,
@@ -212,6 +221,7 @@ def product_detail(request, product_id):
         'related_products': related_products,
         'questions': questions,
         'gallery_images': gallery_images,
+        'variants_by_type': variants_by_type,
     })
 
 
@@ -222,10 +232,25 @@ def product_detail(request, product_id):
 def add_to_cart(request, product_id):
     """Traditional POST add to cart fallback with redirect."""
     cart = request.session.get('cart', {})
+    cart_variants = request.session.get('cart_variants', {})
     product_id_str = str(product_id)
     qty = int(request.POST.get('quantity', 1))
+    variant_details = request.POST.get('variant_details', '').strip()
+    try:
+        price_extra = float(request.POST.get('price_extra', 0))
+    except (ValueError, TypeError):
+        price_extra = 0.0
+
     cart[product_id_str] = cart.get(product_id_str, 0) + max(1, qty)
+    if variant_details or price_extra > 0:
+        cart_variants[product_id_str] = {
+            'details': variant_details,
+            'extra': price_extra
+        }
     request.session['cart'] = cart
+    request.session['cart_variants'] = cart_variants
+    request.session.modified = True
+
     messages.success(request, "Product added to your shopping bag.")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('cart')))
 
@@ -267,6 +292,7 @@ def cart_view(request):
     Dedicated shopping cart page with calculations, coupon, and free shipping meter.
     """
     cart = request.session.get('cart', {})
+    cart_variants = request.session.get('cart_variants', {})
     product_ids = [int(k) for k in cart.keys() if k.isdigit()]
     products = Product.objects.filter(id__in=product_ids)
 
@@ -275,11 +301,17 @@ def cart_view(request):
 
     for p in products:
         qty = cart.get(str(p.id), 0)
-        item_subtotal = p.price * qty
+        v_info = cart_variants.get(str(p.id), {})
+        v_details = v_info.get('details', '')
+        v_extra = Decimal(str(v_info.get('extra', 0.00)))
+        unit_price = p.price + v_extra
+        item_subtotal = unit_price * qty
         subtotal += item_subtotal
         cart_items.append({
             'product': p,
             'quantity': qty,
+            'unit_price': unit_price,
+            'variant_details': v_details,
             'subtotal': item_subtotal
         })
 
@@ -313,6 +345,7 @@ def checkout(request):
     Pre-populates with user's saved profile if available.
     """
     cart = request.session.get('cart', {})
+    cart_variants = request.session.get('cart_variants', {})
     product_ids = [int(k) for k in cart.keys() if k.isdigit()]
     products = Product.objects.filter(id__in=product_ids)
 
@@ -324,11 +357,17 @@ def checkout(request):
     subtotal = Decimal('0.00')
     for p in products:
         qty = cart.get(str(p.id), 0)
-        item_subtotal = p.price * qty
+        v_info = cart_variants.get(str(p.id), {})
+        v_details = v_info.get('details', '')
+        v_extra = Decimal(str(v_info.get('extra', 0.00)))
+        unit_price = p.price + v_extra
+        item_subtotal = unit_price * qty
         subtotal += item_subtotal
         cart_items.append({
             'product': p,
             'quantity': qty,
+            'unit_price': unit_price,
+            'variant_details': v_details,
             'subtotal': item_subtotal
         })
 
@@ -370,14 +409,15 @@ def checkout(request):
                 is_paid=(form.cleaned_data['payment_method'] == 'cod')
             )
 
-            # Create Order Items
+            # Create Order Items with selected variant options
             for item in cart_items:
                 OrderItem.objects.create(
                     order=order,
                     product=item['product'],
                     product_name=item['product'].name,
+                    variant_details=item.get('variant_details', ''),
                     quantity=item['quantity'],
-                    price=item['product'].price
+                    price=item['unit_price']
                 )
 
             # Update UserProfile if address or phone changed
@@ -393,8 +433,9 @@ def checkout(request):
                     user_profile.longitude = form.cleaned_data['longitude']
                 user_profile.save()
 
-            # Clear cart & coupon
+            # Clear cart, variants, & coupon
             request.session['cart'] = {}
+            request.session['cart_variants'] = {}
             if 'applied_coupon' in request.session:
                 del request.session['applied_coupon']
             request.session.modified = True
@@ -1169,17 +1210,32 @@ def admin_update_order_status(request, order_id):
 def api_cart_add(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     qty = int(request.POST.get('quantity', 1))
+    variant_details = request.POST.get('variant_details', '').strip()
+    try:
+        price_extra = float(request.POST.get('price_extra', 0))
+    except (ValueError, TypeError):
+        price_extra = 0.0
 
     cart = request.session.get('cart', {})
+    cart_variants = request.session.get('cart_variants', {})
     pid_str = str(product.id)
     cart[pid_str] = cart.get(pid_str, 0) + max(1, qty)
+    if variant_details or price_extra > 0:
+        cart_variants[pid_str] = {
+            'details': variant_details,
+            'extra': price_extra
+        }
     request.session['cart'] = cart
+    request.session['cart_variants'] = cart_variants
     request.session.modified = True
 
     total_items = sum(cart.values())
     product_ids = [int(k) for k in cart.keys() if k.isdigit()]
     prods = Product.objects.filter(id__in=product_ids)
-    total_price = sum(p.price * cart[str(p.id)] for p in prods)
+    total_price = sum(
+        (p.price + Decimal(str(cart_variants.get(str(p.id), {}).get('extra', 0.00)))) * cart[str(p.id)]
+        for p in prods
+    )
 
     return JsonResponse({
         'status': 'success',
@@ -1192,6 +1248,7 @@ def api_cart_add(request, product_id):
 @require_POST
 def api_cart_update(request, product_id):
     cart = request.session.get('cart', {})
+    cart_variants = request.session.get('cart_variants', {})
     pid_str = str(product_id)
     delta = int(request.POST.get('delta', 0))
 
@@ -1201,13 +1258,19 @@ def api_cart_update(request, product_id):
             cart[pid_str] = new_qty
         else:
             del cart[pid_str]
+            if pid_str in cart_variants:
+                del cart_variants[pid_str]
         request.session['cart'] = cart
+        request.session['cart_variants'] = cart_variants
         request.session.modified = True
 
     total_items = sum(cart.values())
     product_ids = [int(k) for k in cart.keys() if k.isdigit()]
     prods = Product.objects.filter(id__in=product_ids)
-    total_price = sum(p.price * cart[str(p.id)] for p in prods)
+    total_price = sum(
+        (p.price + Decimal(str(cart_variants.get(str(p.id), {}).get('extra', 0.00)))) * cart[str(p.id)]
+        for p in prods
+    )
 
     return JsonResponse({
         'status': 'success',
@@ -1219,16 +1282,23 @@ def api_cart_update(request, product_id):
 @require_POST
 def api_cart_remove(request, product_id):
     cart = request.session.get('cart', {})
+    cart_variants = request.session.get('cart_variants', {})
     pid_str = str(product_id)
     if pid_str in cart:
         del cart[pid_str]
+        if pid_str in cart_variants:
+            del cart_variants[pid_str]
         request.session['cart'] = cart
+        request.session['cart_variants'] = cart_variants
         request.session.modified = True
 
     total_items = sum(cart.values())
     product_ids = [int(k) for k in cart.keys() if k.isdigit()]
     prods = Product.objects.filter(id__in=product_ids)
-    total_price = sum(p.price * cart[str(p.id)] for p in prods)
+    total_price = sum(
+        (p.price + Decimal(str(cart_variants.get(str(p.id), {}).get('extra', 0.00)))) * cart[str(p.id)]
+        for p in prods
+    )
 
     return JsonResponse({
         'status': 'success',
@@ -1239,6 +1309,7 @@ def api_cart_remove(request, product_id):
 
 def api_cart_drawer_content(request):
     cart = request.session.get('cart', {})
+    cart_variants = request.session.get('cart_variants', {})
     product_ids = [int(k) for k in cart.keys() if k.isdigit()]
     products = Product.objects.filter(id__in=product_ids)
 
@@ -1247,12 +1318,17 @@ def api_cart_drawer_content(request):
 
     for p in products:
         qty = cart.get(str(p.id), 0)
-        subtotal = p.price * qty
+        v_info = cart_variants.get(str(p.id), {})
+        v_details = v_info.get('details', '')
+        v_extra = Decimal(str(v_info.get('extra', 0.00)))
+        item_unit_price = p.price + v_extra
+        subtotal = item_unit_price * qty
         total_price += subtotal
         items.append({
             'product_id': p.id,
             'name': p.name,
-            'price': float(p.price),
+            'variant_details': v_details,
+            'price': float(item_unit_price),
             'quantity': qty,
             'subtotal': float(subtotal),
             'image_url': p.image.url if p.image else '/static/images/placeholder.svg',

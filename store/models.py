@@ -149,14 +149,22 @@ class ProductImage(models.Model):
 
 
 class ProductVariant(models.Model):
+    VARIANT_TYPES = [
+        ('Color', 'Color Finish (اللون)'),
+        ('Size', 'Clothing / Item Size (المقاس)'),
+        ('Storage', 'Storage Capacity (السعة)'),
+        ('RAM', 'RAM Memory (الرام)'),
+        ('Option', 'Custom Option (مواصفة أخرى)'),
+    ]
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
-    name = models.CharField(max_length=100, default='Color')  # 'Color', 'Size'
-    value = models.CharField(max_length=100)                  # 'Midnight Black', 'Silver', 'XL'
-    color_code = models.CharField(max_length=30, blank=True, help_text="Hex color code e.g. #1e293b")
-    price_modifier = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    name = models.CharField(max_length=100, default='Color', choices=VARIANT_TYPES, help_text="Variant type: Color, Size, Storage, RAM, etc.")
+    value = models.CharField(max_length=100, help_text="Variant value e.g. Midnight Black, 256GB, XL")
+    color_code = models.CharField(max_length=30, blank=True, help_text="Hex color code e.g. #1e293b (for Color type)")
+    price_modifier = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, help_text="Extra price added to base price e.g. 100.00")
 
     def __str__(self):
-        return f"{self.product.name} - {self.name}: {self.value}"
+        mod = f" (+${self.price_modifier})" if self.price_modifier > 0 else ""
+        return f"{self.product.name} - {self.name}: {self.value}{mod}"
 
 
 class Coupon(models.Model):
@@ -268,6 +276,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
     product_name = models.CharField(max_length=255, blank=True)
+    variant_details = models.CharField(max_length=255, blank=True, default='', help_text="Chosen options e.g. Color: Black | Size: XL | Storage: 256GB")
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -282,11 +291,10 @@ class OrderItem(models.Model):
 
     @property
     def display_name(self):
-        if self.product_name:
-            return self.product_name
-        if self.product:
-            return self.product.name
-        return "Nexus Tech Item"
+        base = self.product_name or (self.product.name if self.product else "Nexus Tech Item")
+        if self.variant_details:
+            return f"{base} ({self.variant_details})"
+        return base
 
     def __str__(self):
         return f"{self.quantity} x {self.display_name}"

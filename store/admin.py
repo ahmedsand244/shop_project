@@ -16,14 +16,29 @@ admin.site.site_title = "NEXUS Admin"
 admin.site.index_title = "Commercial Operations & Catalog Management"
 
 
+from django import forms
+
+class ProductVariantForm(forms.ModelForm):
+    class Meta:
+        model = ProductVariant
+        fields = '__all__'
+        widgets = {
+            'color_code': forms.TextInput(attrs={'type': 'color', 'style': 'width:48px;height:32px;padding:1px;cursor:pointer;border-radius:6px;border:1px solid #ccc;'}),
+            'price_modifier': forms.NumberInput(attrs={'step': '1.00', 'style': 'width:110px;'}),
+            'value': forms.TextInput(attrs={'placeholder': 'e.g. Midnight Black, 256GB, XL'}),
+        }
+
+
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
-    extra = 1
+    extra = 2
 
 
 class ProductVariantInline(admin.TabularInline):
     model = ProductVariant
-    extra = 1
+    form = ProductVariantForm
+    extra = 3
+    fields = ('name', 'value', 'color_code', 'price_modifier')
 
 
 @admin.register(Product)
@@ -34,6 +49,20 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description', 'sku')
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductImageInline, ProductVariantInline]
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'slug', 'category', 'sku')
+        }),
+        ('Pricing & Inventory', {
+            'fields': (('price', 'old_price'), ('stock', 'low_stock_threshold'), 'badge', 'is_featured')
+        }),
+        ('Media & Showcase', {
+            'fields': ('image',)
+        }),
+        ('Descriptions', {
+            'fields': ('short_description', 'description')
+        }),
+    )
 
 
 @admin.register(Category)
@@ -47,7 +76,15 @@ class CategoryAdmin(admin.ModelAdmin):
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
-    readonly_fields = ('product', 'product_name', 'quantity', 'price', 'subtotal')
+    readonly_fields = ('product', 'product_name', 'variant_details', 'quantity', 'price', 'subtotal')
+
+
+@admin.register(ProductVariant)
+class ProductVariantAdmin(admin.ModelAdmin):
+    list_display = ('product', 'name', 'value', 'color_code', 'price_modifier')
+    list_filter = ('name', 'product__category')
+    search_fields = ('product__name', 'value')
+    form = ProductVariantForm
 
 
 @admin.register(Order)

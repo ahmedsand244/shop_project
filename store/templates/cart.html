@@ -57,8 +57,13 @@
                   <a href="{% url 'product_detail' item.product.id %}" class="cart-item-name">
                     {{ item.product.name }}
                   </a>
+                  {% if item.variant_details %}
+                    <div style="font-size: 0.8rem; color: var(--accent-primary); font-weight: 600; margin-top: 3px;">
+                      {{ item.variant_details }}
+                    </div>
+                  {% endif %}
                   <div class="cart-item-unit-price">
-                    Unit Price: <strong>${{ item.product.price }}</strong>
+                    Unit Price: <strong>${{ item.unit_price|default:item.product.price }}</strong>
                   </div>
                 </div>
 

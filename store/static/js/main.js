@@ -198,6 +198,7 @@ async function refreshCartDrawer() {
         <img src="${item.image_url || '/static/images/placeholder.svg'}" alt="${item.name}" class="drawer-item-img">
         <div class="drawer-item-details">
           <div class="drawer-item-name">${item.name}</div>
+          ${item.variant_details ? `<div style="font-size: 0.74rem; color: var(--accent-primary); font-weight: 600; margin-bottom: 2px;">${item.variant_details}</div>` : ''}
           <div class="drawer-item-price">$${parseFloat(item.price).toFixed(2)}</div>
           <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
             <div class="quantity-stepper">
@@ -218,10 +219,16 @@ async function refreshCartDrawer() {
   }
 }
 
-async function addToCart(productId, quantity = 1) {
+async function addToCart(productId, quantity = 1, variantDetails = '', priceExtra = 0) {
   try {
     const formData = new FormData();
     formData.append('quantity', quantity);
+    if (variantDetails) {
+      formData.append('variant_details', variantDetails);
+    }
+    if (priceExtra) {
+      formData.append('price_extra', priceExtra);
+    }
 
     const res = await fetch(`/api/cart/add/${productId}/`, {
       method: 'POST',

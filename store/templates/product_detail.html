@@ -107,18 +107,55 @@
         {{ product.short_description|default:product.description|truncatewords:45 }}
       </p>
 
-      <!-- Color Swatches -->
-      <div class="swatches-block">
-        <span class="swatches-label">Color Finish:</span>
-        <div class="swatches-list">
-          <button type="button" class="color-swatch-btn active" style="background-color: #0b0f19;" title="Obsidian Black" onclick="selectSwatch(this)"></button>
-          <button type="button" class="color-swatch-btn" style="background-color: #4f46e5;" title="Indigo Core" onclick="selectSwatch(this)"></button>
-          <button type="button" class="color-swatch-btn" style="background-color: #94a3b8;" title="Titanium" onclick="selectSwatch(this)"></button>
-          <button type="button" class="color-swatch-btn" style="background-color: #d97706;" title="Champagne Gold" onclick="selectSwatch(this)"></button>
+      <!-- Dynamic Variant Selectors (Colors, Clothing Sizes, Storage/RAM) -->
+      {% if variants_by_type %}
+        <div class="variant-section">
+          {% for v_type, v_list in variants_by_type.items %}
+            <div class="variant-group" data-group-name="{{ v_type }}">
+              <div class="variant-group-header">
+                <span class="variant-group-title">{{ v_type }}:</span>
+                <span class="variant-selected-value" id="selected-val-{{ v_type|slugify }}">{{ v_list.0.value }}</span>
+              </div>
+              <div class="variant-options-list">
+                {% if v_type == 'Color' %}
+                  {% for v in v_list %}
+                    <button 
+                      type="button" 
+                      class="variant-color-btn {% if forloop.first %}active{% endif %}" 
+                      style="background-color: {{ v.color_code|default:'#1e293b' }};" 
+                      title="{{ v.value }}{% if v.price_modifier > 0 %} (+$${{ v.price_modifier }}){% endif %}" 
+                      data-group="{{ v_type }}" 
+                      data-group-id="{{ v_type|slugify }}"
+                      data-value="{{ v.value }}" 
+                      data-modifier="{{ v.price_modifier }}"
+                      onclick="pickVariant(this)"
+                    ></button>
+                  {% endfor %}
+                {% else %}
+                  {% for v in v_list %}
+                    <button 
+                      type="button" 
+                      class="variant-chip-btn {% if forloop.first %}active{% endif %}" 
+                      data-group="{{ v_type }}" 
+                      data-group-id="{{ v_type|slugify }}"
+                      data-value="{{ v.value }}" 
+                      data-modifier="{{ v.price_modifier }}"
+                      onclick="pickVariant(this)"
+                    >
+                      <span>{{ v.value }}</span>
+                      {% if v.price_modifier > 0 %}
+                        <span class="chip-price-badge">+${{ v.price_modifier }}</span>
+                      {% endif %}
+                    </button>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
         </div>
-      </div>
+      {% endif %}
 
-      <!-- Quantity & Actions -->
+      <!-- Quantity, Purchase & Share Actions -->
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
         <div class="purchase-row">
           <div class="quantity-stepper" style="height: 46px;">
@@ -141,6 +178,18 @@
           <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span>Instant Checkout (1-Click)</span>
         </button>
+
+        <!-- Social Share Row -->
+        <div style="display: flex; gap: 10px; margin-top: 4px;">
+          <button type="button" class="btn-share-trigger" onclick="shareProduct()" style="flex: 1;" title="Share this product">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span>Share Product &bull; مشاركة</span>
+          </button>
+          <a href="https://wa.me/?text={{ product.name|urlencode }}%20-%20{{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener noreferrer" class="btn-share-trigger" style="background: rgba(37, 211, 102, 0.12); color: #25D366; border-color: rgba(37, 211, 102, 0.35); text-decoration: none;" title="Share via WhatsApp">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <span>WhatsApp</span>
+          </a>
+        </div>
       </div>
 
       <!-- Guarantee Specs -->
@@ -423,6 +472,49 @@
     document.getElementById('main-product-img').style.transform = 'scale(1)';
   }
 
+  const BASE_PRICE = parseFloat("{{ product.price }}") || 0.0;
+
+  function getSelectedVariants() {
+    const selected = [];
+    let extra = 0.0;
+    document.querySelectorAll('.variant-group').forEach(group => {
+      const activeBtn = group.querySelector('.variant-color-btn.active, .variant-chip-btn.active');
+      if (activeBtn) {
+        const grp = activeBtn.dataset.group;
+        const val = activeBtn.dataset.value;
+        const mod = parseFloat(activeBtn.dataset.modifier) || 0.0;
+        selected.push(`${grp}: ${val}`);
+        extra += mod;
+      }
+    });
+    return {
+      details: selected.join(' | '),
+      extra: extra
+    };
+  }
+
+  function updateDynamicPrice() {
+    const { extra } = getSelectedVariants();
+    const currentPrice = BASE_PRICE + extra;
+    const priceEls = document.querySelectorAll('.price-main, .sticky-mobile-buy-bar div:first-child div:first-child');
+    priceEls.forEach(el => {
+      el.textContent = `$${currentPrice.toFixed(2)}`;
+    });
+  }
+
+  function pickVariant(btn) {
+    const parent = btn.closest('.variant-options-list');
+    parent.querySelectorAll('.variant-color-btn, .variant-chip-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const groupId = btn.dataset.groupId;
+    const valEl = document.getElementById(`selected-val-${groupId}`);
+    if (valEl) {
+      valEl.textContent = btn.dataset.value;
+    }
+    updateDynamicPrice();
+  }
+
   function alterQty(delta) {
     const input = document.getElementById('product-qty-input');
     let val = parseInt(input.value) || 1;
@@ -432,18 +524,42 @@
 
   function triggerAddCurrentToCart() {
     const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
-    addToCart({{ product.id }}, qty);
+    const { details, extra } = getSelectedVariants();
+    addToCart({{ product.id }}, qty, details, extra);
   }
 
   async function buyNowInstant(productId) {
     const qty = parseInt(document.getElementById('product-qty-input').value) || 1;
-    await addToCart(productId, qty);
+    const { details, extra } = getSelectedVariants();
+    await addToCart(productId, qty, details, extra);
     window.location.href = "{% url 'checkout' %}";
   }
 
-  function selectSwatch(btn) {
-    document.querySelectorAll('.color-swatch-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+  function shareProduct() {
+    const shareData = {
+      title: "{{ product.name }}",
+      text: "Check out {{ product.name }} on NEXUS STORE: {{ product.short_description|default:product.name|truncatewords:12|escapejs }}",
+      url: window.location.href
+    };
+    if (navigator.share) {
+      navigator.share(shareData).catch(err => {
+        if (err.name !== 'AbortError') copyShareLink();
+      });
+    } else {
+      copyShareLink();
+    }
+  }
+
+  function copyShareLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      if (typeof showToast === 'function') {
+        showToast('Link Copied ✓', 'Product link copied to clipboard. Share it on WhatsApp!', 'success');
+      } else {
+        alert('Product link copied to clipboard!');
+      }
+    }).catch(() => {
+      prompt('Copy product link:', window.location.href);
+    });
   }
 
   function switchTab(paneId, btn) {

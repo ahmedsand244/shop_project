@@ -8,7 +8,7 @@ from decimal import Decimal
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shop_project.settings')
 django.setup()
 
-from store.models import Category, Product, ProductImage, Coupon, Review
+from store.models import Category, Product, ProductImage, Coupon, Review, ProductVariant
 from django.contrib.auth.models import User
 
 # Disable SSL verification for reliable image downloads
@@ -54,17 +54,24 @@ categories_data = [
         'is_featured': True
     },
     {
+        'name': 'Apparel & Luxury Fashion',
+        'slug': 'apparel-luxury-fashion',
+        'icon': 'tag',
+        'order': 5,
+        'is_featured': True
+    },
+    {
         'name': 'Smart Living & Workspace',
         'slug': 'smart-living-workspace',
         'icon': 'home',
-        'order': 5,
+        'order': 6,
         'is_featured': True
     },
     {
         'name': 'Pro Photography & Optics',
         'slug': 'pro-photography-optics',
         'icon': 'camera',
-        'order': 6,
+        'order': 7,
         'is_featured': True
     },
 ]
@@ -265,6 +272,68 @@ products_data = [
         'filename': 'tag_heuer_e4.jpg'
     },
 
+    # Apparel & Luxury Fashion
+    {
+        'category': 'apparel-luxury-fashion',
+        'name': 'NEXUS Cyberpunk Oversized Heavyweight Hoodie',
+        'slug': 'nexus-cyberpunk-oversized-hoodie',
+        'sku': 'APP-CP-HD-01',
+        'price': Decimal('129.00'),
+        'old_price': Decimal('160.00'),
+        'stock': 45,
+        'badge': 'trending',
+        'is_featured': True,
+        'short_description': '500 GSM French Terry cotton, drop-shoulder luxury silhouette with matte black hardware and concealed tech pocket.',
+        'description': 'The definitive heavyweight streetwear hoodie. Crafted from 100% custom-milled organic French terry cotton with pre-shrunk density. Features deep hood volume, double-stitched reinforced seams, and subtle minimalist branding.',
+        'image_url': 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=80',
+        'filename': 'hoodie_oversized.jpg'
+    },
+    {
+        'category': 'apparel-luxury-fashion',
+        'name': 'Executive Italian Wool Minimalist Trench Coat',
+        'slug': 'executive-italian-wool-trench-coat',
+        'sku': 'APP-WOOL-TC-02',
+        'price': Decimal('389.00'),
+        'old_price': Decimal('450.00'),
+        'stock': 20,
+        'badge': 'limited',
+        'is_featured': True,
+        'short_description': 'Hand-tailored Virgin Italian Wool, weather-resistant storm flap, horn buttons, and cupro silk lining.',
+        'description': 'Elegance redefined for the modern urban executive. Tailored from premium 100% virgin wool with a sleek tailored drape. Complete with double-breasted closure, structured lapels, and interior passport security pocket.',
+        'image_url': 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&q=80',
+        'filename': 'trench_coat.jpg'
+    },
+    {
+        'category': 'apparel-luxury-fashion',
+        'name': 'Techwear Waterproof Modular Windbreaker Jacket',
+        'slug': 'techwear-waterproof-windbreaker-jacket',
+        'sku': 'APP-TECH-WB-03',
+        'price': Decimal('189.00'),
+        'old_price': Decimal('220.00'),
+        'stock': 32,
+        'badge': 'hot',
+        'is_featured': False,
+        'short_description': '3-Layer GORE-TEX breathable laminate, Fidlock magnetic buckles, sealed waterproof zippers.',
+        'description': 'Engineered for extreme performance and sleek urban tech aesthetic. Sealed taped seams ensure 100% waterproof protection in torrential downpours. Modular sling strap allows quick carrying when temperature shifts.',
+        'image_url': 'https://images.unsplash.com/photo-1544441893-675973e31985?w=800&q=80',
+        'filename': 'techwear_jacket.jpg'
+    },
+    {
+        'category': 'apparel-luxury-fashion',
+        'name': 'Luxury Pima Cotton Minimalist Crewneck T-Shirt',
+        'slug': 'luxury-pima-cotton-crewneck-tshirt',
+        'sku': 'APP-PIMA-TS-04',
+        'price': Decimal('69.00'),
+        'old_price': Decimal('85.00'),
+        'stock': 60,
+        'badge': 'new',
+        'is_featured': False,
+        'short_description': 'Extra-long staple Peruvian Pima Cotton, ultra-soft silk-like finish with zero-frizz durability.',
+        'description': 'The quintessential everyday essential. Made from hand-harvested Peruvian Pima cotton with fibers 50% longer than standard cotton for extraordinary softness and vibrant wash durability. Ribbed collar retains shape permanently.',
+        'image_url': 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&q=80',
+        'filename': 'pima_tshirt.jpg'
+    },
+
     # Smart Living & Workspace
     {
         'category': 'smart-living-workspace',
@@ -363,6 +432,29 @@ for idx, p_info in enumerate(products_data, 1):
         image=f"products/{p_info['filename']}" if local_path.exists() else None
     )
     print(f"Created Product #{product.id}: {product.name} (${product.price})")
+
+    # Seed realistic variants for this product
+    if cat.slug == 'apparel-luxury-fashion':
+        for sz in ['S', 'M', 'L', 'XL']:
+            ProductVariant.objects.create(product=product, name='Size', value=sz, price_modifier=Decimal('0.00'), stock=20)
+        ProductVariant.objects.create(product=product, name='Size', value='XXL', price_modifier=Decimal('10.00'), stock=10)
+        ProductVariant.objects.create(product=product, name='Color', value='Midnight Black', color_code='#111827', price_modifier=Decimal('0.00'), stock=25)
+        ProductVariant.objects.create(product=product, name='Color', value='Obsidian Grey', color_code='#374151', price_modifier=Decimal('0.00'), stock=20)
+        ProductVariant.objects.create(product=product, name='Color', value='Camel Tan', color_code='#c2a67e', price_modifier=Decimal('0.00'), stock=15)
+    elif cat.slug == 'smartphones-flagships':
+        ProductVariant.objects.create(product=product, name='Storage', value='256GB', price_modifier=Decimal('0.00'), stock=30)
+        ProductVariant.objects.create(product=product, name='Storage', value='512GB', price_modifier=Decimal('150.00'), stock=20)
+        ProductVariant.objects.create(product=product, name='Storage', value='1TB', price_modifier=Decimal('350.00'), stock=10)
+        ProductVariant.objects.create(product=product, name='Color', value='Natural Titanium', color_code='#8a8d8f', price_modifier=Decimal('0.00'), stock=25)
+        ProductVariant.objects.create(product=product, name='Color', value='Obsidian Black', color_code='#111827', price_modifier=Decimal('0.00'), stock=25)
+    elif cat.slug == 'laptops-workstations':
+        ProductVariant.objects.create(product=product, name='Configuration', value='16GB RAM / 512GB SSD', price_modifier=Decimal('0.00'), stock=15)
+        ProductVariant.objects.create(product=product, name='Configuration', value='32GB RAM / 1TB SSD', price_modifier=Decimal('300.00'), stock=12)
+        ProductVariant.objects.create(product=product, name='Configuration', value='64GB RAM / 2TB SSD', price_modifier=Decimal('700.00'), stock=8)
+    elif cat.slug == 'timepieces-smartwatches':
+        ProductVariant.objects.create(product=product, name='Band', value='Titanium Milanese', price_modifier=Decimal('0.00'), stock=15)
+        ProductVariant.objects.create(product=product, name='Band', value='Ultra Sport Loop', price_modifier=Decimal('0.00'), stock=20)
+        ProductVariant.objects.create(product=product, name='Band', value='Leather Buckle', price_modifier=Decimal('40.00'), stock=10)
 
 print("\n--- SEEDING VERIFIED DISCOUNT COUPONS ---")
 Coupon.objects.all().delete()

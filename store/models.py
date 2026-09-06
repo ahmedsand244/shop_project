@@ -268,6 +268,11 @@ class Order(models.Model):
         )
         return f"https://wa.me/{clean_phone}?text={urllib.parse.quote(msg)}"
 
+    @property
+    def items_subtotal(self):
+        """Calculates total of items before discount and shipping fee."""
+        return sum(item.subtotal for item in self.items.all())
+
     def __str__(self):
         return f"Order #{self.id} - {self.name} ({self.get_status_display()})"
 
@@ -288,6 +293,14 @@ class OrderItem(models.Model):
     @property
     def subtotal(self):
         return self.price * self.quantity
+
+    @property
+    def variant_list(self):
+        """Splits variant_details string into formatted badges e.g. ['Size: XL', 'Color: Midnight Black']"""
+        if not self.variant_details:
+            return []
+        parts = [p.strip() for p in self.variant_details.replace(',', '|').split('|') if p.strip()]
+        return parts
 
     @property
     def display_name(self):

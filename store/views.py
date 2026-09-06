@@ -139,7 +139,12 @@ def product_detail(request, product_id):
     """
     Comprehensive product detail view with gallery, reviews,
     Q&A, recently viewed tracking, stock indicator, and related products.
+    Requires user authentication to access.
     """
+    if not request.user.is_authenticated:
+        messages.info(request, "يرجى تسجيل الدخول أو إنشاء حساب لعرض تفاصيل هذا المنتج وإتمام الشراء.")
+        return redirect(f"{reverse('login')}?next={request.path}")
+
     product = get_object_or_404(
         Product.objects.select_related('category').annotate(
             annotated_rating=Avg('reviews__rating'),
@@ -512,8 +517,8 @@ def checkout_success(request, order_id):
 
 @login_required
 def my_orders(request):
-    """Customer order history with visual status timeline."""
-    orders = Order.objects.filter(user=request.user).prefetch_related('items').order_by('-created_at')
+    """Customer order history with visual status timeline and rich variant breakdown."""
+    orders = Order.objects.filter(user=request.user).prefetch_related('items__product').order_by('-created_at')
     return render(request, 'my_orders.html', {'orders': orders})
 
 
@@ -577,8 +582,9 @@ def wishlist_view(request):
 
 def register(request):
     """Comprehensive user registration view."""
+    next_url = request.POST.get('next') or request.GET.get('next') or reverse('home')
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect(next_url)
 
     if request.method == 'POST':
         form = ExtendedRegisterForm(request.POST)
@@ -611,7 +617,7 @@ def register(request):
             # Log user in directly
             auth_login(request, user)
             messages.success(request, f"Welcome to NEXUS STORE, {user.first_name or user.username}! Your account has been created.")
-            return redirect('home')
+            return redirect(next_url)
     else:
         form = ExtendedRegisterForm()
 

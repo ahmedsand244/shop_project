@@ -34,6 +34,9 @@
 
     <form method="post" style="text-align: left;">
       {% csrf_token %}
+      {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+      {% endif %}
 
       <div class="form-group-row">
         <div class="form-field">

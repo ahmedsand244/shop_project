@@ -96,7 +96,8 @@
 
       <!-- Quick Order Search Filter -->
       <form method="get" action="{% url 'store_admin_dashboard' %}" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-        <div style="position: relative; display: inline-flex; align-items: center;">
+        <div style="position: relative; display: flex; align-items: center; width: 100%; max-width: 360px;">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="position: absolute; left: 14px; pointer-events: none; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <input 
             type="text" 
             name="q_order" 
@@ -104,15 +105,16 @@
             value="{{ q_order }}" 
             placeholder="Search TRK-..., Customer, Phone, #ID..." 
             class="filter-select"
-            style="padding: 8px 36px 8px 14px; font-size: 0.84rem; min-width: 280px; border-radius: var(--radius-full); background: var(--bg-surface); border: 1px solid var(--border-glass);"
+            style="padding: 9px 16px 9px 38px; font-size: 0.84rem; width: 100%; min-width: 260px; border-radius: var(--radius-full); background: var(--bg-surface); border: 1px solid var(--border-glass);"
             autocomplete="off"
           >
-          <button type="submit" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; padding: 0;" title="Search Orders">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          </button>
+          {% if q_order %}
+            <a href="{% url 'store_admin_dashboard' %}" style="position: absolute; right: 12px; color: var(--text-muted); font-size: 0.8rem; text-decoration: none; font-weight: 700; line-height: 1;" title="Clear Search">✕</a>
+          {% endif %}
         </div>
+        <button type="submit" class="btn-secondary" style="padding: 8px 14px; font-size: 0.82rem; border-radius: var(--radius-full);">Search</button>
         {% if q_order %}
-          <a href="{% url 'store_admin_dashboard' %}" class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; border-radius: var(--radius-full); text-decoration: none;">Clear</a>
+          <a href="{% url 'store_admin_dashboard' %}" class="btn-secondary" style="padding: 8px 12px; font-size: 0.8rem; border-radius: var(--radius-full); text-decoration: none;">Clear</a>
         {% endif %}
       </form>
     </div>

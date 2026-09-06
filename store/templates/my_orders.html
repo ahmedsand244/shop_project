@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}My Orders | NEXUS STORE{% endblock %}
+{% block title %}My Orders & Shipments | NEXUS STORE{% endblock %}
 
 {% block content %}
 <div class="container orders-container">
@@ -9,9 +9,9 @@
     <div class="section-title-wrap">
       <h2>
         <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-        <span>My Orders & Shipments</span>
+        <span>My Orders &amp; Purchasing History</span>
       </h2>
-      <p>Real-time delivery progress and past purchasing archive.</p>
+      <p>Real-time delivery progress, selected product sizes &amp; specs, and invoice records.</p>
     </div>
     <a href="{% url 'my_account' %}" class="btn-secondary orders-back-btn">
       ← Dashboard
@@ -21,25 +21,30 @@
   {% if orders %}
     <div class="orders-list">
       {% for order in orders %}
-        <div class="order-card">
+        <div class="order-card" id="order-card-{{ order.id }}">
 
           <!-- Order Header -->
-          <div class="order-card-header">
+          <div class="order-card-header" style="cursor: pointer;" onclick="toggleOrderDetails('details-{{ order.id }}', this)">
             <div class="order-meta-info">
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap;">
-                <h3>Order #{{ order.id }}</h3>
+                <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">Order #{{ order.id }}</h3>
                 <span class="badge-tag {% if order.status == 'delivered' %}badge-new{% elif order.status == 'cancelled' %}badge-sale{% else %}badge-trending{% endif %}">
                   {{ order.get_status_display }}
                 </span>
               </div>
               <div style="font-size: 0.82rem; color: var(--text-muted);">
-                Placed {{ order.created_at|date:"M d, Y • H:i" }} | Ref: <span style="color: var(--accent-primary); font-family: monospace;">{{ order.tracking_number }}</span>
+                Placed {{ order.created_at|date:"M d, Y • H:i" }} | Ref: <span style="color: var(--accent-primary); font-family: monospace; font-weight: 700;">{{ order.tracking_number }}</span>
               </div>
             </div>
 
-            <div class="order-price-info">
-              <div class="order-price-val">${{ order.total_price }}</div>
-              <div style="font-size: 0.78rem; color: var(--text-secondary);">Method: {{ order.get_payment_method_display }}</div>
+            <div class="order-price-info" style="display: flex; align-items: center; gap: 14px;">
+              <div style="text-align: right;">
+                <div class="order-price-val">${{ order.total_price }}</div>
+                <div style="font-size: 0.78rem; color: var(--text-secondary);">{{ order.get_payment_method_display }}</div>
+              </div>
+              <div class="order-chevron-btn" id="chevron-details-{{ order.id }}" style="width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--bg-surface-elevated); border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: transform 0.25s ease;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
             </div>
           </div>
 
@@ -73,37 +78,147 @@
             </div>
           {% endif %}
 
-          <!-- Order Items -->
-          <div class="order-items-box">
-            {% for item in order.items.all %}
-              <div class="order-item-row">
-                <span>
-                  {{ item.quantity }} × <strong>{{ item.display_name }}</strong>
-                </span>
-                <strong style="color: var(--text-primary);">${{ item.subtotal }}</strong>
+          <!-- Order Items List with Rich Thumbnails & Variant Specs -->
+          <div class="order-items-box" style="margin-top: 14px; padding: 12px 14px; background: var(--bg-surface-elevated); border-radius: var(--radius-md); border: 1px solid var(--border-glass);">
+            <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 8px;">
+              Purchased Items ({{ order.items.count }})
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              {% for item in order.items.all %}
+                <div class="order-item-rich-row" style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border-glass);">
+                  <!-- Product Image -->
+                  {% if item.product and item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product_name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--border-glass); flex-shrink: 0;">
+                  {% else %}
+                    <div style="width: 50px; height: 50px; border-radius: var(--radius-sm); background: var(--bg-surface); border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text-muted);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    </div>
+                  {% endif %}
+
+                  <!-- Product Info & Variant Specs -->
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                      <a {% if item.product %}href="{% url 'product_detail' item.product.id %}"{% endif %} style="font-weight: 700; color: var(--text-primary); text-decoration: none; font-size: 0.9rem;">
+                        {{ item.product_name|default:item.display_name }}
+                      </a>
+                      <span style="font-weight: 800; color: var(--text-primary); font-size: 0.92rem;">${{ item.subtotal }}</span>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 5px;">
+                      <span style="font-size: 0.78rem; color: var(--text-secondary); margin-right: 4px;">
+                        Qty: <strong>{{ item.quantity }}</strong> &times; ${{ item.price }}
+                      </span>
+
+                      <!-- Variant Chips (Size, Storage, Color, etc.) -->
+                      {% if item.variant_list %}
+                        {% for badge in item.variant_list %}
+                          <span class="variant-chip-badge" style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; font-size: 0.74rem; font-weight: 700; border-radius: var(--radius-full); background: rgba(99, 102, 241, 0.12); color: var(--accent-primary); border: 1px solid rgba(99, 102, 241, 0.25);">
+                            {% if 'size' in badge|lower or 'مقاس' in badge|lower or 'xl' in badge|lower or ' s' in badge|lower or ' m' in badge|lower or ' l' in badge|lower %}
+                              👔 {{ badge }}
+                            {% elif 'color' in badge|lower or 'لون' in badge|lower %}
+                              🎨 {{ badge }}
+                            {% elif 'storage' in badge|lower or 'gb' in badge|lower or 'tb' in badge|lower or 'مساحة' in badge|lower %}
+                              💾 {{ badge }}
+                            {% elif 'ram' in badge|lower %}
+                              ⚡ {{ badge }}
+                            {% else %}
+                              ✦ {{ badge }}
+                            {% endif %}
+                          </span>
+                        {% endfor %}
+                      {% elif item.variant_details %}
+                        <span class="variant-chip-badge" style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; font-size: 0.74rem; font-weight: 700; border-radius: var(--radius-full); background: rgba(99, 102, 241, 0.12); color: var(--accent-primary); border: 1px solid rgba(99, 102, 241, 0.25);">
+                          ✦ {{ item.variant_details }}
+                        </span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Expandable Detailed Breakdown Section -->
+          <div id="details-{{ order.id }}" class="order-details-expandable" style="display: block; margin-top: 12px; padding: 14px; background: var(--bg-surface); border-radius: var(--radius-md); border: 1px dashed var(--border-glass);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; font-size: 0.84rem;">
+              
+              <!-- Delivery Destination -->
+              <div>
+                <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <span>Delivery Destination</span>
+                </div>
+                <div style="color: var(--text-secondary); line-height: 1.5;">
+                  <strong>{{ order.name }}</strong><br>
+                  {{ order.address }}, {{ order.city }}<br>
+                  Phone: <a href="tel:{{ order.phone }}" style="color: var(--accent-primary); text-decoration: none;">{{ order.phone }}</a>
+                </div>
+                {% if order.notes %}
+                  <div style="margin-top: 6px; font-size: 0.78rem; color: var(--text-muted); font-style: italic;">
+                    Note: "{{ order.notes }}"
+                  </div>
+                {% endif %}
               </div>
-            {% endfor %}
+
+              <!-- Payment & Financial Summary -->
+              <div>
+                <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                  <span>Order Cost Breakdown</span>
+                </div>
+                <div style="color: var(--text-secondary); line-height: 1.6;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span>Items Subtotal:</span>
+                    <span>${{ order.items_subtotal }}</span>
+                  </div>
+                  {% if order.discount_amount > 0 %}
+                    <div style="display: flex; justify-content: space-between; color: var(--accent-emerald);">
+                      <span>Coupon Discount ({{ order.coupon.code|default:"Code" }}):</span>
+                      <span>-${{ order.discount_amount }}</span>
+                    </div>
+                  {% endif %}
+                  <div style="display: flex; justify-content: space-between;">
+                    <span>Shipping Fee:</span>
+                    <span>{% if order.shipping_fee == 0 %}FREE{% else %}${{ order.shipping_fee }}{% endif %}</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-weight: 800; color: var(--text-primary); border-top: 1px solid var(--border-glass); margin-top: 4px; padding-top: 4px;">
+                    <span>Total Amount:</span>
+                    <span>${{ order.total_price }}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
 
           <!-- Actions -->
-          <div class="order-card-footer">
+          <div class="order-card-footer" style="margin-top: 14px;">
             <div class="order-destination-info">
-              Destination: {{ order.city }} - {{ order.address|truncatewords:6 }}
+              Ref: <span style="font-family: monospace; font-weight: 600;">{{ order.tracking_number }}</span> &bull; {{ order.city }}
             </div>
 
             <div class="order-action-btns">
+              <!-- WhatsApp Notification Link -->
+              <a href="{{ order.whatsapp_tracking_url }}" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="border-color: rgba(37, 211, 102, 0.4); color: #25D366; padding: 7px 12px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px; text-decoration: none;" title="Get tracking updates on WhatsApp">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                <span>WhatsApp</span>
+              </a>
+
+              <!-- Invoice Button -->
+              <a href="{% url 'checkout_success' order.id %}" class="btn-secondary" style="padding: 7px 14px; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>Invoice</span>
+              </a>
+
               {% if order.status == 'placed' or order.status == 'processing' %}
                 <form action="{% url 'cancel_order' order.id %}" method="post" onsubmit="return confirm('Confirm cancellation of order #{{ order.id }}?')" style="margin: 0;">
                   {% csrf_token %}
                   <button type="submit" class="btn-secondary" style="border-color: rgba(244, 63, 94, 0.4); color: var(--accent-rose); padding: 7px 14px; font-size: 0.82rem;">
-                    Cancel Order
+                    Cancel
                   </button>
                 </form>
               {% endif %}
-
-              <a href="{% url 'checkout_success' order.id %}" class="btn-secondary" style="padding: 7px 14px; font-size: 0.82rem;">
-                Invoice
-              </a>
             </div>
           </div>
 
@@ -121,4 +236,19 @@
     </div>
   {% endif %}
 </div>
+
+<script>
+function toggleOrderDetails(detailsId, headerEl) {
+  const panel = document.getElementById(detailsId);
+  const chevron = document.getElementById('chevron-' + detailsId);
+  if (!panel) return;
+  if (panel.style.display === 'none') {
+    panel.style.display = 'block';
+    if (chevron) chevron.style.transform = 'rotate(0deg)';
+  } else {
+    panel.style.display = 'none';
+    if (chevron) chevron.style.transform = 'rotate(-90deg)';
+  }
+}
+</script>
 {% endblock %}

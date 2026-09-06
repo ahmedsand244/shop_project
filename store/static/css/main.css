@@ -2607,6 +2607,56 @@ textarea {
   margin-bottom: 8px;
 }
 
+/* Product Detail Tabs Layouts (Reviews & Q&A) */
+.product-reviews-grid,
+.product-qa-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.qa-form-card {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  position: sticky;
+  top: 90px;
+}
+
+@media (max-width: 880px) {
+  .product-reviews-grid,
+  .product-qa-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px;
+  }
+
+  .qa-form-card {
+    position: static;
+    top: auto;
+    padding: 20px 16px;
+  }
+
+  .tabs-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    gap: 8px;
+    scrollbar-width: none;
+  }
+  .tabs-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .tab-btn {
+    white-space: nowrap;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+}
+
 /* Mobile Sticky Action Bar */
 .sticky-mobile-buy-bar {
   display: none;

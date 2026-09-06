@@ -265,7 +265,7 @@
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px; align-items: start;">
+      <div class="product-qa-grid">
         <!-- Questions List -->
         <div>
           {% if questions %}
@@ -305,7 +305,7 @@
         </div>
 
         <!-- Ask Question Form -->
-        <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 22px; position: sticky; top: 90px;">
+        <div class="qa-form-card">
           <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 6px;">Ask a Question</h4>
           <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 16px;">We typically reply within 24 business hours.</p>
 
@@ -342,7 +342,7 @@
           <h2><span>Related Hardware & Essentials</span></h2>
         </div>
       </div>
-      <div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="product-grid">
         {% for rel in related_products %}
           <div class="product-card">
             <div class="product-card-thumb">

@@ -50,7 +50,8 @@
 
           <!-- Timeline -->
           {% if order.status != 'cancelled' %}
-            <div class="timeline-track">
+            <div class="timeline-track timeline-status-{{ order.status }}">
+              <div class="timeline-progress-bar"></div>
               <div class="timeline-step {% if order.status in 'placed,processing,shipped,delivered' %}completed{% endif %}">
                 <div class="timeline-bubble">
                   <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>

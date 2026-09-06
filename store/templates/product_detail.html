@@ -2,6 +2,18 @@
 {% load static %}
 
 {% block title %}{{ product.name }} | NEXUS STORE{% endblock %}
+{% block meta_title %}{{ product.name }} — ${{ product.price }} | NEXUS STORE{% endblock %}
+{% block meta_description %}{{ product.description|striptags|truncatewords:25 }}{% endblock %}
+
+{% block og_type %}product{% endblock %}
+{% block og_title %}{{ product.name }} — ${{ product.price }}{% endblock %}
+{% block og_description %}{{ product.description|striptags|truncatewords:25 }}{% endblock %}
+{% block og_image %}{% if product.image %}{{ site_base_url }}{{ product.image.url }}{% else %}{{ site_base_url }}{% static 'images/nexus-banner.jpg' %}{% endif %}{% endblock %}
+{% block og_image_secure %}{% if product.image %}{{ site_base_url }}{{ product.image.url }}{% else %}{{ site_base_url }}{% static 'images/nexus-banner.jpg' %}{% endif %}{% endblock %}
+
+{% block twitter_title %}{{ product.name }} — ${{ product.price }}{% endblock %}
+{% block twitter_description %}{{ product.description|striptags|truncatewords:25 }}{% endblock %}
+{% block twitter_image %}{% if product.image %}{{ site_base_url }}{{ product.image.url }}{% else %}{{ site_base_url }}{% static 'images/nexus-banner.jpg' %}{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container product-detail-section">

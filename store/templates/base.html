@@ -1,11 +1,32 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}NEXUS | Premier Luxury Commerce{% endblock %}</title>
-  <meta name="description" content="NEXUS STORE - Next-generation digital commerce offering curated flagship electronics, luxury essentials, and express concierge delivery.">
+  <title>{% block title %}NEXUS STORE | Premier Luxury Tech & Flagships{% endblock %}</title>
+  <meta name="title" content="{% block meta_title %}NEXUS STORE | Premier Luxury Tech & Flagships{% endblock %}">
+  <meta name="description" content="{% block meta_description %}Discover curated flagship smartphones, smartwatches, luxury audio, and future gadgets with VIP concierge service and express delivery.{% endblock %}">
+
+  <!-- Open Graph / Facebook / WhatsApp Rich Previews -->
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:site_name" content="NEXUS STORE">
+  <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}NEXUS STORE — Luxury Flagships & Future Tech{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Discover curated flagship smartphones, smartwatches, luxury audio, and future gadgets with VIP concierge service and express delivery.{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}{{ site_base_url }}{% static 'images/nexus-banner.jpg' %}{% endblock %}">
+  <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ site_base_url }}{% static 'images/nexus-banner.jpg' %}{% endblock %}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="NEXUS STORE Showcase">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="{% block twitter_url %}{{ request.build_absolute_uri }}{% endblock %}">
+  <meta name="twitter:title" content="{% block twitter_title %}NEXUS STORE — Luxury Flagships & Future Tech{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Discover curated flagship smartphones, smartwatches, luxury audio, and future gadgets with VIP concierge service.{% endblock %}">
+  <meta name="twitter:image" content="{% block twitter_image %}{{ site_base_url }}{% static 'images/nexus-banner.jpg' %}{% endblock %}">
 
   <!-- Immediate Synchronous Theme Initialization (Zero FOUC/Flicker) -->
   <script>

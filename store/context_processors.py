@@ -50,6 +50,9 @@ def store_context(request):
         site_announcement = SiteAnnouncement.objects.filter(is_active=True).first()
         cache.set('site_announcement', site_announcement, 60)
 
+    from django.conf import settings
+    site_base_url = "https://" + request.get_host() if not settings.DEBUG else request.build_absolute_uri('/')[:-1]
+
     return {
         'cart_total_items': cart_total_items,
         'wishlist_count': wishlist_count,
@@ -60,5 +63,6 @@ def store_context(request):
         'support_phone': '01011079572',
         'support_whatsapp_url': 'https://wa.me/201011079572?text=Hello%20NEXUS%20STORE%20Support%2C%20I%20would%20like%20assistance.',
         'site_announcement': site_announcement,
+        'site_base_url': site_base_url,
     }
 

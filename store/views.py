@@ -139,9 +139,18 @@ def product_detail(request, product_id):
     """
     Comprehensive product detail view with gallery, reviews,
     Q&A, recently viewed tracking, stock indicator, and related products.
-    Requires user authentication to access.
+    Requires user authentication to access for human visitors.
+    Allows social media crawler bots (WhatsApp, Facebook, Twitter, Telegram)
+    to access OpenGraph metadata and product images for rich link previews.
     """
-    if not request.user.is_authenticated:
+    user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
+    is_social_bot = any(bot in user_agent for bot in [
+        'whatsapp', 'facebookexternalhit', 'facebot', 'twitterbot',
+        'telegrambot', 'slackbot', 'discordbot', 'linkedinbot',
+        'pinterest', 'googlebot', 'bingbot', 'applebot', 'meta-externalagent'
+    ])
+
+    if not request.user.is_authenticated and not is_social_bot:
         messages.info(request, "يرجى تسجيل الدخول أو إنشاء حساب لعرض تفاصيل هذا المنتج وإتمام الشراء.")
         return redirect(f"{reverse('login')}?next={request.path}")
 
@@ -218,6 +227,13 @@ def product_detail(request, product_id):
             variants_by_type[v_type] = []
         variants_by_type[v_type].append(v)
 
+    # Canonical absolute OpenGraph image URL for rich social link previews (WhatsApp, FB, Telegram)
+    product_og_image = None
+    if product.image:
+        product_og_image = request.build_absolute_uri(product.image.url)
+    elif gallery_images.exists():
+        product_og_image = request.build_absolute_uri(gallery_images.first().image.url)
+
     return render(request, 'product_detail.html', {
         'product': product,
         'reviews': reviews,
@@ -227,6 +243,7 @@ def product_detail(request, product_id):
         'questions': questions,
         'gallery_images': gallery_images,
         'variants_by_type': variants_by_type,
+        'product_og_image': product_og_image,
     })
 
 

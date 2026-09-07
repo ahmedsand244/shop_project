@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from .env file
-load_dotenv(BASE_DIR / '.env')
+load_dotenv(BASE_DIR / '.env', override=True)
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-gl&d-t34)3##iol6jb$(e&n3#06x^fib9y1(h(971@7wnq^9e1')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'

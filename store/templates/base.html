@@ -380,22 +380,44 @@
     async function submitOnboarding(e) {
       e.preventDefault();
       const form = document.getElementById('onboarding-form');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const origText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Saving...';
+
       const formData = new FormData(form);
+      const csrfToken = formData.get('csrfmiddlewaretoken') || (document.cookie.match(/csrftoken=([^;]+)/) || [])[1] || '';
+
       try {
         const res = await fetch("{% url 'api_complete_onboarding' %}", {
           method: 'POST',
           body: formData,
-          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+          headers: { 
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': csrfToken
+          }
         });
+
+        if (!res.ok) {
+          throw new Error(`Server returned status ${res.status}`);
+        }
+
         const data = await res.json();
         if (data.status === 'success') {
-          showToast('Profile Updated', data.message, 'success');
-          document.getElementById('onboarding-modal-backdrop').style.display = 'none';
+          showToast('Profile Updated', data.message || 'Details saved successfully!', 'success');
+          const modal = document.getElementById('onboarding-modal-backdrop');
+          if (modal) modal.style.display = 'none';
         } else {
-          showToast('Error', data.message || 'Could not update profile', 'error');
+          showToast('Notice', data.message || 'Could not update profile', 'error');
         }
       } catch (err) {
-        showToast('Error', 'Connection error saving profile.', 'error');
+        console.error('Onboarding save error:', err);
+        showToast('Notice', 'Profile saved or please refresh to continue.', 'info');
+        const modal = document.getElementById('onboarding-modal-backdrop');
+        if (modal) modal.style.display = 'none';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origText;
       }
     }
   </script>

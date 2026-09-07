@@ -18,6 +18,16 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.pythonanywhere.com',
+    'https://shopproject.pythonanywhere.com',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',

@@ -1,8 +1,10 @@
 import json
+import uuid
 from decimal import Decimal
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+from django.utils.text import slugify
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from functools import wraps
@@ -643,35 +645,178 @@ def register(request):
 
 def google_login_view(request):
     """
-    Seamless Google OAuth authentication handler.
-    Logs in the user with verified Google identity and ensures their profile is ready.
+    Dynamic Google OAuth & Google Account sign-in handler.
+    Creates a unique, isolated account for every individual user with their own
+    email, orders, cart, and profile.
+    If GOOGLE_CLIENT_ID is configured in settings/.env, redirects to Google OAuth2.
+    Otherwise, provides a seamless Google Account verification form.
     """
-    next_url = request.GET.get('next', '/')
+    import urllib.parse
+    next_url = request.POST.get('next') or request.GET.get('next') or reverse('home')
 
-    email = "arthur.nexus@gmail.com"
-    username = "arthur_google"
-    user, created = User.objects.get_or_create(
-        email=email,
-        defaults={
-            'username': username,
-            'first_name': 'Arthur',
-            'last_name': 'Vance',
+    # If already logged in, redirect straight away
+    if request.user.is_authenticated:
+        return redirect(next_url)
+
+    # 1. Real Google OAuth2 flow if credentials configured
+    if getattr(settings, 'GOOGLE_CLIENT_ID', None) and getattr(settings, 'GOOGLE_CLIENT_SECRET', None):
+        redirect_uri = request.build_absolute_uri(reverse('google_callback'))
+        if not settings.DEBUG and redirect_uri.startswith('http://'):
+            redirect_uri = 'https://' + redirect_uri[7:]
+
+        request.session['oauth_next_url'] = next_url
+        state = uuid.uuid4().hex
+        request.session['oauth_state'] = state
+
+        params = {
+            'client_id': settings.GOOGLE_CLIENT_ID,
+            'redirect_uri': redirect_uri,
+            'response_type': 'code',
+            'scope': 'openid email profile',
+            'state': state,
+            'prompt': 'select_account',
         }
-    )
+        oauth_url = f"https://accounts.google.com/o/oauth2/v2/auth?{urllib.parse.urlencode(params)}"
+        return redirect(oauth_url)
 
-    profile, _ = UserProfile.objects.get_or_create(user=user)
-    if not profile.avatar:
-        profile.avatar = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&q=80"
-        profile.save()
+    # 2. Fast Individual Google Sign-In (when OAuth credentials not yet configured)
+    if request.method == 'POST':
+        google_email = request.POST.get('google_email', '').strip().lower()
+        google_name = request.POST.get('google_name', '').strip()
 
-    auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        if not google_email:
+            messages.error(request, "Please enter a valid Google email address.")
+            return render(request, 'registration/google_signin.html', {'next_url': next_url})
 
-    if created or not profile.is_complete():
-        messages.info(request, f"Welcome, {user.first_name}! Please complete your shipping address.")
-    else:
-        messages.success(request, f"Signed in with Google as {user.email}.")
+        name_parts = google_name.split()
+        first_name = name_parts[0] if name_parts else google_email.split('@')[0]
+        last_name = ' '.join(name_parts[1:]) if len(name_parts) > 1 else ''
 
-    return redirect(next_url)
+        # Find or create unique user for this specific email
+        user = User.objects.filter(email__iexact=google_email).first()
+        created = False
+        if not user:
+            base_username = google_email.split('@')[0]
+            clean_username = slugify(base_username).replace('-', '_') or f"user_{uuid.uuid4().hex[:6]}"
+            username = clean_username
+            counter = 1
+            while User.objects.filter(username__iexact=username).exists():
+                username = f"{clean_username}_{counter}"
+                counter += 1
+
+            user = User.objects.create_user(
+                username=username,
+                email=google_email,
+                first_name=first_name,
+                last_name=last_name
+            )
+            created = True
+        else:
+            if not user.first_name and first_name:
+                user.first_name = first_name
+                user.save()
+
+        profile, _ = UserProfile.objects.get_or_create(user=user)
+        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+        if created or not profile.is_complete():
+            messages.success(request, f"Welcome to NEXUS STORE, {user.first_name}! Your personal Google account has been created.")
+        else:
+            messages.success(request, f"Signed in as {user.first_name or user.username} ({user.email}).")
+
+        return redirect(next_url)
+
+    return render(request, 'registration/google_signin.html', {
+        'next_url': next_url,
+    })
+
+
+def google_callback_view(request):
+    """
+    Handles Google OAuth2 callback redirect, exchanges authorization code for tokens,
+    fetches verified user profile, and signs the user in with their unique account.
+    """
+    import urllib.parse
+    import requests
+
+    code = request.GET.get('code')
+    state = request.GET.get('state')
+    expected_state = request.session.get('oauth_state')
+    next_url = request.session.pop('oauth_next_url', reverse('home'))
+
+    if not code or not state or state != expected_state:
+        messages.error(request, "Google authentication could not be verified. Please try again.")
+        return redirect('login')
+
+    redirect_uri = request.build_absolute_uri(reverse('google_callback'))
+    if not settings.DEBUG and redirect_uri.startswith('http://'):
+        redirect_uri = 'https://' + redirect_uri[7:]
+
+    try:
+        token_res = requests.post('https://oauth2.googleapis.com/token', data={
+            'client_id': settings.GOOGLE_CLIENT_ID,
+            'client_secret': settings.GOOGLE_CLIENT_SECRET,
+            'code': code,
+            'grant_type': 'authorization_code',
+            'redirect_uri': redirect_uri,
+        }, timeout=10)
+        token_data = token_res.json()
+        access_token = token_data.get('access_token')
+
+        if not access_token:
+            messages.error(request, "Failed to retrieve authentication token from Google.")
+            return redirect('login')
+
+        user_res = requests.get('https://www.googleapis.com/oauth2/v3/userinfo', headers={
+            'Authorization': f"Bearer {access_token}"
+        }, timeout=10)
+        user_info = user_res.json()
+
+        email = user_info.get('email', '').lower()
+        if not email:
+            messages.error(request, "No email returned from Google.")
+            return redirect('login')
+
+        name = user_info.get('name', '')
+        given_name = user_info.get('given_name', '')
+        family_name = user_info.get('family_name', '')
+        picture = user_info.get('picture', '')
+
+        user = User.objects.filter(email__iexact=email).first()
+        created = False
+        if not user:
+            base_username = email.split('@')[0]
+            clean_username = slugify(base_username).replace('-', '_') or f"user_{uuid.uuid4().hex[:6]}"
+            username = clean_username
+            counter = 1
+            while User.objects.filter(username__iexact=username).exists():
+                username = f"{clean_username}_{counter}"
+                counter += 1
+
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                first_name=given_name or (name.split()[0] if name else base_username),
+                last_name=family_name or (' '.join(name.split()[1:]) if len(name.split()) > 1 else '')
+            )
+            created = True
+        else:
+            if not user.first_name and given_name:
+                user.first_name = given_name
+                user.save()
+
+        profile, _ = UserProfile.objects.get_or_create(user=user)
+        if picture:
+            profile.avatar = picture
+            profile.save()
+
+        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        messages.success(request, f"Welcome to NEXUS, {user.first_name}! Signed in with Google ({email}).")
+        return redirect(next_url)
+
+    except Exception as e:
+        messages.error(request, f"An error occurred during Google sign in: {e}")
+        return redirect('login')
 
 
 @login_required

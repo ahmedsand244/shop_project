@@ -36,6 +36,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('auth/google/', views.google_login_view, name='google_login'),
+    path('auth/google/callback/', views.google_callback_view, name='google_callback'),
     path('password-reset/', auth_views.PasswordResetView.as_view(
         template_name='registration/password_reset_form.html',
         email_template_name='registration/password_reset_email.html',

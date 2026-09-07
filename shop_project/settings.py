@@ -133,3 +133,8 @@ CACHES = {
         'TIMEOUT': 300,
     }
 }
+
+# Google OAuth2 Credentials
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '').strip()
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
+
